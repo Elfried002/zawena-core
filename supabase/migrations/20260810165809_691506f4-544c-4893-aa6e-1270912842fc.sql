@@ -1,0 +1,12 @@
+revoke execute on function public.has_role(uuid, public.app_role) from anon, public;
+revoke execute on function public.is_admin() from anon, public;
+revoke execute on function public.is_staff() from anon, public;
+revoke execute on function public.can_edit_content() from anon, public;
+revoke execute on function public.next_document_number(text) from anon, public;
+revoke execute on function public.invoice_balance_due(uuid) from anon, public;
+grant execute on function public.has_role(uuid, public.app_role) to authenticated, service_role;
+grant execute on function public.is_admin() to authenticated, service_role;
+grant execute on function public.is_staff() to authenticated, service_role;
+grant execute on function public.can_edit_content() to authenticated, service_role;
+grant execute on function public.next_document_number(text) to authenticated, service_role;
+grant execute on function public.invoice_balance_due(uuid) to authenticated, service_role;
