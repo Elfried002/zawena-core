@@ -12,15 +12,15 @@ export type NotificationChannel = Database["public"]["Enums"]["notification_chan
 export interface NotifyInput {
   event: NotificationEvent;
   title: string;
-  body?: string;
-  entityType?: string;
-  entityId?: string;
-  link?: string;
-  payload?: Record<string, unknown>;
+  body?: string | undefined;
+  entityType?: string | undefined;
+  entityId?: string | undefined;
+  link?: string | undefined;
+  payload?: Record<string, unknown> | undefined;
   /** Destinataires explicites. À défaut, tous les rôles concernés sont notifiés. */
-  userIds?: string[];
-  roles?: Database["public"]["Enums"]["app_role"][];
-  channel?: NotificationChannel;
+  userIds?: string[] | undefined;
+  roles?: Database["public"]["Enums"]["app_role"][] | undefined;
+  channel?: NotificationChannel | undefined;
 }
 
 /** Rôles notifiés par défaut pour chaque événement métier. */
