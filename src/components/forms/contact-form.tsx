@@ -27,7 +27,7 @@ export function ContactForm({ className }: { className?: string }) {
   const [sent, setSent] = useState(false);
 
   const form = useForm<ContactRequestInput>({
-    resolver: zodResolver(contactRequestSchema),
+    resolver: zodResolver(contactRequestSchema) as never,
     defaultValues: {
       fullName: "",
       companyName: "",

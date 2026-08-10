@@ -34,7 +34,7 @@ export function QuoteForm({
   const [sent, setSent] = useState(false);
 
   const form = useForm<PublicQuoteFormInput>({
-    resolver: zodResolver(publicQuoteFormSchema),
+    resolver: zodResolver(publicQuoteFormSchema) as never,
     mode: "onTouched",
     defaultValues: {
       fullName: "",
