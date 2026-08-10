@@ -4,11 +4,30 @@
  * ces constantes servent uniquement à éviter les fautes de frappe.
  */
 export const PERMISSIONS = {
-  pages: ["pages.read", "pages.create", "pages.update", "pages.delete"],
-  services: ["services.read", "services.create", "services.update"],
-  projects: ["projects.read", "projects.create", "projects.update"],
+  pages: ["pages.read", "pages.create", "pages.update", "pages.delete", "pages.publish"],
+  services: [
+    "services.read",
+    "services.create",
+    "services.update",
+    "services.delete",
+    "services.publish",
+  ],
+  projects: [
+    "projects.read",
+    "projects.create",
+    "projects.update",
+    "projects.delete",
+    "projects.publish",
+  ],
   blog: ["blog.read", "blog.create", "blog.update", "blog.publish"],
-  faqs: ["faqs.read", "faqs.create", "faqs.update", "faqs.delete"],
+  blogPosts: [
+    "blog_posts.read",
+    "blog_posts.create",
+    "blog_posts.update",
+    "blog_posts.delete",
+    "blog_posts.publish",
+  ],
+  faqs: ["faqs.read", "faqs.create", "faqs.update", "faqs.delete", "faqs.publish"],
   technologies: ["technologies.read", "technologies.update"],
   navigation: ["navigation.read", "navigation.update"],
   media: ["media.read", "media.create", "media.update"],
