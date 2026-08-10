@@ -27,7 +27,7 @@ export function QuoteForm({
   defaultServiceSlug,
 }: {
   services: PublicService[];
-  defaultServiceSlug?: string;
+  defaultServiceSlug?: string | undefined;
 }) {
   const submit = useServerFn(submitQuoteRequestFn);
   const [step, setStep] = useState(0);

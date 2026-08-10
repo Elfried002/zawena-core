@@ -54,7 +54,7 @@ function QuotePage() {
       <Section tone="default">
         <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           <div className="rounded-3xl border border-border bg-card p-7 sm:p-9">
-            <QuoteForm services={services} defaultServiceSlug={service} />
+            <QuoteForm services={services} defaultServiceSlug={service ?? ""} />
           </div>
           <aside className="space-y-6">
             <h2 className="font-display text-lg font-semibold">Ce qui se passe ensuite</h2>
