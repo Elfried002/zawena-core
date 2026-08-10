@@ -7,13 +7,21 @@ import { invalidState } from "./errors";
 
 export type Transitions<S extends string> = Readonly<Record<S, readonly S[]>>;
 
-export type ContentStatus = "draft" | "scheduled" | "published" | "archived";
+export type ContentStatus = "draft" | "review" | "scheduled" | "published" | "archived";
+/**
+ * Workflow éditorial : Draft → Review → Published → Archived.
+ * `scheduled` est une publication différée (relecture déjà faite).
+ */
 export const contentTransitions: Transitions<ContentStatus> = {
-  draft: ["scheduled", "published", "archived"],
-  scheduled: ["draft", "published", "archived"],
+  draft: ["review", "scheduled", "published", "archived"],
+  review: ["draft", "scheduled", "published", "archived"],
+  scheduled: ["draft", "review", "published", "archived"],
   published: ["draft", "archived"],
   archived: ["draft"],
 };
+
+/** Statuts jamais exposés au public, même via une vue. */
+export const PUBLIC_CONTENT_STATUSES: ContentStatus[] = ["published"];
 
 export type LeadStatus = "new" | "contacted" | "qualified" | "unqualified" | "converted";
 export const leadTransitions: Transitions<LeadStatus> = {

@@ -1728,8 +1728,10 @@ export type Database = {
           created_at: string
           created_by: string | null
           currency: string
+          decision_reason: string | null
           deleted_at: string | null
           discount_amount: number
+          expired_at: string | null
           id: string
           lock_version: number
           notes: string | null
@@ -1760,8 +1762,10 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           currency?: string
+          decision_reason?: string | null
           deleted_at?: string | null
           discount_amount?: number
+          expired_at?: string | null
           id?: string
           lock_version?: number
           notes?: string | null
@@ -1792,8 +1796,10 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           currency?: string
+          decision_reason?: string | null
           deleted_at?: string | null
           discount_amount?: number
+          expired_at?: string | null
           id?: string
           lock_version?: number
           notes?: string | null
@@ -2729,7 +2735,12 @@ export type Database = {
         | "login"
         | "logout"
         | "sensitive_change"
-      content_status: "draft" | "scheduled" | "published" | "archived"
+      content_status:
+        | "draft"
+        | "scheduled"
+        | "published"
+        | "archived"
+        | "review"
       invoice_status:
         | "draft"
         | "sent"
@@ -2959,7 +2970,7 @@ export const Constants = {
         "logout",
         "sensitive_change",
       ],
-      content_status: ["draft", "scheduled", "published", "archived"],
+      content_status: ["draft", "scheduled", "published", "archived", "review"],
       invoice_status: [
         "draft",
         "sent",
