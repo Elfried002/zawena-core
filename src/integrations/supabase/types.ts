@@ -168,6 +168,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "blog_post_tags_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "v_published_posts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "blog_post_tags_tag_id_fkey"
             columns: ["tag_id"]
             isOneToOne: false
@@ -479,6 +486,13 @@ export type Database = {
             referencedRelation: "services"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "faqs_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "v_published_services"
+            referencedColumns: ["id"]
+          },
         ]
       }
       invoice_items: {
@@ -521,6 +535,13 @@ export type Database = {
             columns: ["invoice_id"]
             isOneToOne: false
             referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "v_outstanding_invoices"
             referencedColumns: ["id"]
           },
         ]
@@ -715,6 +736,13 @@ export type Database = {
             referencedRelation: "services"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "leads_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "v_published_services"
+            referencedColumns: ["id"]
+          },
         ]
       }
       media_files: {
@@ -842,6 +870,13 @@ export type Database = {
             columns: ["page_id"]
             isOneToOne: false
             referencedRelation: "pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "navigation_items_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "v_published_pages"
             referencedColumns: ["id"]
           },
           {
@@ -1009,6 +1044,13 @@ export type Database = {
             referencedRelation: "pipeline_stages"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "opportunities_stage_id_fkey"
+            columns: ["stage_id"]
+            isOneToOne: false
+            referencedRelation: "v_pipeline_overview"
+            referencedColumns: ["stage_id"]
+          },
         ]
       }
       pages: {
@@ -1136,6 +1178,13 @@ export type Database = {
             referencedRelation: "invoices"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "v_outstanding_invoices"
+            referencedColumns: ["id"]
+          },
         ]
       }
       pipeline_stages: {
@@ -1238,6 +1287,13 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_technologies_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "v_published_projects"
             referencedColumns: ["id"]
           },
           {
@@ -1384,6 +1440,13 @@ export type Database = {
             referencedRelation: "services"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "quote_items_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "v_published_services"
+            referencedColumns: ["id"]
+          },
         ]
       }
       quote_requests: {
@@ -1457,6 +1520,13 @@ export type Database = {
             columns: ["service_id"]
             isOneToOne: false
             referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quote_requests_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "v_published_services"
             referencedColumns: ["id"]
           },
         ]
@@ -1596,6 +1666,13 @@ export type Database = {
             columns: ["service_id"]
             isOneToOne: false
             referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_technologies_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "v_published_services"
             referencedColumns: ["id"]
           },
           {
@@ -1920,6 +1997,13 @@ export type Database = {
             referencedRelation: "tickets"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "ticket_replies_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "v_open_tickets"
+            referencedColumns: ["id"]
+          },
         ]
       }
       tickets: {
@@ -2036,7 +2120,301 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      v_open_tickets: {
+        Row: {
+          assignee_id: string | null
+          category_name: string | null
+          company_name: string | null
+          created_at: string | null
+          first_response_at: string | null
+          id: string | null
+          number: string | null
+          priority: Database["public"]["Enums"]["priority_level"] | null
+          reply_count: number | null
+          requester_email: string | null
+          status: Database["public"]["Enums"]["ticket_status"] | null
+          subject: string | null
+        }
+        Relationships: []
+      }
+      v_outstanding_invoices: {
+        Row: {
+          amount_paid: number | null
+          balance_due: number | null
+          company_name: string | null
+          currency: string | null
+          due_date: string | null
+          id: string | null
+          is_overdue: boolean | null
+          issue_date: string | null
+          number: string | null
+          owner_id: string | null
+          status: Database["public"]["Enums"]["invoice_status"] | null
+          total: number | null
+        }
+        Relationships: []
+      }
+      v_pipeline_overview: {
+        Row: {
+          is_lost: boolean | null
+          is_won: boolean | null
+          opportunity_count: number | null
+          probability: number | null
+          sort_order: number | null
+          stage_id: string | null
+          stage_key: string | null
+          stage_name: string | null
+          total_amount: number | null
+          weighted_amount: number | null
+        }
+        Relationships: []
+      }
+      v_published_faqs: {
+        Row: {
+          answer: string | null
+          category: string | null
+          id: string | null
+          question: string | null
+          service_id: string | null
+          sort_order: number | null
+        }
+        Insert: {
+          answer?: string | null
+          category?: string | null
+          id?: string | null
+          question?: string | null
+          service_id?: string | null
+          sort_order?: number | null
+        }
+        Update: {
+          answer?: string | null
+          category?: string | null
+          id?: string | null
+          question?: string | null
+          service_id?: string | null
+          sort_order?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faqs_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "faqs_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "v_published_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_published_pages: {
+        Row: {
+          content: Json | null
+          cover_media_id: string | null
+          excerpt: string | null
+          id: string | null
+          noindex: boolean | null
+          og_image_url: string | null
+          published_at: string | null
+          seo_description: string | null
+          seo_keywords: string[] | null
+          seo_title: string | null
+          slug: string | null
+          sort_order: number | null
+          title: string | null
+        }
+        Insert: {
+          content?: Json | null
+          cover_media_id?: string | null
+          excerpt?: string | null
+          id?: string | null
+          noindex?: boolean | null
+          og_image_url?: string | null
+          published_at?: string | null
+          seo_description?: string | null
+          seo_keywords?: string[] | null
+          seo_title?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          title?: string | null
+        }
+        Update: {
+          content?: Json | null
+          cover_media_id?: string | null
+          excerpt?: string | null
+          id?: string | null
+          noindex?: boolean | null
+          og_image_url?: string | null
+          published_at?: string | null
+          seo_description?: string | null
+          seo_keywords?: string[] | null
+          seo_title?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pages_cover_media_id_fkey"
+            columns: ["cover_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_files"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_published_posts: {
+        Row: {
+          author_avatar: string | null
+          author_name: string | null
+          category_name: string | null
+          category_slug: string | null
+          content: Json | null
+          cover_media_id: string | null
+          excerpt: string | null
+          id: string | null
+          og_image_url: string | null
+          published_at: string | null
+          reading_minutes: number | null
+          seo_description: string | null
+          seo_title: string | null
+          slug: string | null
+          tags: Json | null
+          title: string | null
+          view_count: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_cover_media_id_fkey"
+            columns: ["cover_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_files"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_published_projects: {
+        Row: {
+          client_name: string | null
+          content: Json | null
+          cover_media_id: string | null
+          delivered_at: string | null
+          external_url: string | null
+          id: string | null
+          industry: string | null
+          is_featured: boolean | null
+          published_at: string | null
+          seo_description: string | null
+          seo_title: string | null
+          slug: string | null
+          sort_order: number | null
+          summary: string | null
+          technologies: Json | null
+          title: string | null
+        }
+        Insert: {
+          client_name?: string | null
+          content?: Json | null
+          cover_media_id?: string | null
+          delivered_at?: string | null
+          external_url?: string | null
+          id?: string | null
+          industry?: string | null
+          is_featured?: boolean | null
+          published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          summary?: string | null
+          technologies?: never
+          title?: string | null
+        }
+        Update: {
+          client_name?: string | null
+          content?: Json | null
+          cover_media_id?: string | null
+          delivered_at?: string | null
+          external_url?: string | null
+          id?: string | null
+          industry?: string | null
+          is_featured?: boolean | null
+          published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          summary?: string | null
+          technologies?: never
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_cover_media_id_fkey"
+            columns: ["cover_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_files"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_published_services: {
+        Row: {
+          content: Json | null
+          cover_media_id: string | null
+          icon: string | null
+          id: string | null
+          is_featured: boolean | null
+          published_at: string | null
+          seo_description: string | null
+          seo_title: string | null
+          slug: string | null
+          sort_order: number | null
+          summary: string | null
+          title: string | null
+        }
+        Insert: {
+          content?: Json | null
+          cover_media_id?: string | null
+          icon?: string | null
+          id?: string | null
+          is_featured?: boolean | null
+          published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          summary?: string | null
+          title?: string | null
+        }
+        Update: {
+          content?: Json | null
+          cover_media_id?: string | null
+          icon?: string | null
+          id?: string | null
+          is_featured?: boolean | null
+          published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          summary?: string | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "services_cover_media_id_fkey"
+            columns: ["cover_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_files"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       can_edit_content: { Args: never; Returns: boolean }
@@ -2047,6 +2425,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      invoice_balance_due: { Args: { _invoice_id: string }; Returns: number }
       is_admin: { Args: never; Returns: boolean }
       is_staff: { Args: never; Returns: boolean }
       next_document_number: { Args: { _key: string }; Returns: string }
