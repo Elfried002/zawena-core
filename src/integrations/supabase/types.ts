@@ -2431,8 +2431,24 @@ export type Database = {
       next_document_number: { Args: { _key: string }; Returns: string }
     }
     Enums: {
-      activity_type: "call" | "email" | "meeting" | "demo" | "note" | "other"
-      app_role: "admin" | "editor" | "sales" | "support" | "client"
+      activity_type:
+        | "call"
+        | "email"
+        | "meeting"
+        | "demo"
+        | "note"
+        | "other"
+        | "task"
+        | "follow_up"
+      app_role:
+        | "admin"
+        | "editor"
+        | "sales"
+        | "support"
+        | "client"
+        | "super_admin"
+        | "finance"
+        | "viewer"
       audit_action:
         | "insert"
         | "update"
@@ -2448,6 +2464,8 @@ export type Database = {
         | "paid"
         | "overdue"
         | "void"
+        | "issued"
+        | "cancelled"
       lead_source:
         | "website"
         | "referral"
@@ -2462,6 +2480,23 @@ export type Database = {
         | "unqualified"
         | "converted"
       media_type: "image" | "document" | "video" | "audio" | "other"
+      notification_channel:
+        | "dashboard"
+        | "email"
+        | "sms"
+        | "whatsapp"
+        | "webhook"
+      notification_event:
+        | "lead_created"
+        | "quote_request_created"
+        | "ticket_created"
+        | "ticket_replied"
+        | "ticket_assigned"
+        | "quote_sent"
+        | "quote_accepted"
+        | "invoice_sent"
+        | "payment_recorded"
+        | "task_assigned"
       payment_method:
         | "bank_transfer"
         | "card"
@@ -2476,9 +2511,26 @@ export type Database = {
         | "quoted"
         | "declined"
         | "archived"
-      quote_status: "draft" | "sent" | "accepted" | "rejected" | "expired"
+        | "qualified"
+        | "quote_created"
+      quote_status:
+        | "draft"
+        | "sent"
+        | "accepted"
+        | "rejected"
+        | "expired"
+        | "viewed"
+        | "cancelled"
       task_status: "todo" | "in_progress" | "done" | "cancelled"
-      ticket_status: "open" | "pending" | "in_progress" | "resolved" | "closed"
+      ticket_status:
+        | "open"
+        | "pending"
+        | "in_progress"
+        | "resolved"
+        | "closed"
+        | "assigned"
+        | "waiting_customer"
+      user_account_status: "invited" | "active" | "suspended" | "deactivated"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2606,8 +2658,26 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      activity_type: ["call", "email", "meeting", "demo", "note", "other"],
-      app_role: ["admin", "editor", "sales", "support", "client"],
+      activity_type: [
+        "call",
+        "email",
+        "meeting",
+        "demo",
+        "note",
+        "other",
+        "task",
+        "follow_up",
+      ],
+      app_role: [
+        "admin",
+        "editor",
+        "sales",
+        "support",
+        "client",
+        "super_admin",
+        "finance",
+        "viewer",
+      ],
       audit_action: [
         "insert",
         "update",
@@ -2624,6 +2694,8 @@ export const Constants = {
         "paid",
         "overdue",
         "void",
+        "issued",
+        "cancelled",
       ],
       lead_source: [
         "website",
@@ -2641,6 +2713,25 @@ export const Constants = {
         "converted",
       ],
       media_type: ["image", "document", "video", "audio", "other"],
+      notification_channel: [
+        "dashboard",
+        "email",
+        "sms",
+        "whatsapp",
+        "webhook",
+      ],
+      notification_event: [
+        "lead_created",
+        "quote_request_created",
+        "ticket_created",
+        "ticket_replied",
+        "ticket_assigned",
+        "quote_sent",
+        "quote_accepted",
+        "invoice_sent",
+        "payment_recorded",
+        "task_assigned",
+      ],
       payment_method: [
         "bank_transfer",
         "card",
@@ -2656,10 +2747,29 @@ export const Constants = {
         "quoted",
         "declined",
         "archived",
+        "qualified",
+        "quote_created",
       ],
-      quote_status: ["draft", "sent", "accepted", "rejected", "expired"],
+      quote_status: [
+        "draft",
+        "sent",
+        "accepted",
+        "rejected",
+        "expired",
+        "viewed",
+        "cancelled",
+      ],
       task_status: ["todo", "in_progress", "done", "cancelled"],
-      ticket_status: ["open", "pending", "in_progress", "resolved", "closed"],
+      ticket_status: [
+        "open",
+        "pending",
+        "in_progress",
+        "resolved",
+        "closed",
+        "assigned",
+        "waiting_customer",
+      ],
+      user_account_status: ["invited", "active", "suspended", "deactivated"],
     },
   },
 } as const
