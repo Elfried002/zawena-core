@@ -65,6 +65,42 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_events: {
+        Row: {
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          event_name: string
+          id: string
+          path: string | null
+          props: Json
+          referrer: string | null
+          session_hash: string | null
+        }
+        Insert: {
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event_name: string
+          id?: string
+          path?: string | null
+          props?: Json
+          referrer?: string | null
+          session_hash?: string | null
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event_name?: string
+          id?: string
+          path?: string | null
+          props?: Json
+          referrer?: string | null
+          session_hash?: string | null
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           action: Database["public"]["Enums"]["audit_action"]
@@ -495,6 +531,33 @@ export type Database = {
           },
         ]
       }
+      idempotency_keys: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          id: string
+          key: string
+          result: Json | null
+          scope: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          key: string
+          result?: Json | null
+          scope: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          key?: string
+          result?: Json | null
+          scope?: string
+        }
+        Relationships: []
+      }
       invoice_items: {
         Row: {
           created_at: string
@@ -558,6 +621,7 @@ export type Database = {
           due_date: string | null
           id: string
           issue_date: string
+          lock_version: number
           notes: string | null
           number: string
           owner_id: string | null
@@ -582,6 +646,7 @@ export type Database = {
           due_date?: string | null
           id?: string
           issue_date?: string
+          lock_version?: number
           notes?: string | null
           number?: string
           owner_id?: string | null
@@ -606,6 +671,7 @@ export type Database = {
           due_date?: string | null
           id?: string
           issue_date?: string
+          lock_version?: number
           notes?: string | null
           number?: string
           owner_id?: string | null
@@ -957,6 +1023,57 @@ export type Database = {
         }
         Relationships: []
       }
+      notifications: {
+        Row: {
+          body: string | null
+          channel: Database["public"]["Enums"]["notification_channel"]
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          event: Database["public"]["Enums"]["notification_event"]
+          id: string
+          link: string | null
+          payload: Json
+          read_at: string | null
+          sent_at: string | null
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          body?: string | null
+          channel?: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event: Database["public"]["Enums"]["notification_event"]
+          id?: string
+          link?: string | null
+          payload?: Json
+          read_at?: string | null
+          sent_at?: string | null
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          body?: string | null
+          channel?: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event?: Database["public"]["Enums"]["notification_event"]
+          id?: string
+          link?: string | null
+          payload?: Json
+          read_at?: string | null
+          sent_at?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       opportunities: {
         Row: {
           amount: number
@@ -1047,6 +1164,72 @@ export type Database = {
           {
             foreignKeyName: "opportunities_stage_id_fkey"
             columns: ["stage_id"]
+            isOneToOne: false
+            referencedRelation: "v_pipeline_overview"
+            referencedColumns: ["stage_id"]
+          },
+        ]
+      }
+      opportunity_stage_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          from_stage_id: string | null
+          id: string
+          note: string | null
+          opportunity_id: string
+          to_stage_id: string
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          from_stage_id?: string | null
+          id?: string
+          note?: string | null
+          opportunity_id: string
+          to_stage_id: string
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          from_stage_id?: string | null
+          id?: string
+          note?: string | null
+          opportunity_id?: string
+          to_stage_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "opportunity_stage_history_from_stage_id_fkey"
+            columns: ["from_stage_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_stages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunity_stage_history_from_stage_id_fkey"
+            columns: ["from_stage_id"]
+            isOneToOne: false
+            referencedRelation: "v_pipeline_overview"
+            referencedColumns: ["stage_id"]
+          },
+          {
+            foreignKeyName: "opportunity_stage_history_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunity_stage_history_to_stage_id_fkey"
+            columns: ["to_stage_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_stages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunity_stage_history_to_stage_id_fkey"
+            columns: ["to_stage_id"]
             isOneToOne: false
             referencedRelation: "v_pipeline_overview"
             referencedColumns: ["stage_id"]
@@ -1235,6 +1418,8 @@ export type Database = {
           job_title: string | null
           locale: string
           phone: string | null
+          status: Database["public"]["Enums"]["user_account_status"]
+          suspended_at: string | null
           updated_at: string
         }
         Insert: {
@@ -1248,6 +1433,8 @@ export type Database = {
           job_title?: string | null
           locale?: string
           phone?: string | null
+          status?: Database["public"]["Enums"]["user_account_status"]
+          suspended_at?: string | null
           updated_at?: string
         }
         Update: {
@@ -1261,6 +1448,8 @@ export type Database = {
           job_title?: string | null
           locale?: string
           phone?: string | null
+          status?: Database["public"]["Enums"]["user_account_status"]
+          suspended_at?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -1542,11 +1731,14 @@ export type Database = {
           deleted_at: string | null
           discount_amount: number
           id: string
+          lock_version: number
           notes: string | null
           number: string
           opportunity_id: string | null
           owner_id: string | null
           quote_request_id: string | null
+          rejected_at: string | null
+          revision_of: string | null
           sent_at: string | null
           status: Database["public"]["Enums"]["quote_status"]
           subtotal: number
@@ -1558,6 +1750,8 @@ export type Database = {
           updated_at: string
           updated_by: string | null
           valid_until: string | null
+          version: number
+          viewed_at: string | null
         }
         Insert: {
           accepted_at?: string | null
@@ -1569,11 +1763,14 @@ export type Database = {
           deleted_at?: string | null
           discount_amount?: number
           id?: string
+          lock_version?: number
           notes?: string | null
           number?: string
           opportunity_id?: string | null
           owner_id?: string | null
           quote_request_id?: string | null
+          rejected_at?: string | null
+          revision_of?: string | null
           sent_at?: string | null
           status?: Database["public"]["Enums"]["quote_status"]
           subtotal?: number
@@ -1585,6 +1782,8 @@ export type Database = {
           updated_at?: string
           updated_by?: string | null
           valid_until?: string | null
+          version?: number
+          viewed_at?: string | null
         }
         Update: {
           accepted_at?: string | null
@@ -1596,11 +1795,14 @@ export type Database = {
           deleted_at?: string | null
           discount_amount?: number
           id?: string
+          lock_version?: number
           notes?: string | null
           number?: string
           opportunity_id?: string | null
           owner_id?: string | null
           quote_request_id?: string | null
+          rejected_at?: string | null
+          revision_of?: string | null
           sent_at?: string | null
           status?: Database["public"]["Enums"]["quote_status"]
           subtotal?: number
@@ -1612,6 +1814,8 @@ export type Database = {
           updated_at?: string
           updated_by?: string | null
           valid_until?: string | null
+          version?: number
+          viewed_at?: string | null
         }
         Relationships: [
           {
@@ -1642,7 +1846,56 @@ export type Database = {
             referencedRelation: "quote_requests"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "quotes_revision_of_fkey"
+            columns: ["revision_of"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
         ]
+      }
+      rate_limit_hits: {
+        Row: {
+          created_at: string
+          id: string
+          identifier: string
+          scope: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          identifier: string
+          scope: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          identifier?: string
+          scope?: string
+        }
+        Relationships: []
+      }
+      role_permissions: {
+        Row: {
+          created_at: string
+          id: string
+          permission: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          permission: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          permission?: string
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: []
       }
       service_technologies: {
         Row: {
@@ -2418,6 +2671,19 @@ export type Database = {
     }
     Functions: {
       can_edit_content: { Args: never; Returns: boolean }
+      check_rate_limit: {
+        Args: {
+          _identifier: string
+          _max_hits: number
+          _scope: string
+          _window_seconds: number
+        }
+        Returns: boolean
+      }
+      has_permission: {
+        Args: { _permission: string; _user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -2426,8 +2692,15 @@ export type Database = {
         Returns: boolean
       }
       invoice_balance_due: { Args: { _invoice_id: string }; Returns: number }
+      is_account_active: { Args: never; Returns: boolean }
       is_admin: { Args: never; Returns: boolean }
       is_staff: { Args: never; Returns: boolean }
+      my_permissions: {
+        Args: never
+        Returns: {
+          permission: string
+        }[]
+      }
       next_document_number: { Args: { _key: string }; Returns: string }
     }
     Enums: {
