@@ -10,24 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as PortfolioIndexRouteImport } from './routes/portfolio.index'
 import { Route as PortfolioSlugRouteImport } from './routes/portfolio.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminCrmActivitiesRouteImport } from './routes/_authenticated/admin/crm.activities'
+import { Route as AuthenticatedAdminCrmContactsRouteImport } from './routes/_authenticated/admin/crm.contacts'
+import { Route as AuthenticatedAdminCrmTasksRouteImport } from './routes/_authenticated/admin/crm.tasks'
+import { Route as AuthenticatedAdminFinancePaymentsRouteImport } from './routes/_authenticated/admin/finance.payments'
+import { Route as AuthenticatedAdminSalesPipelineRouteImport } from './routes/_authenticated/admin/sales.pipeline'
+import { Route as AuthenticatedAdminSalesRequestsRouteImport } from './routes/_authenticated/admin/sales.requests'
+import { Route as AuthenticatedAdminCrmCompaniesIndexRouteImport } from './routes/_authenticated/admin/crm.companies.index'
+import { Route as AuthenticatedAdminCrmCompaniesIdRouteImport } from './routes/_authenticated/admin/crm.companies.$id'
+import { Route as AuthenticatedAdminCrmLeadsIndexRouteImport } from './routes/_authenticated/admin/crm.leads.index'
+import { Route as AuthenticatedAdminCrmLeadsIdRouteImport } from './routes/_authenticated/admin/crm.leads.$id'
+import { Route as AuthenticatedAdminFinanceInvoicesIndexRouteImport } from './routes/_authenticated/admin/finance.invoices.index'
+import { Route as AuthenticatedAdminFinanceInvoicesIdRouteImport } from './routes/_authenticated/admin/finance.invoices.$id'
+import { Route as AuthenticatedAdminSalesQuotesIndexRouteImport } from './routes/_authenticated/admin/sales.quotes.index'
+import { Route as AuthenticatedAdminSalesQuotesIdRouteImport } from './routes/_authenticated/admin/sales.quotes.$id'
+import { Route as AuthenticatedAdminSupportTicketsIndexRouteImport } from './routes/_authenticated/admin/support.tickets.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -45,10 +74,20 @@ const QuoteRoute = QuoteRouteImport.update({
   path: '/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const PortfolioIndexRoute = PortfolioIndexRouteImport.update({
   id: '/portfolio/',
@@ -70,89 +109,301 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminCrmActivitiesRoute =
+  AuthenticatedAdminCrmActivitiesRouteImport.update({
+    id: '/crm/activities',
+    path: '/crm/activities',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmContactsRoute =
+  AuthenticatedAdminCrmContactsRouteImport.update({
+    id: '/crm/contacts',
+    path: '/crm/contacts',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmTasksRoute =
+  AuthenticatedAdminCrmTasksRouteImport.update({
+    id: '/crm/tasks',
+    path: '/crm/tasks',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminFinancePaymentsRoute =
+  AuthenticatedAdminFinancePaymentsRouteImport.update({
+    id: '/finance/payments',
+    path: '/finance/payments',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSalesPipelineRoute =
+  AuthenticatedAdminSalesPipelineRouteImport.update({
+    id: '/sales/pipeline',
+    path: '/sales/pipeline',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSalesRequestsRoute =
+  AuthenticatedAdminSalesRequestsRouteImport.update({
+    id: '/sales/requests',
+    path: '/sales/requests',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmCompaniesIndexRoute =
+  AuthenticatedAdminCrmCompaniesIndexRouteImport.update({
+    id: '/crm/companies/',
+    path: '/crm/companies/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmCompaniesIdRoute =
+  AuthenticatedAdminCrmCompaniesIdRouteImport.update({
+    id: '/crm/companies/$id',
+    path: '/crm/companies/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmLeadsIndexRoute =
+  AuthenticatedAdminCrmLeadsIndexRouteImport.update({
+    id: '/crm/leads/',
+    path: '/crm/leads/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmLeadsIdRoute =
+  AuthenticatedAdminCrmLeadsIdRouteImport.update({
+    id: '/crm/leads/$id',
+    path: '/crm/leads/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminFinanceInvoicesIndexRoute =
+  AuthenticatedAdminFinanceInvoicesIndexRouteImport.update({
+    id: '/finance/invoices/',
+    path: '/finance/invoices/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminFinanceInvoicesIdRoute =
+  AuthenticatedAdminFinanceInvoicesIdRouteImport.update({
+    id: '/finance/invoices/$id',
+    path: '/finance/invoices/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSalesQuotesIndexRoute =
+  AuthenticatedAdminSalesQuotesIndexRouteImport.update({
+    id: '/sales/quotes/',
+    path: '/sales/quotes/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSalesQuotesIdRoute =
+  AuthenticatedAdminSalesQuotesIdRouteImport.update({
+    id: '/sales/quotes/$id',
+    path: '/sales/quotes/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSupportTicketsIndexRoute =
+  AuthenticatedAdminSupportTicketsIndexRouteImport.update({
+    id: '/support/tickets/',
+    path: '/support/tickets/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/portfolio/$slug': typeof PortfolioSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/portfolio/': typeof PortfolioIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
+  '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
+  '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
+  '/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
+  '/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
+  '/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
+  '/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
+  '/admin/finance/invoices/$id': typeof AuthenticatedAdminFinanceInvoicesIdRoute
+  '/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
+  '/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
+  '/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
+  '/admin/finance/invoices/': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
+  '/admin/sales/quotes/': typeof AuthenticatedAdminSalesQuotesIndexRoute
+  '/admin/support/tickets/': typeof AuthenticatedAdminSupportTicketsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/portfolio': typeof PortfolioIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
+  '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
+  '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
+  '/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
+  '/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
+  '/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
+  '/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
+  '/admin/finance/invoices/$id': typeof AuthenticatedAdminFinanceInvoicesIdRoute
+  '/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
+  '/admin/crm/companies': typeof AuthenticatedAdminCrmCompaniesIndexRoute
+  '/admin/crm/leads': typeof AuthenticatedAdminCrmLeadsIndexRoute
+  '/admin/finance/invoices': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
+  '/admin/sales/quotes': typeof AuthenticatedAdminSalesQuotesIndexRoute
+  '/admin/support/tickets': typeof AuthenticatedAdminSupportTicketsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/portfolio/$slug': typeof PortfolioSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/portfolio/': typeof PortfolioIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
+  '/_authenticated/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
+  '/_authenticated/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/_authenticated/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
+  '/_authenticated/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
+  '/_authenticated/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
+  '/_authenticated/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
+  '/_authenticated/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
+  '/_authenticated/admin/finance/invoices/$id': typeof AuthenticatedAdminFinanceInvoicesIdRoute
+  '/_authenticated/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
+  '/_authenticated/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
+  '/_authenticated/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
+  '/_authenticated/admin/finance/invoices/': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
+  '/_authenticated/admin/sales/quotes/': typeof AuthenticatedAdminSalesQuotesIndexRoute
+  '/_authenticated/admin/support/tickets/': typeof AuthenticatedAdminSupportTicketsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/auth'
     | '/contact'
     | '/faq'
     | '/quote'
+    | '/reset-password'
     | '/sitemap.xml'
+    | '/admin'
     | '/portfolio/$slug'
     | '/services/$slug'
     | '/portfolio/'
     | '/services/'
+    | '/admin/'
+    | '/admin/crm/activities'
+    | '/admin/crm/contacts'
+    | '/admin/crm/tasks'
+    | '/admin/finance/payments'
+    | '/admin/sales/pipeline'
+    | '/admin/sales/requests'
+    | '/admin/crm/companies/$id'
+    | '/admin/crm/leads/$id'
+    | '/admin/finance/invoices/$id'
+    | '/admin/sales/quotes/$id'
+    | '/admin/crm/companies/'
+    | '/admin/crm/leads/'
+    | '/admin/finance/invoices/'
+    | '/admin/sales/quotes/'
+    | '/admin/support/tickets/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/auth'
     | '/contact'
     | '/faq'
     | '/quote'
+    | '/reset-password'
     | '/sitemap.xml'
     | '/portfolio/$slug'
     | '/services/$slug'
     | '/portfolio'
     | '/services'
+    | '/admin'
+    | '/admin/crm/activities'
+    | '/admin/crm/contacts'
+    | '/admin/crm/tasks'
+    | '/admin/finance/payments'
+    | '/admin/sales/pipeline'
+    | '/admin/sales/requests'
+    | '/admin/crm/companies/$id'
+    | '/admin/crm/leads/$id'
+    | '/admin/finance/invoices/$id'
+    | '/admin/sales/quotes/$id'
+    | '/admin/crm/companies'
+    | '/admin/crm/leads'
+    | '/admin/finance/invoices'
+    | '/admin/sales/quotes'
+    | '/admin/support/tickets'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
+    | '/auth'
     | '/contact'
     | '/faq'
     | '/quote'
+    | '/reset-password'
     | '/sitemap.xml'
+    | '/_authenticated/admin'
     | '/portfolio/$slug'
     | '/services/$slug'
     | '/portfolio/'
     | '/services/'
+    | '/_authenticated/admin/'
+    | '/_authenticated/admin/crm/activities'
+    | '/_authenticated/admin/crm/contacts'
+    | '/_authenticated/admin/crm/tasks'
+    | '/_authenticated/admin/finance/payments'
+    | '/_authenticated/admin/sales/pipeline'
+    | '/_authenticated/admin/sales/requests'
+    | '/_authenticated/admin/crm/companies/$id'
+    | '/_authenticated/admin/crm/leads/$id'
+    | '/_authenticated/admin/finance/invoices/$id'
+    | '/_authenticated/admin/sales/quotes/$id'
+    | '/_authenticated/admin/crm/companies/'
+    | '/_authenticated/admin/crm/leads/'
+    | '/_authenticated/admin/finance/invoices/'
+    | '/_authenticated/admin/sales/quotes/'
+    | '/_authenticated/admin/support/tickets/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   QuoteRoute: typeof QuoteRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   PortfolioSlugRoute: typeof PortfolioSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
@@ -169,11 +420,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -197,12 +462,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/portfolio/': {
       id: '/portfolio/'
@@ -232,15 +511,188 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/activities': {
+      id: '/_authenticated/admin/crm/activities'
+      path: '/crm/activities'
+      fullPath: '/admin/crm/activities'
+      preLoaderRoute: typeof AuthenticatedAdminCrmActivitiesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/contacts': {
+      id: '/_authenticated/admin/crm/contacts'
+      path: '/crm/contacts'
+      fullPath: '/admin/crm/contacts'
+      preLoaderRoute: typeof AuthenticatedAdminCrmContactsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/tasks': {
+      id: '/_authenticated/admin/crm/tasks'
+      path: '/crm/tasks'
+      fullPath: '/admin/crm/tasks'
+      preLoaderRoute: typeof AuthenticatedAdminCrmTasksRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/finance/payments': {
+      id: '/_authenticated/admin/finance/payments'
+      path: '/finance/payments'
+      fullPath: '/admin/finance/payments'
+      preLoaderRoute: typeof AuthenticatedAdminFinancePaymentsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/sales/pipeline': {
+      id: '/_authenticated/admin/sales/pipeline'
+      path: '/sales/pipeline'
+      fullPath: '/admin/sales/pipeline'
+      preLoaderRoute: typeof AuthenticatedAdminSalesPipelineRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/sales/requests': {
+      id: '/_authenticated/admin/sales/requests'
+      path: '/sales/requests'
+      fullPath: '/admin/sales/requests'
+      preLoaderRoute: typeof AuthenticatedAdminSalesRequestsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/companies/': {
+      id: '/_authenticated/admin/crm/companies/'
+      path: '/crm/companies'
+      fullPath: '/admin/crm/companies/'
+      preLoaderRoute: typeof AuthenticatedAdminCrmCompaniesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/companies/$id': {
+      id: '/_authenticated/admin/crm/companies/$id'
+      path: '/crm/companies/$id'
+      fullPath: '/admin/crm/companies/$id'
+      preLoaderRoute: typeof AuthenticatedAdminCrmCompaniesIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/leads/': {
+      id: '/_authenticated/admin/crm/leads/'
+      path: '/crm/leads'
+      fullPath: '/admin/crm/leads/'
+      preLoaderRoute: typeof AuthenticatedAdminCrmLeadsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/leads/$id': {
+      id: '/_authenticated/admin/crm/leads/$id'
+      path: '/crm/leads/$id'
+      fullPath: '/admin/crm/leads/$id'
+      preLoaderRoute: typeof AuthenticatedAdminCrmLeadsIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/finance/invoices/': {
+      id: '/_authenticated/admin/finance/invoices/'
+      path: '/finance/invoices'
+      fullPath: '/admin/finance/invoices/'
+      preLoaderRoute: typeof AuthenticatedAdminFinanceInvoicesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/finance/invoices/$id': {
+      id: '/_authenticated/admin/finance/invoices/$id'
+      path: '/finance/invoices/$id'
+      fullPath: '/admin/finance/invoices/$id'
+      preLoaderRoute: typeof AuthenticatedAdminFinanceInvoicesIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/sales/quotes/': {
+      id: '/_authenticated/admin/sales/quotes/'
+      path: '/sales/quotes'
+      fullPath: '/admin/sales/quotes/'
+      preLoaderRoute: typeof AuthenticatedAdminSalesQuotesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/sales/quotes/$id': {
+      id: '/_authenticated/admin/sales/quotes/$id'
+      path: '/sales/quotes/$id'
+      fullPath: '/admin/sales/quotes/$id'
+      preLoaderRoute: typeof AuthenticatedAdminSalesQuotesIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/support/tickets/': {
+      id: '/_authenticated/admin/support/tickets/'
+      path: '/support/tickets'
+      fullPath: '/admin/support/tickets/'
+      preLoaderRoute: typeof AuthenticatedAdminSupportTicketsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminCrmActivitiesRoute: typeof AuthenticatedAdminCrmActivitiesRoute
+  AuthenticatedAdminCrmContactsRoute: typeof AuthenticatedAdminCrmContactsRoute
+  AuthenticatedAdminCrmTasksRoute: typeof AuthenticatedAdminCrmTasksRoute
+  AuthenticatedAdminFinancePaymentsRoute: typeof AuthenticatedAdminFinancePaymentsRoute
+  AuthenticatedAdminSalesPipelineRoute: typeof AuthenticatedAdminSalesPipelineRoute
+  AuthenticatedAdminSalesRequestsRoute: typeof AuthenticatedAdminSalesRequestsRoute
+  AuthenticatedAdminCrmCompaniesIdRoute: typeof AuthenticatedAdminCrmCompaniesIdRoute
+  AuthenticatedAdminCrmLeadsIdRoute: typeof AuthenticatedAdminCrmLeadsIdRoute
+  AuthenticatedAdminFinanceInvoicesIdRoute: typeof AuthenticatedAdminFinanceInvoicesIdRoute
+  AuthenticatedAdminSalesQuotesIdRoute: typeof AuthenticatedAdminSalesQuotesIdRoute
+  AuthenticatedAdminCrmCompaniesIndexRoute: typeof AuthenticatedAdminCrmCompaniesIndexRoute
+  AuthenticatedAdminCrmLeadsIndexRoute: typeof AuthenticatedAdminCrmLeadsIndexRoute
+  AuthenticatedAdminFinanceInvoicesIndexRoute: typeof AuthenticatedAdminFinanceInvoicesIndexRoute
+  AuthenticatedAdminSalesQuotesIndexRoute: typeof AuthenticatedAdminSalesQuotesIndexRoute
+  AuthenticatedAdminSupportTicketsIndexRoute: typeof AuthenticatedAdminSupportTicketsIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminCrmActivitiesRoute: AuthenticatedAdminCrmActivitiesRoute,
+  AuthenticatedAdminCrmContactsRoute: AuthenticatedAdminCrmContactsRoute,
+  AuthenticatedAdminCrmTasksRoute: AuthenticatedAdminCrmTasksRoute,
+  AuthenticatedAdminFinancePaymentsRoute:
+    AuthenticatedAdminFinancePaymentsRoute,
+  AuthenticatedAdminSalesPipelineRoute: AuthenticatedAdminSalesPipelineRoute,
+  AuthenticatedAdminSalesRequestsRoute: AuthenticatedAdminSalesRequestsRoute,
+  AuthenticatedAdminCrmCompaniesIdRoute: AuthenticatedAdminCrmCompaniesIdRoute,
+  AuthenticatedAdminCrmLeadsIdRoute: AuthenticatedAdminCrmLeadsIdRoute,
+  AuthenticatedAdminFinanceInvoicesIdRoute:
+    AuthenticatedAdminFinanceInvoicesIdRoute,
+  AuthenticatedAdminSalesQuotesIdRoute: AuthenticatedAdminSalesQuotesIdRoute,
+  AuthenticatedAdminCrmCompaniesIndexRoute:
+    AuthenticatedAdminCrmCompaniesIndexRoute,
+  AuthenticatedAdminCrmLeadsIndexRoute: AuthenticatedAdminCrmLeadsIndexRoute,
+  AuthenticatedAdminFinanceInvoicesIndexRoute:
+    AuthenticatedAdminFinanceInvoicesIndexRoute,
+  AuthenticatedAdminSalesQuotesIndexRoute:
+    AuthenticatedAdminSalesQuotesIndexRoute,
+  AuthenticatedAdminSupportTicketsIndexRoute:
+    AuthenticatedAdminSupportTicketsIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   QuoteRoute: QuoteRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   PortfolioSlugRoute: PortfolioSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
