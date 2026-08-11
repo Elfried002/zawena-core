@@ -5,6 +5,7 @@ import { Container, Eyebrow, Section, SectionHeading } from "@/components/common
 import { FaqAccordion, FinalCta } from "@/components/marketing/sections";
 import { getPublishedFaqFn } from "@/lib/public-content.functions";
 import type { PublicFaq } from "@/services/public/public.types";
+import { CmsErrorComponent, CmsNotFoundComponent } from "@/components/common/route-states";
 
 const TITLE = "FAQ — questions fréquentes sur les projets Zawena";
 const DESCRIPTION =
@@ -28,6 +29,8 @@ export const Route = createFileRoute("/faq")({
   }),
   loader: () => getPublishedFaqFn({ data: {} }),
   component: FaqPage,
+  errorComponent: CmsErrorComponent,
+  notFoundComponent: CmsNotFoundComponent,
 });
 
 function FaqPage() {

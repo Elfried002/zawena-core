@@ -8,6 +8,7 @@ import { FinalCta } from "@/components/marketing/sections";
 import { Badge } from "@/components/ui/badge";
 import { getPublishedProjectsFn } from "@/lib/public-content.functions";
 import type { PublicProject } from "@/services/public/public.types";
+import { CmsErrorComponent, CmsNotFoundComponent } from "@/components/common/route-states";
 
 const TITLE = "Réalisations — concepts, prototypes et projets internes | Zawena";
 const DESCRIPTION =
@@ -31,6 +32,8 @@ export const Route = createFileRoute("/portfolio/")({
   }),
   loader: () => getPublishedProjectsFn({ data: {} }),
   component: PortfolioPage,
+  errorComponent: CmsErrorComponent,
+  notFoundComponent: CmsNotFoundComponent,
 });
 
 function PortfolioPage() {

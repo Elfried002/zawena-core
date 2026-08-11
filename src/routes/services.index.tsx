@@ -7,6 +7,7 @@ import { ServiceCard } from "@/components/marketing/cards";
 import { FinalCta, ProcessTimeline } from "@/components/marketing/sections";
 import { getPublishedServicesFn } from "@/lib/public-content.functions";
 import type { PublicService } from "@/services/public/public.types";
+import { CmsErrorComponent, CmsNotFoundComponent } from "@/components/common/route-states";
 
 const TITLE = "Services — IA, automatisation, ingénierie et sécurité | Zawena";
 const DESCRIPTION =
@@ -30,6 +31,8 @@ export const Route = createFileRoute("/services/")({
   }),
   loader: () => getPublishedServicesFn(),
   component: ServicesPage,
+  errorComponent: CmsErrorComponent,
+  notFoundComponent: CmsNotFoundComponent,
 });
 
 function ServicesPage() {
