@@ -44,6 +44,7 @@ import {
   pageSchema,
   projectSchema,
   publishSchema,
+  registerMediaSchema,
   serviceSchema,
   CMS_ENTITIES,
 } from "@/services/cms/cms.schemas";
@@ -546,6 +547,111 @@ export const markNotificationReadFn = createServerFn({ method: "POST" })
       .from("notifications")
       .update({ read_at: new Date().toISOString() })
       .eq("id", data.id);
+    if (error) return { ok: false as const, error: toPublicError(error) };
+    return { ok: true as const };
+  });
+/* ------------------------- CMS : mises à jour & médias --------------------- */
+
+export const updateContentFn = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({ id: z.string().uuid() })
+      .and(
+        z.discriminatedUnion("entity", [
+          z.object({ entity: z.literal("pages"), payload: pageSchema }),
+          z.object({ entity: z.literal("services"), payload: serviceSchema }),
+          z.object({ entity: z.literal("projects"), payload: projectSchema }),
+          z.object({ entity: z.literal("blog_posts"), payload: blogPostSchema }),
+          z.object({ entity: z.literal("faqs"), payload: faqSchema }),
+        ]),
+      )
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    const ctx = { supabase: context.supabase, userId: context.userId };
+    try {
+      const cms = await import("@/services/cms/cms.server");
+      switch (data.entity) {
+        case "pages":
+          await cms.updatePage(ctx, data.id, data.payload);
+          break;
+        case "services":
+          await cms.updateService(ctx, data.id, data.payload);
+          break;
+        case "projects":
+          await cms.updateProject(ctx, data.id, data.payload);
+          break;
+        case "blog_posts":
+          await cms.updateBlogPost(ctx, data.id, data.payload);
+          break;
+        case "faqs":
+          await cms.updateFaq(ctx, data.id, data.payload);
+          break;
+      }
+      return { ok: true as const };
+    } catch (error) {
+      return { ok: false as const, error: toPublicError(error) };
+    }
+  });
+
+export const mediaUploadUrlFn = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        bucketId: z.enum(["public-images", "blog", "portfolio", "documents", "avatars", "logos"]),
+        fileName: z.string().trim().min(1).max(255),
+        folder: z.string().trim().max(120).default("/"),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    try {
+      const { createMediaUploadUrl } = await import("@/services/cms/cms.server");
+      const result = await createMediaUploadUrl(
+        { supabase: context.supabase, userId: context.userId },
+        data,
+      );
+      return { ok: true as const, ...result };
+    } catch (error) {
+      return { ok: false as const, error: toPublicError(error) };
+    }
+  });
+
+export const registerMediaFn = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => registerMediaSchema.parse(data))
+  .handler(async ({ data, context }) => {
+    try {
+      const { registerMedia } = await import("@/services/cms/cms.server");
+      const result = await registerMedia({ supabase: context.supabase, userId: context.userId }, data);
+      return { ok: true as const, ...result };
+    } catch (error) {
+      return { ok: false as const, error: toPublicError(error) };
+    }
+  });
+
+export const deleteMediaFn = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => idSchema.parse(data))
+  .handler(async ({ data, context }) => {
+    try {
+      const { deleteMedia } = await import("@/services/cms/cms.server");
+      await deleteMedia({ supabase: context.supabase, userId: context.userId }, data.id);
+      return { ok: true as const };
+    } catch (error) {
+      return { ok: false as const, error: toPublicError(error) };
+    }
+  });
+
+export const markAllNotificationsReadFn = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { error } = await context.supabase
+      .from("notifications")
+      .update({ read_at: new Date().toISOString() })
+      .is("read_at", null);
     if (error) return { ok: false as const, error: toPublicError(error) };
     return { ok: true as const };
   });

@@ -24,12 +24,28 @@ import { Route as PortfolioSlugRouteImport } from './routes/portfolio.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
+import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin/notifications'
+import { Route as AuthenticatedAdminContentMediaRouteImport } from './routes/_authenticated/admin/content.media'
 import { Route as AuthenticatedAdminCrmActivitiesRouteImport } from './routes/_authenticated/admin/crm.activities'
 import { Route as AuthenticatedAdminCrmContactsRouteImport } from './routes/_authenticated/admin/crm.contacts'
 import { Route as AuthenticatedAdminCrmTasksRouteImport } from './routes/_authenticated/admin/crm.tasks'
 import { Route as AuthenticatedAdminFinancePaymentsRouteImport } from './routes/_authenticated/admin/finance.payments'
 import { Route as AuthenticatedAdminSalesPipelineRouteImport } from './routes/_authenticated/admin/sales.pipeline'
 import { Route as AuthenticatedAdminSalesRequestsRouteImport } from './routes/_authenticated/admin/sales.requests'
+import { Route as AuthenticatedAdminSettingsProfileRouteImport } from './routes/_authenticated/admin/settings.profile'
+import { Route as AuthenticatedAdminSettingsRolesRouteImport } from './routes/_authenticated/admin/settings.roles'
+import { Route as AuthenticatedAdminSettingsUsersRouteImport } from './routes/_authenticated/admin/settings.users'
+import { Route as AuthenticatedAdminContentBlogIndexRouteImport } from './routes/_authenticated/admin/content.blog.index'
+import { Route as AuthenticatedAdminContentBlogIdRouteImport } from './routes/_authenticated/admin/content.blog.$id'
+import { Route as AuthenticatedAdminContentFaqsIndexRouteImport } from './routes/_authenticated/admin/content.faqs.index'
+import { Route as AuthenticatedAdminContentFaqsIdRouteImport } from './routes/_authenticated/admin/content.faqs.$id'
+import { Route as AuthenticatedAdminContentPagesIndexRouteImport } from './routes/_authenticated/admin/content.pages.index'
+import { Route as AuthenticatedAdminContentPagesIdRouteImport } from './routes/_authenticated/admin/content.pages.$id'
+import { Route as AuthenticatedAdminContentProjectsIndexRouteImport } from './routes/_authenticated/admin/content.projects.index'
+import { Route as AuthenticatedAdminContentProjectsIdRouteImport } from './routes/_authenticated/admin/content.projects.$id'
+import { Route as AuthenticatedAdminContentServicesIndexRouteImport } from './routes/_authenticated/admin/content.services.index'
+import { Route as AuthenticatedAdminContentServicesIdRouteImport } from './routes/_authenticated/admin/content.services.$id'
 import { Route as AuthenticatedAdminCrmCompaniesIndexRouteImport } from './routes/_authenticated/admin/crm.companies.index'
 import { Route as AuthenticatedAdminCrmCompaniesIdRouteImport } from './routes/_authenticated/admin/crm.companies.$id'
 import { Route as AuthenticatedAdminCrmLeadsIndexRouteImport } from './routes/_authenticated/admin/crm.leads.index'
@@ -39,6 +55,7 @@ import { Route as AuthenticatedAdminFinanceInvoicesIdRouteImport } from './route
 import { Route as AuthenticatedAdminSalesQuotesIndexRouteImport } from './routes/_authenticated/admin/sales.quotes.index'
 import { Route as AuthenticatedAdminSalesQuotesIdRouteImport } from './routes/_authenticated/admin/sales.quotes.$id'
 import { Route as AuthenticatedAdminSupportTicketsIndexRouteImport } from './routes/_authenticated/admin/support.tickets.index'
+import { Route as AuthenticatedAdminSupportTicketsIdRouteImport } from './routes/_authenticated/admin/support.tickets.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -114,6 +131,24 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminAnalyticsRoute =
+  AuthenticatedAdminAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminNotificationsRoute =
+  AuthenticatedAdminNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentMediaRoute =
+  AuthenticatedAdminContentMediaRouteImport.update({
+    id: '/content/media',
+    path: '/content/media',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCrmActivitiesRoute =
   AuthenticatedAdminCrmActivitiesRouteImport.update({
     id: '/crm/activities',
@@ -148,6 +183,84 @@ const AuthenticatedAdminSalesRequestsRoute =
   AuthenticatedAdminSalesRequestsRouteImport.update({
     id: '/sales/requests',
     path: '/sales/requests',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsProfileRoute =
+  AuthenticatedAdminSettingsProfileRouteImport.update({
+    id: '/settings/profile',
+    path: '/settings/profile',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsRolesRoute =
+  AuthenticatedAdminSettingsRolesRouteImport.update({
+    id: '/settings/roles',
+    path: '/settings/roles',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsUsersRoute =
+  AuthenticatedAdminSettingsUsersRouteImport.update({
+    id: '/settings/users',
+    path: '/settings/users',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentBlogIndexRoute =
+  AuthenticatedAdminContentBlogIndexRouteImport.update({
+    id: '/content/blog/',
+    path: '/content/blog/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentBlogIdRoute =
+  AuthenticatedAdminContentBlogIdRouteImport.update({
+    id: '/content/blog/$id',
+    path: '/content/blog/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentFaqsIndexRoute =
+  AuthenticatedAdminContentFaqsIndexRouteImport.update({
+    id: '/content/faqs/',
+    path: '/content/faqs/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentFaqsIdRoute =
+  AuthenticatedAdminContentFaqsIdRouteImport.update({
+    id: '/content/faqs/$id',
+    path: '/content/faqs/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentPagesIndexRoute =
+  AuthenticatedAdminContentPagesIndexRouteImport.update({
+    id: '/content/pages/',
+    path: '/content/pages/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentPagesIdRoute =
+  AuthenticatedAdminContentPagesIdRouteImport.update({
+    id: '/content/pages/$id',
+    path: '/content/pages/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentProjectsIndexRoute =
+  AuthenticatedAdminContentProjectsIndexRouteImport.update({
+    id: '/content/projects/',
+    path: '/content/projects/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentProjectsIdRoute =
+  AuthenticatedAdminContentProjectsIdRouteImport.update({
+    id: '/content/projects/$id',
+    path: '/content/projects/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentServicesIndexRoute =
+  AuthenticatedAdminContentServicesIndexRouteImport.update({
+    id: '/content/services/',
+    path: '/content/services/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentServicesIdRoute =
+  AuthenticatedAdminContentServicesIdRouteImport.update({
+    id: '/content/services/$id',
+    path: '/content/services/$id',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminCrmCompaniesIndexRoute =
@@ -204,6 +317,12 @@ const AuthenticatedAdminSupportTicketsIndexRoute =
     path: '/support/tickets/',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminSupportTicketsIdRoute =
+  AuthenticatedAdminSupportTicketsIdRouteImport.update({
+    id: '/support/tickets/$id',
+    path: '/support/tickets/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -219,17 +338,34 @@ export interface FileRoutesByFullPath {
   '/services/$slug': typeof ServicesSlugRoute
   '/portfolio/': typeof PortfolioIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/content/media': typeof AuthenticatedAdminContentMediaRoute
   '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
   '/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
   '/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
   '/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
+  '/admin/settings/profile': typeof AuthenticatedAdminSettingsProfileRoute
+  '/admin/settings/roles': typeof AuthenticatedAdminSettingsRolesRoute
+  '/admin/settings/users': typeof AuthenticatedAdminSettingsUsersRoute
+  '/admin/content/blog/$id': typeof AuthenticatedAdminContentBlogIdRoute
+  '/admin/content/faqs/$id': typeof AuthenticatedAdminContentFaqsIdRoute
+  '/admin/content/pages/$id': typeof AuthenticatedAdminContentPagesIdRoute
+  '/admin/content/projects/$id': typeof AuthenticatedAdminContentProjectsIdRoute
+  '/admin/content/services/$id': typeof AuthenticatedAdminContentServicesIdRoute
   '/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
   '/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/admin/finance/invoices/$id': typeof AuthenticatedAdminFinanceInvoicesIdRoute
   '/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
+  '/admin/support/tickets/$id': typeof AuthenticatedAdminSupportTicketsIdRoute
+  '/admin/content/blog/': typeof AuthenticatedAdminContentBlogIndexRoute
+  '/admin/content/faqs/': typeof AuthenticatedAdminContentFaqsIndexRoute
+  '/admin/content/pages/': typeof AuthenticatedAdminContentPagesIndexRoute
+  '/admin/content/projects/': typeof AuthenticatedAdminContentProjectsIndexRoute
+  '/admin/content/services/': typeof AuthenticatedAdminContentServicesIndexRoute
   '/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
   '/admin/finance/invoices/': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
@@ -249,17 +385,34 @@ export interface FileRoutesByTo {
   '/services/$slug': typeof ServicesSlugRoute
   '/portfolio': typeof PortfolioIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/content/media': typeof AuthenticatedAdminContentMediaRoute
   '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
   '/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
   '/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
   '/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
+  '/admin/settings/profile': typeof AuthenticatedAdminSettingsProfileRoute
+  '/admin/settings/roles': typeof AuthenticatedAdminSettingsRolesRoute
+  '/admin/settings/users': typeof AuthenticatedAdminSettingsUsersRoute
+  '/admin/content/blog/$id': typeof AuthenticatedAdminContentBlogIdRoute
+  '/admin/content/faqs/$id': typeof AuthenticatedAdminContentFaqsIdRoute
+  '/admin/content/pages/$id': typeof AuthenticatedAdminContentPagesIdRoute
+  '/admin/content/projects/$id': typeof AuthenticatedAdminContentProjectsIdRoute
+  '/admin/content/services/$id': typeof AuthenticatedAdminContentServicesIdRoute
   '/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
   '/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/admin/finance/invoices/$id': typeof AuthenticatedAdminFinanceInvoicesIdRoute
   '/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
+  '/admin/support/tickets/$id': typeof AuthenticatedAdminSupportTicketsIdRoute
+  '/admin/content/blog': typeof AuthenticatedAdminContentBlogIndexRoute
+  '/admin/content/faqs': typeof AuthenticatedAdminContentFaqsIndexRoute
+  '/admin/content/pages': typeof AuthenticatedAdminContentPagesIndexRoute
+  '/admin/content/projects': typeof AuthenticatedAdminContentProjectsIndexRoute
+  '/admin/content/services': typeof AuthenticatedAdminContentServicesIndexRoute
   '/admin/crm/companies': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/admin/crm/leads': typeof AuthenticatedAdminCrmLeadsIndexRoute
   '/admin/finance/invoices': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
@@ -282,17 +435,34 @@ export interface FileRoutesById {
   '/services/$slug': typeof ServicesSlugRoute
   '/portfolio/': typeof PortfolioIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/content/media': typeof AuthenticatedAdminContentMediaRoute
   '/_authenticated/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/_authenticated/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/_authenticated/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
   '/_authenticated/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
   '/_authenticated/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
   '/_authenticated/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
+  '/_authenticated/admin/settings/profile': typeof AuthenticatedAdminSettingsProfileRoute
+  '/_authenticated/admin/settings/roles': typeof AuthenticatedAdminSettingsRolesRoute
+  '/_authenticated/admin/settings/users': typeof AuthenticatedAdminSettingsUsersRoute
+  '/_authenticated/admin/content/blog/$id': typeof AuthenticatedAdminContentBlogIdRoute
+  '/_authenticated/admin/content/faqs/$id': typeof AuthenticatedAdminContentFaqsIdRoute
+  '/_authenticated/admin/content/pages/$id': typeof AuthenticatedAdminContentPagesIdRoute
+  '/_authenticated/admin/content/projects/$id': typeof AuthenticatedAdminContentProjectsIdRoute
+  '/_authenticated/admin/content/services/$id': typeof AuthenticatedAdminContentServicesIdRoute
   '/_authenticated/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
   '/_authenticated/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/_authenticated/admin/finance/invoices/$id': typeof AuthenticatedAdminFinanceInvoicesIdRoute
   '/_authenticated/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
+  '/_authenticated/admin/support/tickets/$id': typeof AuthenticatedAdminSupportTicketsIdRoute
+  '/_authenticated/admin/content/blog/': typeof AuthenticatedAdminContentBlogIndexRoute
+  '/_authenticated/admin/content/faqs/': typeof AuthenticatedAdminContentFaqsIndexRoute
+  '/_authenticated/admin/content/pages/': typeof AuthenticatedAdminContentPagesIndexRoute
+  '/_authenticated/admin/content/projects/': typeof AuthenticatedAdminContentProjectsIndexRoute
+  '/_authenticated/admin/content/services/': typeof AuthenticatedAdminContentServicesIndexRoute
   '/_authenticated/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/_authenticated/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
   '/_authenticated/admin/finance/invoices/': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
@@ -315,17 +485,34 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/portfolio/'
     | '/services/'
+    | '/admin/analytics'
+    | '/admin/notifications'
     | '/admin/'
+    | '/admin/content/media'
     | '/admin/crm/activities'
     | '/admin/crm/contacts'
     | '/admin/crm/tasks'
     | '/admin/finance/payments'
     | '/admin/sales/pipeline'
     | '/admin/sales/requests'
+    | '/admin/settings/profile'
+    | '/admin/settings/roles'
+    | '/admin/settings/users'
+    | '/admin/content/blog/$id'
+    | '/admin/content/faqs/$id'
+    | '/admin/content/pages/$id'
+    | '/admin/content/projects/$id'
+    | '/admin/content/services/$id'
     | '/admin/crm/companies/$id'
     | '/admin/crm/leads/$id'
     | '/admin/finance/invoices/$id'
     | '/admin/sales/quotes/$id'
+    | '/admin/support/tickets/$id'
+    | '/admin/content/blog/'
+    | '/admin/content/faqs/'
+    | '/admin/content/pages/'
+    | '/admin/content/projects/'
+    | '/admin/content/services/'
     | '/admin/crm/companies/'
     | '/admin/crm/leads/'
     | '/admin/finance/invoices/'
@@ -345,17 +532,34 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/portfolio'
     | '/services'
+    | '/admin/analytics'
+    | '/admin/notifications'
     | '/admin'
+    | '/admin/content/media'
     | '/admin/crm/activities'
     | '/admin/crm/contacts'
     | '/admin/crm/tasks'
     | '/admin/finance/payments'
     | '/admin/sales/pipeline'
     | '/admin/sales/requests'
+    | '/admin/settings/profile'
+    | '/admin/settings/roles'
+    | '/admin/settings/users'
+    | '/admin/content/blog/$id'
+    | '/admin/content/faqs/$id'
+    | '/admin/content/pages/$id'
+    | '/admin/content/projects/$id'
+    | '/admin/content/services/$id'
     | '/admin/crm/companies/$id'
     | '/admin/crm/leads/$id'
     | '/admin/finance/invoices/$id'
     | '/admin/sales/quotes/$id'
+    | '/admin/support/tickets/$id'
+    | '/admin/content/blog'
+    | '/admin/content/faqs'
+    | '/admin/content/pages'
+    | '/admin/content/projects'
+    | '/admin/content/services'
     | '/admin/crm/companies'
     | '/admin/crm/leads'
     | '/admin/finance/invoices'
@@ -377,17 +581,34 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/portfolio/'
     | '/services/'
+    | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/notifications'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/content/media'
     | '/_authenticated/admin/crm/activities'
     | '/_authenticated/admin/crm/contacts'
     | '/_authenticated/admin/crm/tasks'
     | '/_authenticated/admin/finance/payments'
     | '/_authenticated/admin/sales/pipeline'
     | '/_authenticated/admin/sales/requests'
+    | '/_authenticated/admin/settings/profile'
+    | '/_authenticated/admin/settings/roles'
+    | '/_authenticated/admin/settings/users'
+    | '/_authenticated/admin/content/blog/$id'
+    | '/_authenticated/admin/content/faqs/$id'
+    | '/_authenticated/admin/content/pages/$id'
+    | '/_authenticated/admin/content/projects/$id'
+    | '/_authenticated/admin/content/services/$id'
     | '/_authenticated/admin/crm/companies/$id'
     | '/_authenticated/admin/crm/leads/$id'
     | '/_authenticated/admin/finance/invoices/$id'
     | '/_authenticated/admin/sales/quotes/$id'
+    | '/_authenticated/admin/support/tickets/$id'
+    | '/_authenticated/admin/content/blog/'
+    | '/_authenticated/admin/content/faqs/'
+    | '/_authenticated/admin/content/pages/'
+    | '/_authenticated/admin/content/projects/'
+    | '/_authenticated/admin/content/services/'
     | '/_authenticated/admin/crm/companies/'
     | '/_authenticated/admin/crm/leads/'
     | '/_authenticated/admin/finance/invoices/'
@@ -518,6 +739,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/analytics': {
+      id: '/_authenticated/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/notifications': {
+      id: '/_authenticated/admin/notifications'
+      path: '/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/media': {
+      id: '/_authenticated/admin/content/media'
+      path: '/content/media'
+      fullPath: '/admin/content/media'
+      preLoaderRoute: typeof AuthenticatedAdminContentMediaRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/crm/activities': {
       id: '/_authenticated/admin/crm/activities'
       path: '/crm/activities'
@@ -558,6 +800,97 @@ declare module '@tanstack/react-router' {
       path: '/sales/requests'
       fullPath: '/admin/sales/requests'
       preLoaderRoute: typeof AuthenticatedAdminSalesRequestsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings/profile': {
+      id: '/_authenticated/admin/settings/profile'
+      path: '/settings/profile'
+      fullPath: '/admin/settings/profile'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsProfileRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings/roles': {
+      id: '/_authenticated/admin/settings/roles'
+      path: '/settings/roles'
+      fullPath: '/admin/settings/roles'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRolesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings/users': {
+      id: '/_authenticated/admin/settings/users'
+      path: '/settings/users'
+      fullPath: '/admin/settings/users'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/blog/': {
+      id: '/_authenticated/admin/content/blog/'
+      path: '/content/blog'
+      fullPath: '/admin/content/blog/'
+      preLoaderRoute: typeof AuthenticatedAdminContentBlogIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/blog/$id': {
+      id: '/_authenticated/admin/content/blog/$id'
+      path: '/content/blog/$id'
+      fullPath: '/admin/content/blog/$id'
+      preLoaderRoute: typeof AuthenticatedAdminContentBlogIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/faqs/': {
+      id: '/_authenticated/admin/content/faqs/'
+      path: '/content/faqs'
+      fullPath: '/admin/content/faqs/'
+      preLoaderRoute: typeof AuthenticatedAdminContentFaqsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/faqs/$id': {
+      id: '/_authenticated/admin/content/faqs/$id'
+      path: '/content/faqs/$id'
+      fullPath: '/admin/content/faqs/$id'
+      preLoaderRoute: typeof AuthenticatedAdminContentFaqsIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/pages/': {
+      id: '/_authenticated/admin/content/pages/'
+      path: '/content/pages'
+      fullPath: '/admin/content/pages/'
+      preLoaderRoute: typeof AuthenticatedAdminContentPagesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/pages/$id': {
+      id: '/_authenticated/admin/content/pages/$id'
+      path: '/content/pages/$id'
+      fullPath: '/admin/content/pages/$id'
+      preLoaderRoute: typeof AuthenticatedAdminContentPagesIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/projects/': {
+      id: '/_authenticated/admin/content/projects/'
+      path: '/content/projects'
+      fullPath: '/admin/content/projects/'
+      preLoaderRoute: typeof AuthenticatedAdminContentProjectsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/projects/$id': {
+      id: '/_authenticated/admin/content/projects/$id'
+      path: '/content/projects/$id'
+      fullPath: '/admin/content/projects/$id'
+      preLoaderRoute: typeof AuthenticatedAdminContentProjectsIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/services/': {
+      id: '/_authenticated/admin/content/services/'
+      path: '/content/services'
+      fullPath: '/admin/content/services/'
+      preLoaderRoute: typeof AuthenticatedAdminContentServicesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/services/$id': {
+      id: '/_authenticated/admin/content/services/$id'
+      path: '/content/services/$id'
+      fullPath: '/admin/content/services/$id'
+      preLoaderRoute: typeof AuthenticatedAdminContentServicesIdRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/crm/companies/': {
@@ -623,21 +956,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSupportTicketsIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/support/tickets/$id': {
+      id: '/_authenticated/admin/support/tickets/$id'
+      path: '/support/tickets/$id'
+      fullPath: '/admin/support/tickets/$id'
+      preLoaderRoute: typeof AuthenticatedAdminSupportTicketsIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminContentMediaRoute: typeof AuthenticatedAdminContentMediaRoute
   AuthenticatedAdminCrmActivitiesRoute: typeof AuthenticatedAdminCrmActivitiesRoute
   AuthenticatedAdminCrmContactsRoute: typeof AuthenticatedAdminCrmContactsRoute
   AuthenticatedAdminCrmTasksRoute: typeof AuthenticatedAdminCrmTasksRoute
   AuthenticatedAdminFinancePaymentsRoute: typeof AuthenticatedAdminFinancePaymentsRoute
   AuthenticatedAdminSalesPipelineRoute: typeof AuthenticatedAdminSalesPipelineRoute
   AuthenticatedAdminSalesRequestsRoute: typeof AuthenticatedAdminSalesRequestsRoute
+  AuthenticatedAdminSettingsProfileRoute: typeof AuthenticatedAdminSettingsProfileRoute
+  AuthenticatedAdminSettingsRolesRoute: typeof AuthenticatedAdminSettingsRolesRoute
+  AuthenticatedAdminSettingsUsersRoute: typeof AuthenticatedAdminSettingsUsersRoute
+  AuthenticatedAdminContentBlogIdRoute: typeof AuthenticatedAdminContentBlogIdRoute
+  AuthenticatedAdminContentFaqsIdRoute: typeof AuthenticatedAdminContentFaqsIdRoute
+  AuthenticatedAdminContentPagesIdRoute: typeof AuthenticatedAdminContentPagesIdRoute
+  AuthenticatedAdminContentProjectsIdRoute: typeof AuthenticatedAdminContentProjectsIdRoute
+  AuthenticatedAdminContentServicesIdRoute: typeof AuthenticatedAdminContentServicesIdRoute
   AuthenticatedAdminCrmCompaniesIdRoute: typeof AuthenticatedAdminCrmCompaniesIdRoute
   AuthenticatedAdminCrmLeadsIdRoute: typeof AuthenticatedAdminCrmLeadsIdRoute
   AuthenticatedAdminFinanceInvoicesIdRoute: typeof AuthenticatedAdminFinanceInvoicesIdRoute
   AuthenticatedAdminSalesQuotesIdRoute: typeof AuthenticatedAdminSalesQuotesIdRoute
+  AuthenticatedAdminSupportTicketsIdRoute: typeof AuthenticatedAdminSupportTicketsIdRoute
+  AuthenticatedAdminContentBlogIndexRoute: typeof AuthenticatedAdminContentBlogIndexRoute
+  AuthenticatedAdminContentFaqsIndexRoute: typeof AuthenticatedAdminContentFaqsIndexRoute
+  AuthenticatedAdminContentPagesIndexRoute: typeof AuthenticatedAdminContentPagesIndexRoute
+  AuthenticatedAdminContentProjectsIndexRoute: typeof AuthenticatedAdminContentProjectsIndexRoute
+  AuthenticatedAdminContentServicesIndexRoute: typeof AuthenticatedAdminContentServicesIndexRoute
   AuthenticatedAdminCrmCompaniesIndexRoute: typeof AuthenticatedAdminCrmCompaniesIndexRoute
   AuthenticatedAdminCrmLeadsIndexRoute: typeof AuthenticatedAdminCrmLeadsIndexRoute
   AuthenticatedAdminFinanceInvoicesIndexRoute: typeof AuthenticatedAdminFinanceInvoicesIndexRoute
@@ -646,7 +1003,10 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+  AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminContentMediaRoute: AuthenticatedAdminContentMediaRoute,
   AuthenticatedAdminCrmActivitiesRoute: AuthenticatedAdminCrmActivitiesRoute,
   AuthenticatedAdminCrmContactsRoute: AuthenticatedAdminCrmContactsRoute,
   AuthenticatedAdminCrmTasksRoute: AuthenticatedAdminCrmTasksRoute,
@@ -654,11 +1014,34 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
     AuthenticatedAdminFinancePaymentsRoute,
   AuthenticatedAdminSalesPipelineRoute: AuthenticatedAdminSalesPipelineRoute,
   AuthenticatedAdminSalesRequestsRoute: AuthenticatedAdminSalesRequestsRoute,
+  AuthenticatedAdminSettingsProfileRoute:
+    AuthenticatedAdminSettingsProfileRoute,
+  AuthenticatedAdminSettingsRolesRoute: AuthenticatedAdminSettingsRolesRoute,
+  AuthenticatedAdminSettingsUsersRoute: AuthenticatedAdminSettingsUsersRoute,
+  AuthenticatedAdminContentBlogIdRoute: AuthenticatedAdminContentBlogIdRoute,
+  AuthenticatedAdminContentFaqsIdRoute: AuthenticatedAdminContentFaqsIdRoute,
+  AuthenticatedAdminContentPagesIdRoute: AuthenticatedAdminContentPagesIdRoute,
+  AuthenticatedAdminContentProjectsIdRoute:
+    AuthenticatedAdminContentProjectsIdRoute,
+  AuthenticatedAdminContentServicesIdRoute:
+    AuthenticatedAdminContentServicesIdRoute,
   AuthenticatedAdminCrmCompaniesIdRoute: AuthenticatedAdminCrmCompaniesIdRoute,
   AuthenticatedAdminCrmLeadsIdRoute: AuthenticatedAdminCrmLeadsIdRoute,
   AuthenticatedAdminFinanceInvoicesIdRoute:
     AuthenticatedAdminFinanceInvoicesIdRoute,
   AuthenticatedAdminSalesQuotesIdRoute: AuthenticatedAdminSalesQuotesIdRoute,
+  AuthenticatedAdminSupportTicketsIdRoute:
+    AuthenticatedAdminSupportTicketsIdRoute,
+  AuthenticatedAdminContentBlogIndexRoute:
+    AuthenticatedAdminContentBlogIndexRoute,
+  AuthenticatedAdminContentFaqsIndexRoute:
+    AuthenticatedAdminContentFaqsIndexRoute,
+  AuthenticatedAdminContentPagesIndexRoute:
+    AuthenticatedAdminContentPagesIndexRoute,
+  AuthenticatedAdminContentProjectsIndexRoute:
+    AuthenticatedAdminContentProjectsIndexRoute,
+  AuthenticatedAdminContentServicesIndexRoute:
+    AuthenticatedAdminContentServicesIndexRoute,
   AuthenticatedAdminCrmCompaniesIndexRoute:
     AuthenticatedAdminCrmCompaniesIndexRoute,
   AuthenticatedAdminCrmLeadsIndexRoute: AuthenticatedAdminCrmLeadsIndexRoute,
