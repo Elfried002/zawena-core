@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 import { BRAND } from "@/content/site";
 import { cn } from "@/lib/utils";
-import markUrl from "@/assets/zawena-mark.png";
+import markUrl from "@/assets/zawena-mark-128.png";
 
 /** Marque Zawena : logo officiel + nom, réutilisé navbar / footer. */
 export function BrandMark({ className, size = 32 }: { className?: string; size?: number }) {
