@@ -2686,6 +2686,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      count_active_super_admins: { Args: never; Returns: number }
       has_permission: {
         Args: { _permission: string; _user_id: string }
         Returns: boolean
