@@ -28,7 +28,9 @@ import { Route as AuthenticatedAdminCrmActivitiesRouteImport } from './routes/_a
 import { Route as AuthenticatedAdminCrmContactsRouteImport } from './routes/_authenticated/admin/crm.contacts'
 import { Route as AuthenticatedAdminCrmTasksRouteImport } from './routes/_authenticated/admin/crm.tasks'
 import { Route as AuthenticatedAdminCrmCompaniesIndexRouteImport } from './routes/_authenticated/admin/crm.companies.index'
+import { Route as AuthenticatedAdminCrmCompaniesIdRouteImport } from './routes/_authenticated/admin/crm.companies.$id'
 import { Route as AuthenticatedAdminCrmLeadsIndexRouteImport } from './routes/_authenticated/admin/crm.leads.index'
+import { Route as AuthenticatedAdminCrmLeadsIdRouteImport } from './routes/_authenticated/admin/crm.leads.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -128,10 +130,22 @@ const AuthenticatedAdminCrmCompaniesIndexRoute =
     path: '/crm/companies/',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminCrmCompaniesIdRoute =
+  AuthenticatedAdminCrmCompaniesIdRouteImport.update({
+    id: '/crm/companies/$id',
+    path: '/crm/companies/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCrmLeadsIndexRoute =
   AuthenticatedAdminCrmLeadsIndexRouteImport.update({
     id: '/crm/leads/',
     path: '/crm/leads/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmLeadsIdRoute =
+  AuthenticatedAdminCrmLeadsIdRouteImport.update({
+    id: '/crm/leads/$id',
+    path: '/crm/leads/$id',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 
@@ -153,6 +167,8 @@ export interface FileRoutesByFullPath {
   '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
+  '/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
 }
@@ -173,6 +189,8 @@ export interface FileRoutesByTo {
   '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
+  '/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/admin/crm/companies': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/admin/crm/leads': typeof AuthenticatedAdminCrmLeadsIndexRoute
 }
@@ -196,6 +214,8 @@ export interface FileRoutesById {
   '/_authenticated/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/_authenticated/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/_authenticated/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/_authenticated/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
+  '/_authenticated/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/_authenticated/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/_authenticated/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
 }
@@ -219,6 +239,8 @@ export interface FileRouteTypes {
     | '/admin/crm/activities'
     | '/admin/crm/contacts'
     | '/admin/crm/tasks'
+    | '/admin/crm/companies/$id'
+    | '/admin/crm/leads/$id'
     | '/admin/crm/companies/'
     | '/admin/crm/leads/'
   fileRoutesByTo: FileRoutesByTo
@@ -239,6 +261,8 @@ export interface FileRouteTypes {
     | '/admin/crm/activities'
     | '/admin/crm/contacts'
     | '/admin/crm/tasks'
+    | '/admin/crm/companies/$id'
+    | '/admin/crm/leads/$id'
     | '/admin/crm/companies'
     | '/admin/crm/leads'
   id:
@@ -261,6 +285,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/crm/activities'
     | '/_authenticated/admin/crm/contacts'
     | '/_authenticated/admin/crm/tasks'
+    | '/_authenticated/admin/crm/companies/$id'
+    | '/_authenticated/admin/crm/leads/$id'
     | '/_authenticated/admin/crm/companies/'
     | '/_authenticated/admin/crm/leads/'
   fileRoutesById: FileRoutesById
@@ -416,11 +442,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCrmCompaniesIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/crm/companies/$id': {
+      id: '/_authenticated/admin/crm/companies/$id'
+      path: '/crm/companies/$id'
+      fullPath: '/admin/crm/companies/$id'
+      preLoaderRoute: typeof AuthenticatedAdminCrmCompaniesIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/crm/leads/': {
       id: '/_authenticated/admin/crm/leads/'
       path: '/crm/leads'
       fullPath: '/admin/crm/leads/'
       preLoaderRoute: typeof AuthenticatedAdminCrmLeadsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/leads/$id': {
+      id: '/_authenticated/admin/crm/leads/$id'
+      path: '/crm/leads/$id'
+      fullPath: '/admin/crm/leads/$id'
+      preLoaderRoute: typeof AuthenticatedAdminCrmLeadsIdRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
   }
@@ -431,6 +471,8 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCrmActivitiesRoute: typeof AuthenticatedAdminCrmActivitiesRoute
   AuthenticatedAdminCrmContactsRoute: typeof AuthenticatedAdminCrmContactsRoute
   AuthenticatedAdminCrmTasksRoute: typeof AuthenticatedAdminCrmTasksRoute
+  AuthenticatedAdminCrmCompaniesIdRoute: typeof AuthenticatedAdminCrmCompaniesIdRoute
+  AuthenticatedAdminCrmLeadsIdRoute: typeof AuthenticatedAdminCrmLeadsIdRoute
   AuthenticatedAdminCrmCompaniesIndexRoute: typeof AuthenticatedAdminCrmCompaniesIndexRoute
   AuthenticatedAdminCrmLeadsIndexRoute: typeof AuthenticatedAdminCrmLeadsIndexRoute
 }
@@ -440,6 +482,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCrmActivitiesRoute: AuthenticatedAdminCrmActivitiesRoute,
   AuthenticatedAdminCrmContactsRoute: AuthenticatedAdminCrmContactsRoute,
   AuthenticatedAdminCrmTasksRoute: AuthenticatedAdminCrmTasksRoute,
+  AuthenticatedAdminCrmCompaniesIdRoute: AuthenticatedAdminCrmCompaniesIdRoute,
+  AuthenticatedAdminCrmLeadsIdRoute: AuthenticatedAdminCrmLeadsIdRoute,
   AuthenticatedAdminCrmCompaniesIndexRoute:
     AuthenticatedAdminCrmCompaniesIndexRoute,
   AuthenticatedAdminCrmLeadsIndexRoute: AuthenticatedAdminCrmLeadsIndexRoute,
