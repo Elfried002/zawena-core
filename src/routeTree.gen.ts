@@ -27,10 +27,16 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminCrmActivitiesRouteImport } from './routes/_authenticated/admin/crm.activities'
 import { Route as AuthenticatedAdminCrmContactsRouteImport } from './routes/_authenticated/admin/crm.contacts'
 import { Route as AuthenticatedAdminCrmTasksRouteImport } from './routes/_authenticated/admin/crm.tasks'
+import { Route as AuthenticatedAdminFinancePaymentsRouteImport } from './routes/_authenticated/admin/finance.payments'
+import { Route as AuthenticatedAdminSalesPipelineRouteImport } from './routes/_authenticated/admin/sales.pipeline'
+import { Route as AuthenticatedAdminSalesRequestsRouteImport } from './routes/_authenticated/admin/sales.requests'
 import { Route as AuthenticatedAdminCrmCompaniesIndexRouteImport } from './routes/_authenticated/admin/crm.companies.index'
 import { Route as AuthenticatedAdminCrmCompaniesIdRouteImport } from './routes/_authenticated/admin/crm.companies.$id'
 import { Route as AuthenticatedAdminCrmLeadsIndexRouteImport } from './routes/_authenticated/admin/crm.leads.index'
 import { Route as AuthenticatedAdminCrmLeadsIdRouteImport } from './routes/_authenticated/admin/crm.leads.$id'
+import { Route as AuthenticatedAdminFinanceInvoicesIndexRouteImport } from './routes/_authenticated/admin/finance.invoices.index'
+import { Route as AuthenticatedAdminSalesQuotesIndexRouteImport } from './routes/_authenticated/admin/sales.quotes.index'
+import { Route as AuthenticatedAdminSupportTicketsIndexRouteImport } from './routes/_authenticated/admin/support.tickets.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -124,6 +130,24 @@ const AuthenticatedAdminCrmTasksRoute =
     path: '/crm/tasks',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminFinancePaymentsRoute =
+  AuthenticatedAdminFinancePaymentsRouteImport.update({
+    id: '/finance/payments',
+    path: '/finance/payments',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSalesPipelineRoute =
+  AuthenticatedAdminSalesPipelineRouteImport.update({
+    id: '/sales/pipeline',
+    path: '/sales/pipeline',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSalesRequestsRoute =
+  AuthenticatedAdminSalesRequestsRouteImport.update({
+    id: '/sales/requests',
+    path: '/sales/requests',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCrmCompaniesIndexRoute =
   AuthenticatedAdminCrmCompaniesIndexRouteImport.update({
     id: '/crm/companies/',
@@ -148,6 +172,24 @@ const AuthenticatedAdminCrmLeadsIdRoute =
     path: '/crm/leads/$id',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminFinanceInvoicesIndexRoute =
+  AuthenticatedAdminFinanceInvoicesIndexRouteImport.update({
+    id: '/finance/invoices/',
+    path: '/finance/invoices/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSalesQuotesIndexRoute =
+  AuthenticatedAdminSalesQuotesIndexRouteImport.update({
+    id: '/sales/quotes/',
+    path: '/sales/quotes/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSupportTicketsIndexRoute =
+  AuthenticatedAdminSupportTicketsIndexRouteImport.update({
+    id: '/support/tickets/',
+    path: '/support/tickets/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -167,10 +209,16 @@ export interface FileRoutesByFullPath {
   '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
+  '/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
+  '/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
   '/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
   '/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
+  '/admin/finance/invoices/': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
+  '/admin/sales/quotes/': typeof AuthenticatedAdminSalesQuotesIndexRoute
+  '/admin/support/tickets/': typeof AuthenticatedAdminSupportTicketsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -189,10 +237,16 @@ export interface FileRoutesByTo {
   '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
+  '/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
+  '/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
   '/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
   '/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/admin/crm/companies': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/admin/crm/leads': typeof AuthenticatedAdminCrmLeadsIndexRoute
+  '/admin/finance/invoices': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
+  '/admin/sales/quotes': typeof AuthenticatedAdminSalesQuotesIndexRoute
+  '/admin/support/tickets': typeof AuthenticatedAdminSupportTicketsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -214,10 +268,16 @@ export interface FileRoutesById {
   '/_authenticated/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/_authenticated/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/_authenticated/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/_authenticated/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
+  '/_authenticated/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
+  '/_authenticated/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
   '/_authenticated/admin/crm/companies/$id': typeof AuthenticatedAdminCrmCompaniesIdRoute
   '/_authenticated/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/_authenticated/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/_authenticated/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
+  '/_authenticated/admin/finance/invoices/': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
+  '/_authenticated/admin/sales/quotes/': typeof AuthenticatedAdminSalesQuotesIndexRoute
+  '/_authenticated/admin/support/tickets/': typeof AuthenticatedAdminSupportTicketsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -239,10 +299,16 @@ export interface FileRouteTypes {
     | '/admin/crm/activities'
     | '/admin/crm/contacts'
     | '/admin/crm/tasks'
+    | '/admin/finance/payments'
+    | '/admin/sales/pipeline'
+    | '/admin/sales/requests'
     | '/admin/crm/companies/$id'
     | '/admin/crm/leads/$id'
     | '/admin/crm/companies/'
     | '/admin/crm/leads/'
+    | '/admin/finance/invoices/'
+    | '/admin/sales/quotes/'
+    | '/admin/support/tickets/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -261,10 +327,16 @@ export interface FileRouteTypes {
     | '/admin/crm/activities'
     | '/admin/crm/contacts'
     | '/admin/crm/tasks'
+    | '/admin/finance/payments'
+    | '/admin/sales/pipeline'
+    | '/admin/sales/requests'
     | '/admin/crm/companies/$id'
     | '/admin/crm/leads/$id'
     | '/admin/crm/companies'
     | '/admin/crm/leads'
+    | '/admin/finance/invoices'
+    | '/admin/sales/quotes'
+    | '/admin/support/tickets'
   id:
     | '__root__'
     | '/'
@@ -285,10 +357,16 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/crm/activities'
     | '/_authenticated/admin/crm/contacts'
     | '/_authenticated/admin/crm/tasks'
+    | '/_authenticated/admin/finance/payments'
+    | '/_authenticated/admin/sales/pipeline'
+    | '/_authenticated/admin/sales/requests'
     | '/_authenticated/admin/crm/companies/$id'
     | '/_authenticated/admin/crm/leads/$id'
     | '/_authenticated/admin/crm/companies/'
     | '/_authenticated/admin/crm/leads/'
+    | '/_authenticated/admin/finance/invoices/'
+    | '/_authenticated/admin/sales/quotes/'
+    | '/_authenticated/admin/support/tickets/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -435,6 +513,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCrmTasksRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/finance/payments': {
+      id: '/_authenticated/admin/finance/payments'
+      path: '/finance/payments'
+      fullPath: '/admin/finance/payments'
+      preLoaderRoute: typeof AuthenticatedAdminFinancePaymentsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/sales/pipeline': {
+      id: '/_authenticated/admin/sales/pipeline'
+      path: '/sales/pipeline'
+      fullPath: '/admin/sales/pipeline'
+      preLoaderRoute: typeof AuthenticatedAdminSalesPipelineRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/sales/requests': {
+      id: '/_authenticated/admin/sales/requests'
+      path: '/sales/requests'
+      fullPath: '/admin/sales/requests'
+      preLoaderRoute: typeof AuthenticatedAdminSalesRequestsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/crm/companies/': {
       id: '/_authenticated/admin/crm/companies/'
       path: '/crm/companies'
@@ -463,6 +562,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCrmLeadsIdRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/finance/invoices/': {
+      id: '/_authenticated/admin/finance/invoices/'
+      path: '/finance/invoices'
+      fullPath: '/admin/finance/invoices/'
+      preLoaderRoute: typeof AuthenticatedAdminFinanceInvoicesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/sales/quotes/': {
+      id: '/_authenticated/admin/sales/quotes/'
+      path: '/sales/quotes'
+      fullPath: '/admin/sales/quotes/'
+      preLoaderRoute: typeof AuthenticatedAdminSalesQuotesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/support/tickets/': {
+      id: '/_authenticated/admin/support/tickets/'
+      path: '/support/tickets'
+      fullPath: '/admin/support/tickets/'
+      preLoaderRoute: typeof AuthenticatedAdminSupportTicketsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
@@ -471,10 +591,16 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCrmActivitiesRoute: typeof AuthenticatedAdminCrmActivitiesRoute
   AuthenticatedAdminCrmContactsRoute: typeof AuthenticatedAdminCrmContactsRoute
   AuthenticatedAdminCrmTasksRoute: typeof AuthenticatedAdminCrmTasksRoute
+  AuthenticatedAdminFinancePaymentsRoute: typeof AuthenticatedAdminFinancePaymentsRoute
+  AuthenticatedAdminSalesPipelineRoute: typeof AuthenticatedAdminSalesPipelineRoute
+  AuthenticatedAdminSalesRequestsRoute: typeof AuthenticatedAdminSalesRequestsRoute
   AuthenticatedAdminCrmCompaniesIdRoute: typeof AuthenticatedAdminCrmCompaniesIdRoute
   AuthenticatedAdminCrmLeadsIdRoute: typeof AuthenticatedAdminCrmLeadsIdRoute
   AuthenticatedAdminCrmCompaniesIndexRoute: typeof AuthenticatedAdminCrmCompaniesIndexRoute
   AuthenticatedAdminCrmLeadsIndexRoute: typeof AuthenticatedAdminCrmLeadsIndexRoute
+  AuthenticatedAdminFinanceInvoicesIndexRoute: typeof AuthenticatedAdminFinanceInvoicesIndexRoute
+  AuthenticatedAdminSalesQuotesIndexRoute: typeof AuthenticatedAdminSalesQuotesIndexRoute
+  AuthenticatedAdminSupportTicketsIndexRoute: typeof AuthenticatedAdminSupportTicketsIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
@@ -482,11 +608,21 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCrmActivitiesRoute: AuthenticatedAdminCrmActivitiesRoute,
   AuthenticatedAdminCrmContactsRoute: AuthenticatedAdminCrmContactsRoute,
   AuthenticatedAdminCrmTasksRoute: AuthenticatedAdminCrmTasksRoute,
+  AuthenticatedAdminFinancePaymentsRoute:
+    AuthenticatedAdminFinancePaymentsRoute,
+  AuthenticatedAdminSalesPipelineRoute: AuthenticatedAdminSalesPipelineRoute,
+  AuthenticatedAdminSalesRequestsRoute: AuthenticatedAdminSalesRequestsRoute,
   AuthenticatedAdminCrmCompaniesIdRoute: AuthenticatedAdminCrmCompaniesIdRoute,
   AuthenticatedAdminCrmLeadsIdRoute: AuthenticatedAdminCrmLeadsIdRoute,
   AuthenticatedAdminCrmCompaniesIndexRoute:
     AuthenticatedAdminCrmCompaniesIndexRoute,
   AuthenticatedAdminCrmLeadsIndexRoute: AuthenticatedAdminCrmLeadsIndexRoute,
+  AuthenticatedAdminFinanceInvoicesIndexRoute:
+    AuthenticatedAdminFinanceInvoicesIndexRoute,
+  AuthenticatedAdminSalesQuotesIndexRoute:
+    AuthenticatedAdminSalesQuotesIndexRoute,
+  AuthenticatedAdminSupportTicketsIndexRoute:
+    AuthenticatedAdminSupportTicketsIndexRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
