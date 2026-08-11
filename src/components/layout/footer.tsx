@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Mail } from "lucide-react";
 
+import { BrandMark } from "@/components/common/brand";
 import { Container } from "@/components/common/layout-primitives";
 import { BRAND, FOOTER_COLUMNS } from "@/content/site";
 import type { PublicService } from "@/services/public/public.types";
@@ -12,9 +13,7 @@ export function Footer({ services = [] }: { services?: PublicService[] }) {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div className="max-w-sm">
             <div className="flex items-center gap-2.5">
-              <span className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-violet font-display text-sm font-bold text-primary-foreground">
-                Z
-              </span>
+              <BrandMark size={32} />
               <span className="font-display text-lg font-semibold">{BRAND.name}</span>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{BRAND.promise}</p>
