@@ -556,7 +556,7 @@ export async function contentDetail(ctx: ServiceContext, entity: CmsEntity, id: 
     tagIds = (data ?? []).map((r: { tag_id: string }) => r.tag_id);
   }
 
-  return { row: row as Record<string, unknown>, technologyIds, tagIds };
+  return { row: row as Record<string, any>, technologyIds, tagIds };
 }
 
 /** Référentiels partagés par les écrans CMS (technos, catégories, tags, services). */

@@ -33,6 +33,9 @@ import { Route as AuthenticatedAdminCrmTasksRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminFinancePaymentsRouteImport } from './routes/_authenticated/admin/finance.payments'
 import { Route as AuthenticatedAdminSalesPipelineRouteImport } from './routes/_authenticated/admin/sales.pipeline'
 import { Route as AuthenticatedAdminSalesRequestsRouteImport } from './routes/_authenticated/admin/sales.requests'
+import { Route as AuthenticatedAdminSettingsProfileRouteImport } from './routes/_authenticated/admin/settings.profile'
+import { Route as AuthenticatedAdminSettingsRolesRouteImport } from './routes/_authenticated/admin/settings.roles'
+import { Route as AuthenticatedAdminSettingsUsersRouteImport } from './routes/_authenticated/admin/settings.users'
 import { Route as AuthenticatedAdminContentBlogIndexRouteImport } from './routes/_authenticated/admin/content.blog.index'
 import { Route as AuthenticatedAdminContentBlogIdRouteImport } from './routes/_authenticated/admin/content.blog.$id'
 import { Route as AuthenticatedAdminContentFaqsIndexRouteImport } from './routes/_authenticated/admin/content.faqs.index'
@@ -182,6 +185,24 @@ const AuthenticatedAdminSalesRequestsRoute =
     path: '/sales/requests',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminSettingsProfileRoute =
+  AuthenticatedAdminSettingsProfileRouteImport.update({
+    id: '/settings/profile',
+    path: '/settings/profile',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsRolesRoute =
+  AuthenticatedAdminSettingsRolesRouteImport.update({
+    id: '/settings/roles',
+    path: '/settings/roles',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsUsersRoute =
+  AuthenticatedAdminSettingsUsersRouteImport.update({
+    id: '/settings/users',
+    path: '/settings/users',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminContentBlogIndexRoute =
   AuthenticatedAdminContentBlogIndexRouteImport.update({
     id: '/content/blog/',
@@ -327,6 +348,9 @@ export interface FileRoutesByFullPath {
   '/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
   '/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
   '/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
+  '/admin/settings/profile': typeof AuthenticatedAdminSettingsProfileRoute
+  '/admin/settings/roles': typeof AuthenticatedAdminSettingsRolesRoute
+  '/admin/settings/users': typeof AuthenticatedAdminSettingsUsersRoute
   '/admin/content/blog/$id': typeof AuthenticatedAdminContentBlogIdRoute
   '/admin/content/faqs/$id': typeof AuthenticatedAdminContentFaqsIdRoute
   '/admin/content/pages/$id': typeof AuthenticatedAdminContentPagesIdRoute
@@ -371,6 +395,9 @@ export interface FileRoutesByTo {
   '/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
   '/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
   '/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
+  '/admin/settings/profile': typeof AuthenticatedAdminSettingsProfileRoute
+  '/admin/settings/roles': typeof AuthenticatedAdminSettingsRolesRoute
+  '/admin/settings/users': typeof AuthenticatedAdminSettingsUsersRoute
   '/admin/content/blog/$id': typeof AuthenticatedAdminContentBlogIdRoute
   '/admin/content/faqs/$id': typeof AuthenticatedAdminContentFaqsIdRoute
   '/admin/content/pages/$id': typeof AuthenticatedAdminContentPagesIdRoute
@@ -418,6 +445,9 @@ export interface FileRoutesById {
   '/_authenticated/admin/finance/payments': typeof AuthenticatedAdminFinancePaymentsRoute
   '/_authenticated/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
   '/_authenticated/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
+  '/_authenticated/admin/settings/profile': typeof AuthenticatedAdminSettingsProfileRoute
+  '/_authenticated/admin/settings/roles': typeof AuthenticatedAdminSettingsRolesRoute
+  '/_authenticated/admin/settings/users': typeof AuthenticatedAdminSettingsUsersRoute
   '/_authenticated/admin/content/blog/$id': typeof AuthenticatedAdminContentBlogIdRoute
   '/_authenticated/admin/content/faqs/$id': typeof AuthenticatedAdminContentFaqsIdRoute
   '/_authenticated/admin/content/pages/$id': typeof AuthenticatedAdminContentPagesIdRoute
@@ -465,6 +495,9 @@ export interface FileRouteTypes {
     | '/admin/finance/payments'
     | '/admin/sales/pipeline'
     | '/admin/sales/requests'
+    | '/admin/settings/profile'
+    | '/admin/settings/roles'
+    | '/admin/settings/users'
     | '/admin/content/blog/$id'
     | '/admin/content/faqs/$id'
     | '/admin/content/pages/$id'
@@ -509,6 +542,9 @@ export interface FileRouteTypes {
     | '/admin/finance/payments'
     | '/admin/sales/pipeline'
     | '/admin/sales/requests'
+    | '/admin/settings/profile'
+    | '/admin/settings/roles'
+    | '/admin/settings/users'
     | '/admin/content/blog/$id'
     | '/admin/content/faqs/$id'
     | '/admin/content/pages/$id'
@@ -555,6 +591,9 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/finance/payments'
     | '/_authenticated/admin/sales/pipeline'
     | '/_authenticated/admin/sales/requests'
+    | '/_authenticated/admin/settings/profile'
+    | '/_authenticated/admin/settings/roles'
+    | '/_authenticated/admin/settings/users'
     | '/_authenticated/admin/content/blog/$id'
     | '/_authenticated/admin/content/faqs/$id'
     | '/_authenticated/admin/content/pages/$id'
@@ -763,6 +802,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSalesRequestsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/settings/profile': {
+      id: '/_authenticated/admin/settings/profile'
+      path: '/settings/profile'
+      fullPath: '/admin/settings/profile'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsProfileRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings/roles': {
+      id: '/_authenticated/admin/settings/roles'
+      path: '/settings/roles'
+      fullPath: '/admin/settings/roles'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRolesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings/users': {
+      id: '/_authenticated/admin/settings/users'
+      path: '/settings/users'
+      fullPath: '/admin/settings/users'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/content/blog/': {
       id: '/_authenticated/admin/content/blog/'
       path: '/content/blog'
@@ -917,6 +977,9 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminFinancePaymentsRoute: typeof AuthenticatedAdminFinancePaymentsRoute
   AuthenticatedAdminSalesPipelineRoute: typeof AuthenticatedAdminSalesPipelineRoute
   AuthenticatedAdminSalesRequestsRoute: typeof AuthenticatedAdminSalesRequestsRoute
+  AuthenticatedAdminSettingsProfileRoute: typeof AuthenticatedAdminSettingsProfileRoute
+  AuthenticatedAdminSettingsRolesRoute: typeof AuthenticatedAdminSettingsRolesRoute
+  AuthenticatedAdminSettingsUsersRoute: typeof AuthenticatedAdminSettingsUsersRoute
   AuthenticatedAdminContentBlogIdRoute: typeof AuthenticatedAdminContentBlogIdRoute
   AuthenticatedAdminContentFaqsIdRoute: typeof AuthenticatedAdminContentFaqsIdRoute
   AuthenticatedAdminContentPagesIdRoute: typeof AuthenticatedAdminContentPagesIdRoute
@@ -951,6 +1014,10 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
     AuthenticatedAdminFinancePaymentsRoute,
   AuthenticatedAdminSalesPipelineRoute: AuthenticatedAdminSalesPipelineRoute,
   AuthenticatedAdminSalesRequestsRoute: AuthenticatedAdminSalesRequestsRoute,
+  AuthenticatedAdminSettingsProfileRoute:
+    AuthenticatedAdminSettingsProfileRoute,
+  AuthenticatedAdminSettingsRolesRoute: AuthenticatedAdminSettingsRolesRoute,
+  AuthenticatedAdminSettingsUsersRoute: AuthenticatedAdminSettingsUsersRoute,
   AuthenticatedAdminContentBlogIdRoute: AuthenticatedAdminContentBlogIdRoute,
   AuthenticatedAdminContentFaqsIdRoute: AuthenticatedAdminContentFaqsIdRoute,
   AuthenticatedAdminContentPagesIdRoute: AuthenticatedAdminContentPagesIdRoute,
@@ -1018,3 +1085,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
