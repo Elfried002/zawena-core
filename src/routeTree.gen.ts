@@ -24,6 +24,7 @@ import { Route as PortfolioSlugRouteImport } from './routes/portfolio.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminContentMediaRouteImport } from './routes/_authenticated/admin/content.media'
 import { Route as AuthenticatedAdminCrmActivitiesRouteImport } from './routes/_authenticated/admin/crm.activities'
 import { Route as AuthenticatedAdminCrmContactsRouteImport } from './routes/_authenticated/admin/crm.contacts'
 import { Route as AuthenticatedAdminCrmTasksRouteImport } from './routes/_authenticated/admin/crm.tasks'
@@ -32,6 +33,8 @@ import { Route as AuthenticatedAdminSalesPipelineRouteImport } from './routes/_a
 import { Route as AuthenticatedAdminSalesRequestsRouteImport } from './routes/_authenticated/admin/sales.requests'
 import { Route as AuthenticatedAdminContentBlogIndexRouteImport } from './routes/_authenticated/admin/content.blog.index'
 import { Route as AuthenticatedAdminContentBlogIdRouteImport } from './routes/_authenticated/admin/content.blog.$id'
+import { Route as AuthenticatedAdminContentFaqsIndexRouteImport } from './routes/_authenticated/admin/content.faqs.index'
+import { Route as AuthenticatedAdminContentFaqsIdRouteImport } from './routes/_authenticated/admin/content.faqs.$id'
 import { Route as AuthenticatedAdminContentPagesIndexRouteImport } from './routes/_authenticated/admin/content.pages.index'
 import { Route as AuthenticatedAdminContentPagesIdRouteImport } from './routes/_authenticated/admin/content.pages.$id'
 import { Route as AuthenticatedAdminContentProjectsIndexRouteImport } from './routes/_authenticated/admin/content.projects.index'
@@ -123,6 +126,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminContentMediaRoute =
+  AuthenticatedAdminContentMediaRouteImport.update({
+    id: '/content/media',
+    path: '/content/media',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCrmActivitiesRoute =
   AuthenticatedAdminCrmActivitiesRouteImport.update({
     id: '/crm/activities',
@@ -169,6 +178,18 @@ const AuthenticatedAdminContentBlogIdRoute =
   AuthenticatedAdminContentBlogIdRouteImport.update({
     id: '/content/blog/$id',
     path: '/content/blog/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentFaqsIndexRoute =
+  AuthenticatedAdminContentFaqsIndexRouteImport.update({
+    id: '/content/faqs/',
+    path: '/content/faqs/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentFaqsIdRoute =
+  AuthenticatedAdminContentFaqsIdRouteImport.update({
+    id: '/content/faqs/$id',
+    path: '/content/faqs/$id',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminContentPagesIndexRoute =
@@ -283,6 +304,7 @@ export interface FileRoutesByFullPath {
   '/portfolio/': typeof PortfolioIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/content/media': typeof AuthenticatedAdminContentMediaRoute
   '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
@@ -290,6 +312,7 @@ export interface FileRoutesByFullPath {
   '/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
   '/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
   '/admin/content/blog/$id': typeof AuthenticatedAdminContentBlogIdRoute
+  '/admin/content/faqs/$id': typeof AuthenticatedAdminContentFaqsIdRoute
   '/admin/content/pages/$id': typeof AuthenticatedAdminContentPagesIdRoute
   '/admin/content/projects/$id': typeof AuthenticatedAdminContentProjectsIdRoute
   '/admin/content/services/$id': typeof AuthenticatedAdminContentServicesIdRoute
@@ -299,6 +322,7 @@ export interface FileRoutesByFullPath {
   '/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
   '/admin/support/tickets/$id': typeof AuthenticatedAdminSupportTicketsIdRoute
   '/admin/content/blog/': typeof AuthenticatedAdminContentBlogIndexRoute
+  '/admin/content/faqs/': typeof AuthenticatedAdminContentFaqsIndexRoute
   '/admin/content/pages/': typeof AuthenticatedAdminContentPagesIndexRoute
   '/admin/content/projects/': typeof AuthenticatedAdminContentProjectsIndexRoute
   '/admin/content/services/': typeof AuthenticatedAdminContentServicesIndexRoute
@@ -322,6 +346,7 @@ export interface FileRoutesByTo {
   '/portfolio': typeof PortfolioIndexRoute
   '/services': typeof ServicesIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/content/media': typeof AuthenticatedAdminContentMediaRoute
   '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
@@ -329,6 +354,7 @@ export interface FileRoutesByTo {
   '/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
   '/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
   '/admin/content/blog/$id': typeof AuthenticatedAdminContentBlogIdRoute
+  '/admin/content/faqs/$id': typeof AuthenticatedAdminContentFaqsIdRoute
   '/admin/content/pages/$id': typeof AuthenticatedAdminContentPagesIdRoute
   '/admin/content/projects/$id': typeof AuthenticatedAdminContentProjectsIdRoute
   '/admin/content/services/$id': typeof AuthenticatedAdminContentServicesIdRoute
@@ -338,6 +364,7 @@ export interface FileRoutesByTo {
   '/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
   '/admin/support/tickets/$id': typeof AuthenticatedAdminSupportTicketsIdRoute
   '/admin/content/blog': typeof AuthenticatedAdminContentBlogIndexRoute
+  '/admin/content/faqs': typeof AuthenticatedAdminContentFaqsIndexRoute
   '/admin/content/pages': typeof AuthenticatedAdminContentPagesIndexRoute
   '/admin/content/projects': typeof AuthenticatedAdminContentProjectsIndexRoute
   '/admin/content/services': typeof AuthenticatedAdminContentServicesIndexRoute
@@ -364,6 +391,7 @@ export interface FileRoutesById {
   '/portfolio/': typeof PortfolioIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/content/media': typeof AuthenticatedAdminContentMediaRoute
   '/_authenticated/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
   '/_authenticated/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
   '/_authenticated/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
@@ -371,6 +399,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/sales/pipeline': typeof AuthenticatedAdminSalesPipelineRoute
   '/_authenticated/admin/sales/requests': typeof AuthenticatedAdminSalesRequestsRoute
   '/_authenticated/admin/content/blog/$id': typeof AuthenticatedAdminContentBlogIdRoute
+  '/_authenticated/admin/content/faqs/$id': typeof AuthenticatedAdminContentFaqsIdRoute
   '/_authenticated/admin/content/pages/$id': typeof AuthenticatedAdminContentPagesIdRoute
   '/_authenticated/admin/content/projects/$id': typeof AuthenticatedAdminContentProjectsIdRoute
   '/_authenticated/admin/content/services/$id': typeof AuthenticatedAdminContentServicesIdRoute
@@ -380,6 +409,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
   '/_authenticated/admin/support/tickets/$id': typeof AuthenticatedAdminSupportTicketsIdRoute
   '/_authenticated/admin/content/blog/': typeof AuthenticatedAdminContentBlogIndexRoute
+  '/_authenticated/admin/content/faqs/': typeof AuthenticatedAdminContentFaqsIndexRoute
   '/_authenticated/admin/content/pages/': typeof AuthenticatedAdminContentPagesIndexRoute
   '/_authenticated/admin/content/projects/': typeof AuthenticatedAdminContentProjectsIndexRoute
   '/_authenticated/admin/content/services/': typeof AuthenticatedAdminContentServicesIndexRoute
@@ -406,6 +436,7 @@ export interface FileRouteTypes {
     | '/portfolio/'
     | '/services/'
     | '/admin/'
+    | '/admin/content/media'
     | '/admin/crm/activities'
     | '/admin/crm/contacts'
     | '/admin/crm/tasks'
@@ -413,6 +444,7 @@ export interface FileRouteTypes {
     | '/admin/sales/pipeline'
     | '/admin/sales/requests'
     | '/admin/content/blog/$id'
+    | '/admin/content/faqs/$id'
     | '/admin/content/pages/$id'
     | '/admin/content/projects/$id'
     | '/admin/content/services/$id'
@@ -422,6 +454,7 @@ export interface FileRouteTypes {
     | '/admin/sales/quotes/$id'
     | '/admin/support/tickets/$id'
     | '/admin/content/blog/'
+    | '/admin/content/faqs/'
     | '/admin/content/pages/'
     | '/admin/content/projects/'
     | '/admin/content/services/'
@@ -445,6 +478,7 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/services'
     | '/admin'
+    | '/admin/content/media'
     | '/admin/crm/activities'
     | '/admin/crm/contacts'
     | '/admin/crm/tasks'
@@ -452,6 +486,7 @@ export interface FileRouteTypes {
     | '/admin/sales/pipeline'
     | '/admin/sales/requests'
     | '/admin/content/blog/$id'
+    | '/admin/content/faqs/$id'
     | '/admin/content/pages/$id'
     | '/admin/content/projects/$id'
     | '/admin/content/services/$id'
@@ -461,6 +496,7 @@ export interface FileRouteTypes {
     | '/admin/sales/quotes/$id'
     | '/admin/support/tickets/$id'
     | '/admin/content/blog'
+    | '/admin/content/faqs'
     | '/admin/content/pages'
     | '/admin/content/projects'
     | '/admin/content/services'
@@ -486,6 +522,7 @@ export interface FileRouteTypes {
     | '/portfolio/'
     | '/services/'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/content/media'
     | '/_authenticated/admin/crm/activities'
     | '/_authenticated/admin/crm/contacts'
     | '/_authenticated/admin/crm/tasks'
@@ -493,6 +530,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/sales/pipeline'
     | '/_authenticated/admin/sales/requests'
     | '/_authenticated/admin/content/blog/$id'
+    | '/_authenticated/admin/content/faqs/$id'
     | '/_authenticated/admin/content/pages/$id'
     | '/_authenticated/admin/content/projects/$id'
     | '/_authenticated/admin/content/services/$id'
@@ -502,6 +540,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/sales/quotes/$id'
     | '/_authenticated/admin/support/tickets/$id'
     | '/_authenticated/admin/content/blog/'
+    | '/_authenticated/admin/content/faqs/'
     | '/_authenticated/admin/content/pages/'
     | '/_authenticated/admin/content/projects/'
     | '/_authenticated/admin/content/services/'
@@ -635,6 +674,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/content/media': {
+      id: '/_authenticated/admin/content/media'
+      path: '/content/media'
+      fullPath: '/admin/content/media'
+      preLoaderRoute: typeof AuthenticatedAdminContentMediaRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/crm/activities': {
       id: '/_authenticated/admin/crm/activities'
       path: '/crm/activities'
@@ -689,6 +735,20 @@ declare module '@tanstack/react-router' {
       path: '/content/blog/$id'
       fullPath: '/admin/content/blog/$id'
       preLoaderRoute: typeof AuthenticatedAdminContentBlogIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/faqs/': {
+      id: '/_authenticated/admin/content/faqs/'
+      path: '/content/faqs'
+      fullPath: '/admin/content/faqs/'
+      preLoaderRoute: typeof AuthenticatedAdminContentFaqsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content/faqs/$id': {
+      id: '/_authenticated/admin/content/faqs/$id'
+      path: '/content/faqs/$id'
+      fullPath: '/admin/content/faqs/$id'
+      preLoaderRoute: typeof AuthenticatedAdminContentFaqsIdRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/content/pages/': {
@@ -808,6 +868,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminContentMediaRoute: typeof AuthenticatedAdminContentMediaRoute
   AuthenticatedAdminCrmActivitiesRoute: typeof AuthenticatedAdminCrmActivitiesRoute
   AuthenticatedAdminCrmContactsRoute: typeof AuthenticatedAdminCrmContactsRoute
   AuthenticatedAdminCrmTasksRoute: typeof AuthenticatedAdminCrmTasksRoute
@@ -815,6 +876,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminSalesPipelineRoute: typeof AuthenticatedAdminSalesPipelineRoute
   AuthenticatedAdminSalesRequestsRoute: typeof AuthenticatedAdminSalesRequestsRoute
   AuthenticatedAdminContentBlogIdRoute: typeof AuthenticatedAdminContentBlogIdRoute
+  AuthenticatedAdminContentFaqsIdRoute: typeof AuthenticatedAdminContentFaqsIdRoute
   AuthenticatedAdminContentPagesIdRoute: typeof AuthenticatedAdminContentPagesIdRoute
   AuthenticatedAdminContentProjectsIdRoute: typeof AuthenticatedAdminContentProjectsIdRoute
   AuthenticatedAdminContentServicesIdRoute: typeof AuthenticatedAdminContentServicesIdRoute
@@ -824,6 +886,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminSalesQuotesIdRoute: typeof AuthenticatedAdminSalesQuotesIdRoute
   AuthenticatedAdminSupportTicketsIdRoute: typeof AuthenticatedAdminSupportTicketsIdRoute
   AuthenticatedAdminContentBlogIndexRoute: typeof AuthenticatedAdminContentBlogIndexRoute
+  AuthenticatedAdminContentFaqsIndexRoute: typeof AuthenticatedAdminContentFaqsIndexRoute
   AuthenticatedAdminContentPagesIndexRoute: typeof AuthenticatedAdminContentPagesIndexRoute
   AuthenticatedAdminContentProjectsIndexRoute: typeof AuthenticatedAdminContentProjectsIndexRoute
   AuthenticatedAdminContentServicesIndexRoute: typeof AuthenticatedAdminContentServicesIndexRoute
@@ -836,6 +899,7 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminContentMediaRoute: AuthenticatedAdminContentMediaRoute,
   AuthenticatedAdminCrmActivitiesRoute: AuthenticatedAdminCrmActivitiesRoute,
   AuthenticatedAdminCrmContactsRoute: AuthenticatedAdminCrmContactsRoute,
   AuthenticatedAdminCrmTasksRoute: AuthenticatedAdminCrmTasksRoute,
@@ -844,6 +908,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminSalesPipelineRoute: AuthenticatedAdminSalesPipelineRoute,
   AuthenticatedAdminSalesRequestsRoute: AuthenticatedAdminSalesRequestsRoute,
   AuthenticatedAdminContentBlogIdRoute: AuthenticatedAdminContentBlogIdRoute,
+  AuthenticatedAdminContentFaqsIdRoute: AuthenticatedAdminContentFaqsIdRoute,
   AuthenticatedAdminContentPagesIdRoute: AuthenticatedAdminContentPagesIdRoute,
   AuthenticatedAdminContentProjectsIdRoute:
     AuthenticatedAdminContentProjectsIdRoute,
@@ -858,6 +923,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
     AuthenticatedAdminSupportTicketsIdRoute,
   AuthenticatedAdminContentBlogIndexRoute:
     AuthenticatedAdminContentBlogIndexRoute,
+  AuthenticatedAdminContentFaqsIndexRoute:
+    AuthenticatedAdminContentFaqsIndexRoute,
   AuthenticatedAdminContentPagesIndexRoute:
     AuthenticatedAdminContentPagesIndexRoute,
   AuthenticatedAdminContentProjectsIndexRoute:
