@@ -19,7 +19,7 @@ function QuoteRequestsPage() {
   const review = useMutation({
     mutationFn: (input: { requestId: string; status: string }) => reviewQuoteRequestFn({ data: input }),
     onSuccess: (result) => {
-      if (!result.ok) return toast.error("Action refusée", { description: result.error.message });
+      if (!result.ok) { toast.error("Action refusée", { description: result.error.message }); return; }
       toast.success("Demande mise à jour");
       void queryClient.invalidateQueries({ queryKey: ["admin-list"] });
       void queryClient.invalidateQueries({ queryKey: ["admin-dashboard"] });
@@ -52,15 +52,15 @@ function QuoteRequestsPage() {
           {
             key: "service",
             header: "Service",
-            render: (row) => String((row["services"] as { title?: string } | null)?.title ?? "—"),
+            render: (row: Record<string, any>) => String((row["services"] as { title?: string } | null)?.title ?? "—"),
           },
           { key: "budget_range", header: "Budget" },
-          { key: "status", header: "Statut", render: (row) => <StatusBadge value={row["status"]} /> },
-          { key: "created_at", header: "Reçu le", render: (row) => formatDate(row["created_at"]) },
+          { key: "status", header: "Statut", render: (row: Record<string, any>) => <StatusBadge value={row["status"]} /> },
+          { key: "created_at", header: "Reçu le", render: (row: Record<string, any>) => formatDate(row["created_at"]) },
           {
             key: "actions",
             header: "",
-            render: (row) =>
+            render: (row: Record<string, any>) =>
               can("quote_requests.update") ? (
                 <div className="flex gap-1.5">
                   {row["status"] === "new" && (

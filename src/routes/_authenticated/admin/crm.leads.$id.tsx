@@ -65,7 +65,7 @@ function LeadDetailPage() {
     mutationFn: (status: string) =>
       updateLeadStatusFn({ data: { leadId: id, status, ...(note ? { note } : {}) } }),
     onSuccess: (result) => {
-      if (!result.ok) return toast.error("Action refusée", { description: result.error.message });
+      if (!result.ok) { toast.error("Action refusée", { description: result.error.message }); return; }
       toast.success("Statut mis à jour");
       setNote("");
       refresh();
@@ -78,7 +78,7 @@ function LeadDetailPage() {
         data: { entityType: "lead", entityId: id, type: "note", body: note, subject: "Note interne" },
       }),
     onSuccess: (result) => {
-      if (!result.ok) return toast.error("Action refusée", { description: result.error.message });
+      if (!result.ok) { toast.error("Action refusée", { description: result.error.message }); return; }
       toast.success("Note enregistrée");
       setNote("");
       refresh();
@@ -95,7 +95,7 @@ function LeadDetailPage() {
         },
       }),
     onSuccess: (result) => {
-      if (!result.ok) return toast.error("Conversion impossible", { description: result.error.message });
+      if (!result.ok) { toast.error("Conversion impossible", { description: result.error.message }); return; }
       toast.success("Prospect converti", { description: "Contact, entreprise et opportunité créés." });
       refresh();
     },

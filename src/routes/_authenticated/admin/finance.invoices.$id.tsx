@@ -35,7 +35,7 @@ function InvoiceDetailPage() {
   const detail = useQuery({ queryKey: ["invoice", id], queryFn: () => invoiceDetailFn({ data: { id } }) });
 
   function handle(result: { ok: boolean; error?: { message: string } }, message: string) {
-    if (!result.ok) return toast.error("Action refusée", { description: result.error?.message });
+    if (!result.ok) { toast.error("Action refusée", { description: result.error?.message }); return; }
     toast.success(message);
     setAmount("");
     setReference("");
