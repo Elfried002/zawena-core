@@ -7,6 +7,8 @@ import { PortfolioCard } from "@/components/marketing/cards";
 import { FinalCta } from "@/components/marketing/sections";
 import { Badge } from "@/components/ui/badge";
 import { getPublishedProjectsFn } from "@/lib/public-content.functions";
+import type { PublicProject } from "@/services/public/public.types";
+import { CmsErrorComponent, CmsNotFoundComponent } from "@/components/common/route-states";
 
 const TITLE = "Réalisations — concepts, prototypes et projets internes | Zawena";
 const DESCRIPTION =
@@ -20,18 +22,22 @@ export const Route = createFileRoute("/portfolio/")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/portfolio" },
+      { property: "og:image", content: "https://zawena.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://zawena.lovable.app/og-image.jpg" },
+      { property: "og:url", content: "https://zawena.lovable.app/portfolio" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
     ],
-    links: [{ rel: "canonical", href: "/portfolio" }],
+    links: [{ rel: "canonical", href: "https://zawena.lovable.app/portfolio" }],
   }),
   loader: () => getPublishedProjectsFn({ data: {} }),
   component: PortfolioPage,
+  errorComponent: CmsErrorComponent,
+  notFoundComponent: () => <CmsNotFoundComponent />,
 });
 
 function PortfolioPage() {
-  const projects = Route.useLoaderData();
+  const projects: PublicProject[] = Route.useLoaderData();
   const categories = Array.from(new Set(projects.map((project) => project.content.category)));
 
   return (

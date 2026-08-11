@@ -5,6 +5,7 @@ import { Container, Eyebrow, Section } from "@/components/common/layout-primitiv
 import { QuoteForm } from "@/components/forms/quote-form";
 import { PROCESS_STEPS } from "@/content/site";
 import { getPublishedServicesFn } from "@/lib/public-content.functions";
+import type { PublicService } from "@/services/public/public.types";
 
 const TITLE = "Demander un devis — Zawena";
 const DESCRIPTION =
@@ -21,18 +22,20 @@ export const Route = createFileRoute("/quote")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/quote" },
+      { property: "og:image", content: "https://zawena.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://zawena.lovable.app/og-image.jpg" },
+      { property: "og:url", content: "https://zawena.lovable.app/quote" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
     ],
-    links: [{ rel: "canonical", href: "/quote" }],
+    links: [{ rel: "canonical", href: "https://zawena.lovable.app/quote" }],
   }),
   loader: () => getPublishedServicesFn(),
   component: QuotePage,
 });
 
 function QuotePage() {
-  const services = Route.useLoaderData();
+  const services: PublicService[] = Route.useLoaderData();
   const { service } = Route.useSearch();
 
   return (

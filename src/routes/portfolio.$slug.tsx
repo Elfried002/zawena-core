@@ -6,14 +6,18 @@ import { Reveal } from "@/components/common/reveal";
 import { FinalCta } from "@/components/marketing/sections";
 import { DashboardMockup } from "@/components/visuals/tech-visuals";
 import { Badge } from "@/components/ui/badge";
+import { CmsErrorComponent, CmsNotFoundComponent } from "@/components/common/route-states";
 import { getPublishedProjectFn } from "@/lib/public-content.functions";
+import { isMissingContentError } from "@/lib/route-errors";
+import type { PublicProject } from "@/services/public/public.types";
 
 export const Route = createFileRoute("/portfolio/$slug")({
   loader: async ({ params }) => {
     try {
       return await getPublishedProjectFn({ data: { slug: params.slug } });
-    } catch {
-      throw notFound();
+    } catch (error) {
+      if (isMissingContentError(error)) throw notFound();
+      throw error;
     }
   },
   head: ({ params, loaderData }) => {
@@ -22,7 +26,7 @@ export const Route = createFileRoute("/portfolio/$slug")({
     }
     const title = loaderData.seoTitle ?? `${loaderData.title} — Réalisation Zawena`;
     const description = loaderData.seoDescription ?? loaderData.summary;
-    const url = `/portfolio/${params.slug}`;
+    const url = `https://zawena.lovable.app/portfolio/${params.slug}`;
     return {
       meta: [
         { title },
@@ -30,6 +34,8 @@ export const Route = createFileRoute("/portfolio/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "article" },
+        { property: "og:image", content: "https://zawena.lovable.app/og-image.jpg" },
+        { name: "twitter:image", content: "https://zawena.lovable.app/og-image.jpg" },
         { property: "og:url", content: url },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
@@ -38,10 +44,19 @@ export const Route = createFileRoute("/portfolio/$slug")({
     };
   },
   component: ProjectDetailPage,
+  errorComponent: CmsErrorComponent,
+  notFoundComponent: () => (
+    <CmsNotFoundComponent
+      title="Cette réalisation n'existe pas"
+      description="Le projet demandé n'est plus publié. Parcourez les autres réalisations."
+      backTo="/portfolio"
+      backLabel="Voir le portfolio"
+    />
+  ),
 });
 
 function ProjectDetailPage() {
-  const project = Route.useLoaderData();
+  const project: PublicProject = Route.useLoaderData();
   const { content } = project;
 
   return (

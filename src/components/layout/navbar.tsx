@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { BrandMark } from "@/components/common/brand";
 import { Container } from "@/components/common/layout-primitives";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -11,9 +12,7 @@ import { cn } from "@/lib/utils";
 function Wordmark() {
   return (
     <Link to="/" className="group flex items-center gap-2.5" aria-label={`${BRAND.name} — accueil`}>
-      <span className="relative flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-violet text-primary-foreground shadow-soft">
-        <span className="font-display text-sm font-bold">Z</span>
-      </span>
+      <BrandMark size={32} className="transition-transform duration-300 group-hover:scale-105" />
       <span className="font-display text-lg font-semibold tracking-tight">{BRAND.name}</span>
     </Link>
   );

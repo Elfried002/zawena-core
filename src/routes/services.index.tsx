@@ -6,6 +6,8 @@ import { Reveal } from "@/components/common/reveal";
 import { ServiceCard } from "@/components/marketing/cards";
 import { FinalCta, ProcessTimeline } from "@/components/marketing/sections";
 import { getPublishedServicesFn } from "@/lib/public-content.functions";
+import type { PublicService } from "@/services/public/public.types";
+import { CmsErrorComponent, CmsNotFoundComponent } from "@/components/common/route-states";
 
 const TITLE = "Services — IA, automatisation, ingénierie et sécurité | Zawena";
 const DESCRIPTION =
@@ -19,18 +21,22 @@ export const Route = createFileRoute("/services/")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/services" },
+      { property: "og:image", content: "https://zawena.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://zawena.lovable.app/og-image.jpg" },
+      { property: "og:url", content: "https://zawena.lovable.app/services" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
     ],
-    links: [{ rel: "canonical", href: "/services" }],
+    links: [{ rel: "canonical", href: "https://zawena.lovable.app/services" }],
   }),
   loader: () => getPublishedServicesFn(),
   component: ServicesPage,
+  errorComponent: CmsErrorComponent,
+  notFoundComponent: () => <CmsNotFoundComponent />,
 });
 
 function ServicesPage() {
-  const services = Route.useLoaderData();
+  const services: PublicService[] = Route.useLoaderData();
 
   return (
     <>

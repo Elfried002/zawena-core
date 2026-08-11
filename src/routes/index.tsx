@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { BRAND, DIFFERENTIATORS, PROBLEMS } from "@/content/site";
 import { getHomeContentFn } from "@/lib/public-content.functions";
+import type { PublicFaq, PublicProject, PublicService } from "@/services/public/public.types";
 
 const TITLE = "Zawena — IA, automatisation et ingénierie logicielle pour les entreprises";
 const DESCRIPTION =
@@ -30,18 +31,21 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:image", content: "https://zawena.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://zawena.lovable.app/og-image.jpg" },
+      { property: "og:url", content: "https://zawena.lovable.app/" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://zawena.lovable.app/" }],
   }),
   loader: () => getHomeContentFn(),
   component: HomePage,
 });
 
 function HomePage() {
-  const { services, projects, faqs } = Route.useLoaderData();
+  const { services, projects, faqs }: { services: PublicService[]; projects: PublicProject[]; faqs: PublicFaq[] } =
+    Route.useLoaderData();
 
   return (
     <>

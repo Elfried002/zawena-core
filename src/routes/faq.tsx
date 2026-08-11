@@ -4,6 +4,8 @@ import { EmptyState } from "@/components/common/async-states";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/common/layout-primitives";
 import { FaqAccordion, FinalCta } from "@/components/marketing/sections";
 import { getPublishedFaqFn } from "@/lib/public-content.functions";
+import type { PublicFaq } from "@/services/public/public.types";
+import { CmsErrorComponent, CmsNotFoundComponent } from "@/components/common/route-states";
 
 const TITLE = "FAQ — questions fréquentes sur les projets Zawena";
 const DESCRIPTION =
@@ -17,18 +19,22 @@ export const Route = createFileRoute("/faq")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/faq" },
+      { property: "og:image", content: "https://zawena.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://zawena.lovable.app/og-image.jpg" },
+      { property: "og:url", content: "https://zawena.lovable.app/faq" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
     ],
-    links: [{ rel: "canonical", href: "/faq" }],
+    links: [{ rel: "canonical", href: "https://zawena.lovable.app/faq" }],
   }),
   loader: () => getPublishedFaqFn({ data: {} }),
   component: FaqPage,
+  errorComponent: CmsErrorComponent,
+  notFoundComponent: () => <CmsNotFoundComponent />,
 });
 
 function FaqPage() {
-  const faqs = Route.useLoaderData();
+  const faqs: PublicFaq[] = Route.useLoaderData();
   const grouped = faqs.reduce<Record<string, typeof faqs>>((acc, item) => {
     const key = item.category || "Général";
     acc[key] = [...(acc[key] ?? []), item];

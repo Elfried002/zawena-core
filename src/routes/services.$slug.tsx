@@ -9,15 +9,18 @@ import { AgentConsole, DashboardMockup, IntegrationMap, SecurityFlow, WorkflowDi
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { serviceIcon } from "@/content/site";
+import { CmsErrorComponent, CmsNotFoundComponent } from "@/components/common/route-states";
 import { getPublishedServiceFn } from "@/lib/public-content.functions";
+import { isMissingContentError } from "@/lib/route-errors";
 import type { PublicService } from "@/services/public/public.types";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: async ({ params }) => {
     try {
       return await getPublishedServiceFn({ data: { slug: params.slug } });
-    } catch {
-      throw notFound();
+    } catch (error) {
+      if (isMissingContentError(error)) throw notFound();
+      throw error;
     }
   },
   head: ({ params, loaderData }) => {
@@ -26,7 +29,7 @@ export const Route = createFileRoute("/services/$slug")({
     }
     const title = loaderData.seoTitle ?? `${loaderData.title} — Zawena`;
     const description = loaderData.seoDescription ?? loaderData.summary;
-    const url = `/services/${params.slug}`;
+    const url = `https://zawena.lovable.app/services/${params.slug}`;
     return {
       meta: [
         { title },
@@ -34,6 +37,8 @@ export const Route = createFileRoute("/services/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
+        { property: "og:image", content: "https://zawena.lovable.app/og-image.jpg" },
+        { name: "twitter:image", content: "https://zawena.lovable.app/og-image.jpg" },
         { property: "og:url", content: url },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
@@ -54,6 +59,15 @@ export const Route = createFileRoute("/services/$slug")({
     };
   },
   component: ServiceDetailPage,
+  errorComponent: CmsErrorComponent,
+  notFoundComponent: () => (
+    <CmsNotFoundComponent
+      title="Ce service n'existe pas"
+      description="Le service demandé n'est pas disponible. Découvrez l'ensemble de nos expertises."
+      backTo="/services"
+      backLabel="Voir tous les services"
+    />
+  ),
 });
 
 /** Visuel adapté au domaine du service. */
@@ -74,7 +88,7 @@ function ServiceVisual({ service }: { service: PublicService }) {
 }
 
 function ServiceDetailPage() {
-  const service = Route.useLoaderData();
+  const service: PublicService = Route.useLoaderData();
   const Icon = serviceIcon(service.icon);
   const { content } = service;
 
