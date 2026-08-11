@@ -4,6 +4,7 @@ import { EmptyState } from "@/components/common/async-states";
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/common/layout-primitives";
 import { FaqAccordion, FinalCta } from "@/components/marketing/sections";
 import { getPublishedFaqFn } from "@/lib/public-content.functions";
+import type { PublicFaq } from "@/services/public/public.types";
 
 const TITLE = "FAQ — questions fréquentes sur les projets Zawena";
 const DESCRIPTION =
@@ -30,7 +31,7 @@ export const Route = createFileRoute("/faq")({
 });
 
 function FaqPage() {
-  const faqs = Route.useLoaderData();
+  const faqs: PublicFaq[] = Route.useLoaderData();
   const grouped = faqs.reduce<Record<string, typeof faqs>>((acc, item) => {
     const key = item.category || "Général";
     acc[key] = [...(acc[key] ?? []), item];

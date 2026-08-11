@@ -7,6 +7,7 @@ import { PortfolioCard } from "@/components/marketing/cards";
 import { FinalCta } from "@/components/marketing/sections";
 import { Badge } from "@/components/ui/badge";
 import { getPublishedProjectsFn } from "@/lib/public-content.functions";
+import type { PublicProject } from "@/services/public/public.types";
 
 const TITLE = "Réalisations — concepts, prototypes et projets internes | Zawena";
 const DESCRIPTION =
@@ -33,7 +34,7 @@ export const Route = createFileRoute("/portfolio/")({
 });
 
 function PortfolioPage() {
-  const projects = Route.useLoaderData();
+  const projects: PublicProject[] = Route.useLoaderData();
   const categories = Array.from(new Set(projects.map((project) => project.content.category)));
 
   return (

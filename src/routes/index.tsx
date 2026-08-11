@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { BRAND, DIFFERENTIATORS, PROBLEMS } from "@/content/site";
 import { getHomeContentFn } from "@/lib/public-content.functions";
+import type { PublicFaq, PublicProject, PublicService } from "@/services/public/public.types";
 
 const TITLE = "Zawena — IA, automatisation et ingénierie logicielle pour les entreprises";
 const DESCRIPTION =
@@ -43,7 +44,8 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  const { services, projects, faqs } = Route.useLoaderData();
+  const { services, projects, faqs }: { services: PublicService[]; projects: PublicProject[]; faqs: PublicFaq[] } =
+    Route.useLoaderData();
 
   return (
     <>

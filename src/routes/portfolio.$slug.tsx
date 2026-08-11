@@ -7,6 +7,7 @@ import { FinalCta } from "@/components/marketing/sections";
 import { DashboardMockup } from "@/components/visuals/tech-visuals";
 import { Badge } from "@/components/ui/badge";
 import { getPublishedProjectFn } from "@/lib/public-content.functions";
+import type { PublicProject } from "@/services/public/public.types";
 
 export const Route = createFileRoute("/portfolio/$slug")({
   loader: async ({ params }) => {
@@ -43,7 +44,7 @@ export const Route = createFileRoute("/portfolio/$slug")({
 });
 
 function ProjectDetailPage() {
-  const project = Route.useLoaderData();
+  const project: PublicProject = Route.useLoaderData();
   const { content } = project;
 
   return (

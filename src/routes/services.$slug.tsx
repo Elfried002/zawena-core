@@ -76,7 +76,7 @@ function ServiceVisual({ service }: { service: PublicService }) {
 }
 
 function ServiceDetailPage() {
-  const service = Route.useLoaderData();
+  const service: PublicService = Route.useLoaderData();
   const Icon = serviceIcon(service.icon);
   const { content } = service;
 

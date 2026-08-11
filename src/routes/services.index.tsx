@@ -6,6 +6,7 @@ import { Reveal } from "@/components/common/reveal";
 import { ServiceCard } from "@/components/marketing/cards";
 import { FinalCta, ProcessTimeline } from "@/components/marketing/sections";
 import { getPublishedServicesFn } from "@/lib/public-content.functions";
+import type { PublicService } from "@/services/public/public.types";
 
 const TITLE = "Services — IA, automatisation, ingénierie et sécurité | Zawena";
 const DESCRIPTION =
@@ -32,7 +33,7 @@ export const Route = createFileRoute("/services/")({
 });
 
 function ServicesPage() {
-  const services = Route.useLoaderData();
+  const services: PublicService[] = Route.useLoaderData();
 
   return (
     <>

@@ -5,6 +5,7 @@ import { Container, Eyebrow, Section } from "@/components/common/layout-primitiv
 import { QuoteForm } from "@/components/forms/quote-form";
 import { PROCESS_STEPS } from "@/content/site";
 import { getPublishedServicesFn } from "@/lib/public-content.functions";
+import type { PublicService } from "@/services/public/public.types";
 
 const TITLE = "Demander un devis — Zawena";
 const DESCRIPTION =
@@ -34,7 +35,7 @@ export const Route = createFileRoute("/quote")({
 });
 
 function QuotePage() {
-  const services = Route.useLoaderData();
+  const services: PublicService[] = Route.useLoaderData();
   const { service } = Route.useSearch();
 
   return (
