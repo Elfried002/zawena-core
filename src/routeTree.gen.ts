@@ -39,6 +39,7 @@ import { Route as AuthenticatedAdminFinanceInvoicesIdRouteImport } from './route
 import { Route as AuthenticatedAdminSalesQuotesIndexRouteImport } from './routes/_authenticated/admin/sales.quotes.index'
 import { Route as AuthenticatedAdminSalesQuotesIdRouteImport } from './routes/_authenticated/admin/sales.quotes.$id'
 import { Route as AuthenticatedAdminSupportTicketsIndexRouteImport } from './routes/_authenticated/admin/support.tickets.index'
+import { Route as AuthenticatedAdminSupportTicketsIdRouteImport } from './routes/_authenticated/admin/support.tickets.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -204,6 +205,12 @@ const AuthenticatedAdminSupportTicketsIndexRoute =
     path: '/support/tickets/',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminSupportTicketsIdRoute =
+  AuthenticatedAdminSupportTicketsIdRouteImport.update({
+    id: '/support/tickets/$id',
+    path: '/support/tickets/$id',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -230,6 +237,7 @@ export interface FileRoutesByFullPath {
   '/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/admin/finance/invoices/$id': typeof AuthenticatedAdminFinanceInvoicesIdRoute
   '/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
+  '/admin/support/tickets/$id': typeof AuthenticatedAdminSupportTicketsIdRoute
   '/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
   '/admin/finance/invoices/': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
@@ -260,6 +268,7 @@ export interface FileRoutesByTo {
   '/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/admin/finance/invoices/$id': typeof AuthenticatedAdminFinanceInvoicesIdRoute
   '/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
+  '/admin/support/tickets/$id': typeof AuthenticatedAdminSupportTicketsIdRoute
   '/admin/crm/companies': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/admin/crm/leads': typeof AuthenticatedAdminCrmLeadsIndexRoute
   '/admin/finance/invoices': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
@@ -293,6 +302,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/crm/leads/$id': typeof AuthenticatedAdminCrmLeadsIdRoute
   '/_authenticated/admin/finance/invoices/$id': typeof AuthenticatedAdminFinanceInvoicesIdRoute
   '/_authenticated/admin/sales/quotes/$id': typeof AuthenticatedAdminSalesQuotesIdRoute
+  '/_authenticated/admin/support/tickets/$id': typeof AuthenticatedAdminSupportTicketsIdRoute
   '/_authenticated/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
   '/_authenticated/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
   '/_authenticated/admin/finance/invoices/': typeof AuthenticatedAdminFinanceInvoicesIndexRoute
@@ -326,6 +336,7 @@ export interface FileRouteTypes {
     | '/admin/crm/leads/$id'
     | '/admin/finance/invoices/$id'
     | '/admin/sales/quotes/$id'
+    | '/admin/support/tickets/$id'
     | '/admin/crm/companies/'
     | '/admin/crm/leads/'
     | '/admin/finance/invoices/'
@@ -356,6 +367,7 @@ export interface FileRouteTypes {
     | '/admin/crm/leads/$id'
     | '/admin/finance/invoices/$id'
     | '/admin/sales/quotes/$id'
+    | '/admin/support/tickets/$id'
     | '/admin/crm/companies'
     | '/admin/crm/leads'
     | '/admin/finance/invoices'
@@ -388,6 +400,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/crm/leads/$id'
     | '/_authenticated/admin/finance/invoices/$id'
     | '/_authenticated/admin/sales/quotes/$id'
+    | '/_authenticated/admin/support/tickets/$id'
     | '/_authenticated/admin/crm/companies/'
     | '/_authenticated/admin/crm/leads/'
     | '/_authenticated/admin/finance/invoices/'
@@ -623,6 +636,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSupportTicketsIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/support/tickets/$id': {
+      id: '/_authenticated/admin/support/tickets/$id'
+      path: '/support/tickets/$id'
+      fullPath: '/admin/support/tickets/$id'
+      preLoaderRoute: typeof AuthenticatedAdminSupportTicketsIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
@@ -638,6 +658,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCrmLeadsIdRoute: typeof AuthenticatedAdminCrmLeadsIdRoute
   AuthenticatedAdminFinanceInvoicesIdRoute: typeof AuthenticatedAdminFinanceInvoicesIdRoute
   AuthenticatedAdminSalesQuotesIdRoute: typeof AuthenticatedAdminSalesQuotesIdRoute
+  AuthenticatedAdminSupportTicketsIdRoute: typeof AuthenticatedAdminSupportTicketsIdRoute
   AuthenticatedAdminCrmCompaniesIndexRoute: typeof AuthenticatedAdminCrmCompaniesIndexRoute
   AuthenticatedAdminCrmLeadsIndexRoute: typeof AuthenticatedAdminCrmLeadsIndexRoute
   AuthenticatedAdminFinanceInvoicesIndexRoute: typeof AuthenticatedAdminFinanceInvoicesIndexRoute
@@ -659,6 +680,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminFinanceInvoicesIdRoute:
     AuthenticatedAdminFinanceInvoicesIdRoute,
   AuthenticatedAdminSalesQuotesIdRoute: AuthenticatedAdminSalesQuotesIdRoute,
+  AuthenticatedAdminSupportTicketsIdRoute:
+    AuthenticatedAdminSupportTicketsIdRoute,
   AuthenticatedAdminCrmCompaniesIndexRoute:
     AuthenticatedAdminCrmCompaniesIndexRoute,
   AuthenticatedAdminCrmLeadsIndexRoute: AuthenticatedAdminCrmLeadsIndexRoute,
