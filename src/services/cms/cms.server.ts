@@ -403,3 +403,228 @@ export async function signedMediaUrl(
   if (error || !data) throw error ?? notFound("Média");
   return data.signedUrl;
 }
+/* ------------------------- Mises à jour éditoriales ----------------------- */
+
+/**
+ * Mise à jour d'un service. Le slug n'est JAMAIS régénéré automatiquement :
+ * il change uniquement si l'appelant en fournit un explicitement.
+ */
+export async function updateService(ctx: ServiceContext, id: string, input: ServiceInput) {
+  await requirePermission(ctx, "services.update");
+  const slug = input.slug ? await uniqueSlug(ctx, "services", input.slug, id) : undefined;
+
+  const { error } = await ctx.supabase
+    .from("services")
+    .update({
+      ...(slug ? { slug } : {}),
+      title: input.title,
+      summary: input.summary ?? null,
+      content: input.content as never,
+      icon: input.icon ?? null,
+      cover_media_id: input.coverMediaId ?? null,
+      is_featured: input.isFeatured,
+      sort_order: input.sortOrder ?? 0,
+      ...seoColumns(input),
+    })
+    .eq("id", id);
+  if (error) throw error;
+
+  await syncJoin(ctx, "service_technologies", "service_id", id, input.technologyIds);
+  await writeAudit({
+    module: "cms",
+    action: "update",
+    tableName: "services",
+    recordId: id,
+    actorId: ctx.userId,
+    after: { slugChanged: Boolean(slug) },
+  });
+}
+
+export async function updateProject(ctx: ServiceContext, id: string, input: ProjectInput) {
+  await requirePermission(ctx, "projects.update");
+  const slug = input.slug ? await uniqueSlug(ctx, "projects", input.slug, id) : undefined;
+
+  const { error } = await ctx.supabase
+    .from("projects")
+    .update({
+      ...(slug ? { slug } : {}),
+      title: input.title,
+      client_name: input.isDemo ? null : (input.clientName ?? null),
+      industry: input.industry ?? null,
+      summary: input.summary ?? null,
+      content: { ...input.content, is_demo: input.isDemo } as never,
+      cover_media_id: input.coverMediaId ?? null,
+      external_url: input.externalUrl ?? null,
+      delivered_at: input.deliveredAt ?? null,
+      is_featured: input.isFeatured,
+      sort_order: input.sortOrder ?? 0,
+      ...seoColumns(input),
+    })
+    .eq("id", id);
+  if (error) throw error;
+
+  await syncJoin(ctx, "project_technologies", "project_id", id, input.technologyIds);
+  await writeAudit({
+    module: "cms",
+    action: "update",
+    tableName: "projects",
+    recordId: id,
+    actorId: ctx.userId,
+    after: { slugChanged: Boolean(slug) },
+  });
+}
+
+export async function updateBlogPost(ctx: ServiceContext, id: string, input: BlogPostInput) {
+  await requirePermission(ctx, "blog_posts.update");
+  const slug = input.slug ? await uniqueSlug(ctx, "blog_posts", input.slug, id) : undefined;
+
+  const { error } = await ctx.supabase
+    .from("blog_posts")
+    .update({
+      ...(slug ? { slug } : {}),
+      title: input.title,
+      excerpt: input.excerpt ?? null,
+      content: input.content as never,
+      category_id: input.categoryId ?? null,
+      cover_media_id: input.coverMediaId ?? null,
+      ...(input.authorId ? { author_id: input.authorId } : {}),
+      reading_minutes: input.readingMinutes ?? estimateReadingMinutes(input.content),
+      og_image_url: input.ogImageUrl ?? null,
+      ...seoColumns(input),
+    })
+    .eq("id", id);
+  if (error) throw error;
+
+  await loose(ctx).from("blog_post_tags").delete().eq("post_id", id);
+  if (input.tagIds.length > 0) {
+    const { error: tagError } = await ctx.supabase
+      .from("blog_post_tags")
+      .insert(input.tagIds.map((tag_id) => ({ post_id: id, tag_id })));
+    if (tagError) throw tagError;
+  }
+
+  await writeAudit({
+    module: "cms",
+    action: "update",
+    tableName: "blog_posts",
+    recordId: id,
+    actorId: ctx.userId,
+    after: { slugChanged: Boolean(slug) },
+  });
+}
+
+export async function updateFaq(ctx: ServiceContext, id: string, input: FaqInput) {
+  await requirePermission(ctx, "faqs.update");
+  const { error } = await ctx.supabase
+    .from("faqs")
+    .update({
+      question: input.question,
+      answer: input.answer,
+      category: input.category,
+      service_id: input.serviceId ?? null,
+      sort_order: input.sortOrder ?? 0,
+    })
+    .eq("id", id);
+  if (error) throw error;
+}
+
+/** Fiche complète d'un contenu (édition) + liaisons éventuelles. */
+export async function contentDetail(ctx: ServiceContext, entity: CmsEntity, id: string) {
+  await requirePermission(ctx, `${entity}.read` as Permission);
+  const { data: row } = await loose(ctx).from(entity).select("*").eq("id", id).maybeSingle();
+  if (!row) throw notFound("Contenu");
+
+  let technologyIds: string[] = [];
+  let tagIds: string[] = [];
+
+  if (entity === "services") {
+    const { data } = await loose(ctx)
+      .from("service_technologies")
+      .select("technology_id")
+      .eq("service_id", id);
+    technologyIds = (data ?? []).map((r: { technology_id: string }) => r.technology_id);
+  }
+  if (entity === "projects") {
+    const { data } = await loose(ctx)
+      .from("project_technologies")
+      .select("technology_id")
+      .eq("project_id", id);
+    technologyIds = (data ?? []).map((r: { technology_id: string }) => r.technology_id);
+  }
+  if (entity === "blog_posts") {
+    const { data } = await loose(ctx).from("blog_post_tags").select("tag_id").eq("post_id", id);
+    tagIds = (data ?? []).map((r: { tag_id: string }) => r.tag_id);
+  }
+
+  return { row: row as Record<string, unknown>, technologyIds, tagIds };
+}
+
+/** Référentiels partagés par les écrans CMS (technos, catégories, tags, services). */
+export async function cmsRefs(ctx: ServiceContext) {
+  const db = loose(ctx);
+  const [technologies, categories, tags, services] = await Promise.all([
+    db.from("technologies").select("id, name").is("deleted_at", null).order("name").limit(200),
+    db.from("blog_categories").select("id, name").is("deleted_at", null).order("name").limit(100),
+    db.from("tags").select("id, name").order("name").limit(200),
+    db.from("services").select("id, title").is("deleted_at", null).order("sort_order").limit(100),
+  ]);
+  return {
+    technologies: (technologies.data ?? []) as Array<{ id: string; name: string }>,
+    categories: (categories.data ?? []) as Array<{ id: string; name: string }>,
+    tags: (tags.data ?? []) as Array<{ id: string; name: string }>,
+    services: (services.data ?? []) as Array<{ id: string; title: string }>,
+  };
+}
+
+/* --------------------------- Médias : upload/suppression ------------------- */
+
+/**
+ * URL d'upload signée. La permission est vérifiée côté serveur avant de
+ * délivrer l'URL ; le fichier reste dans un bucket privé.
+ */
+export async function createMediaUploadUrl(
+  ctx: ServiceContext,
+  input: { bucketId: string; fileName: string; folder: string },
+) {
+  await requirePermission(ctx, "media.create");
+  const safeName = input.fileName
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9._-]+/g, "-")
+    .slice(-120);
+  const folder = input.folder.replace(/^\/+|\/+$/g, "");
+  const path = `${folder ? `${folder}/` : ""}${Date.now()}-${safeName}`;
+
+  const { data, error } = await ctx.supabase.storage
+    .from(input.bucketId)
+    .createSignedUploadUrl(path);
+  if (error || !data) throw error ?? validationError("Upload indisponible");
+  return { path, token: data.token, signedUrl: data.signedUrl };
+}
+
+/** Suppression d'un média : retrait du storage puis soft delete + audit. */
+export async function deleteMedia(ctx: ServiceContext, mediaId: string): Promise<void> {
+  await requirePermission(ctx, "media.update");
+  const { data: media } = await ctx.supabase
+    .from("media_files")
+    .select("id, bucket_id, storage_path, file_name")
+    .eq("id", mediaId)
+    .maybeSingle();
+  if (!media) throw notFound("Média");
+
+  await ctx.supabase.storage.from(media.bucket_id).remove([media.storage_path]);
+  const { error } = await loose(ctx)
+    .from("media_files")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", mediaId);
+  if (error) throw error;
+
+  await writeAudit({
+    module: "cms",
+    action: "delete",
+    tableName: "media_files",
+    recordId: mediaId,
+    actorId: ctx.userId,
+    before: { fileName: media.file_name },
+  });
+}
