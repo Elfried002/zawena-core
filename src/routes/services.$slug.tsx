@@ -26,7 +26,7 @@ export const Route = createFileRoute("/services/$slug")({
     }
     const title = loaderData.seoTitle ?? `${loaderData.title} — Zawena`;
     const description = loaderData.seoDescription ?? loaderData.summary;
-    const url = `/services/${params.slug}`;
+    const url = `https://zawena.lovable.app/services/${params.slug}`;
     return {
       meta: [
         { title },

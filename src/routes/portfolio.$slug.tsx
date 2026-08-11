@@ -22,7 +22,7 @@ export const Route = createFileRoute("/portfolio/$slug")({
     }
     const title = loaderData.seoTitle ?? `${loaderData.title} — Réalisation Zawena`;
     const description = loaderData.seoDescription ?? loaderData.summary;
-    const url = `/portfolio/${params.slug}`;
+    const url = `https://zawena.lovable.app/portfolio/${params.slug}`;
     return {
       meta: [
         { title },
