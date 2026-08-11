@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS qr_public_insert ON public.quote_requests;
