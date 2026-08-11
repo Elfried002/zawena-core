@@ -17,7 +17,7 @@ import {
 
 export const BRAND = {
   name: "Zawena",
-  tagline: "IA • Automatisation • Ingénierie",
+  tagline: "Construire • Automatiser • Sécuriser",
   promise:
     "Zawena conçoit, intègre, automatise et sécurise des solutions technologiques intelligentes pour les entreprises.",
   email: "contact@zawena.com",
