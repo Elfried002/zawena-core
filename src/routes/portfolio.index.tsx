@@ -33,7 +33,7 @@ export const Route = createFileRoute("/portfolio/")({
   loader: () => getPublishedProjectsFn({ data: {} }),
   component: PortfolioPage,
   errorComponent: CmsErrorComponent,
-  notFoundComponent: CmsNotFoundComponent,
+  notFoundComponent: () => <CmsNotFoundComponent />,
 });
 
 function PortfolioPage() {

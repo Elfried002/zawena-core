@@ -32,7 +32,7 @@ export const Route = createFileRoute("/services/")({
   loader: () => getPublishedServicesFn(),
   component: ServicesPage,
   errorComponent: CmsErrorComponent,
-  notFoundComponent: CmsNotFoundComponent,
+  notFoundComponent: () => <CmsNotFoundComponent />,
 });
 
 function ServicesPage() {

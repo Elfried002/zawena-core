@@ -30,7 +30,7 @@ export const Route = createFileRoute("/faq")({
   loader: () => getPublishedFaqFn({ data: {} }),
   component: FaqPage,
   errorComponent: CmsErrorComponent,
-  notFoundComponent: CmsNotFoundComponent,
+  notFoundComponent: () => <CmsNotFoundComponent />,
 });
 
 function FaqPage() {
