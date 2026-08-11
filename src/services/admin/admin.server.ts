@@ -165,6 +165,7 @@ export async function setUserRole(
   if (input.role === "super_admin") {
     throw forbidden("Le rôle super_admin ne peut pas être attribué depuis l'interface");
   }
+  await assertNotSuperAdminTarget(ctx, input.userId);
 
   if (input.grant) {
     const { error } = await ctx.supabase
