@@ -93,6 +93,23 @@ export async function updateMyProfile(
 
 /* --------------------------- Utilisateurs & rôles -------------------------- */
 
+/**
+ * Un compte super_admin ne peut être manipulé que par un autre super_admin.
+ * La base applique la même règle (triggers `protect_super_admin_*`) : cette
+ * garde sert uniquement à retourner une erreur métier lisible.
+ */
+async function assertNotSuperAdminTarget(ctx: ServiceContext, userId: string): Promise<void> {
+  const { data: targetRoles } = await ctx.supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId);
+  const targetIsSuper = (targetRoles ?? []).some((row) => row.role === "super_admin");
+  if (!targetIsSuper) return;
+
+  const { data: isSuper } = await ctx.supabase.rpc("is_super_admin");
+  if (!isSuper) throw forbidden("Seul un super_admin peut administrer un compte super_admin");
+}
+
 export async function setUserStatus(
   ctx: ServiceContext,
   input: { userId: string; status: string },
@@ -101,6 +118,7 @@ export async function setUserStatus(
   if (input.userId === ctx.userId) {
     throw validationError("Vous ne pouvez pas modifier votre propre statut de compte");
   }
+  await assertNotSuperAdminTarget(ctx, input.userId);
 
   const { data: profile } = await ctx.supabase
     .from("profiles")
