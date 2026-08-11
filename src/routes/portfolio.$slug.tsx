@@ -6,15 +6,18 @@ import { Reveal } from "@/components/common/reveal";
 import { FinalCta } from "@/components/marketing/sections";
 import { DashboardMockup } from "@/components/visuals/tech-visuals";
 import { Badge } from "@/components/ui/badge";
+import { CmsErrorComponent, CmsNotFoundComponent } from "@/components/common/route-states";
 import { getPublishedProjectFn } from "@/lib/public-content.functions";
+import { isMissingContentError } from "@/lib/route-errors";
 import type { PublicProject } from "@/services/public/public.types";
 
 export const Route = createFileRoute("/portfolio/$slug")({
   loader: async ({ params }) => {
     try {
       return await getPublishedProjectFn({ data: { slug: params.slug } });
-    } catch {
-      throw notFound();
+    } catch (error) {
+      if (isMissingContentError(error)) throw notFound();
+      throw error;
     }
   },
   head: ({ params, loaderData }) => {
@@ -41,6 +44,15 @@ export const Route = createFileRoute("/portfolio/$slug")({
     };
   },
   component: ProjectDetailPage,
+  errorComponent: CmsErrorComponent,
+  notFoundComponent: () => (
+    <CmsNotFoundComponent
+      title="Cette réalisation n'existe pas"
+      description="Le projet demandé n'est plus publié. Parcourez les autres réalisations."
+      backTo="/portfolio"
+      backLabel="Voir le portfolio"
+    />
+  ),
 });
 
 function ProjectDetailPage() {

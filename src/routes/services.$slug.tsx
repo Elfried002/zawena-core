@@ -9,15 +9,18 @@ import { AgentConsole, DashboardMockup, IntegrationMap, SecurityFlow, WorkflowDi
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { serviceIcon } from "@/content/site";
+import { CmsErrorComponent, CmsNotFoundComponent } from "@/components/common/route-states";
 import { getPublishedServiceFn } from "@/lib/public-content.functions";
+import { isMissingContentError } from "@/lib/route-errors";
 import type { PublicService } from "@/services/public/public.types";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: async ({ params }) => {
     try {
       return await getPublishedServiceFn({ data: { slug: params.slug } });
-    } catch {
-      throw notFound();
+    } catch (error) {
+      if (isMissingContentError(error)) throw notFound();
+      throw error;
     }
   },
   head: ({ params, loaderData }) => {
@@ -56,6 +59,15 @@ export const Route = createFileRoute("/services/$slug")({
     };
   },
   component: ServiceDetailPage,
+  errorComponent: CmsErrorComponent,
+  notFoundComponent: () => (
+    <CmsNotFoundComponent
+      title="Ce service n'existe pas"
+      description="Le service demandé n'est pas disponible. Découvrez l'ensemble de nos expertises."
+      backTo="/services"
+      backLabel="Voir tous les services"
+    />
+  ),
 });
 
 /** Visuel adapté au domaine du service. */
