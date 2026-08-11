@@ -238,7 +238,7 @@ function LeadDetailPage() {
             {detail.data.activities.length === 0 ? (
               <p className="text-sm text-muted-foreground">Aucune activité enregistrée.</p>
             ) : (
-              detail.data.activities.map((row) => (
+              detail.data.activities.map((row: Record<string, any>) => (
                 <div key={String(row["id"])} className="border-l-2 border-border pl-3">
                   <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
                     {statusLabel(row["type"])} · {formatDateTime(row["occurred_at"])}
@@ -262,7 +262,7 @@ function LeadDetailPage() {
               {detail.data.opportunities.length === 0 ? (
                 <p className="text-sm text-muted-foreground">Aucune opportunité.</p>
               ) : (
-                detail.data.opportunities.map((row) => (
+                detail.data.opportunities.map((row: Record<string, any>) => (
                   <div key={String(row["id"])} className="flex items-center justify-between text-sm">
                     <span className="truncate">{String(row["title"] ?? "—")}</span>
                     <span className="font-medium">{formatMoney(row["amount"], row["currency"])}</span>
@@ -280,7 +280,7 @@ function LeadDetailPage() {
               {detail.data.tasks.length === 0 ? (
                 <p className="text-sm text-muted-foreground">Aucune tâche.</p>
               ) : (
-                detail.data.tasks.map((row) => (
+                detail.data.tasks.map((row: Record<string, any>) => (
                   <div key={String(row["id"])} className="flex items-center justify-between text-sm">
                     <span className="truncate">{String(row["title"] ?? "—")}</span>
                     <StatusBadge value={row["status"]} />

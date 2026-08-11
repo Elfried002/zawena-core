@@ -68,7 +68,7 @@ function CompanyDetailPage() {
             {detail.data.contacts.length === 0 ? (
               <p className="text-sm text-muted-foreground">Aucun contact rattaché.</p>
             ) : (
-              detail.data.contacts.map((row) => (
+              detail.data.contacts.map((row: Record<string, any>) => (
                 <div key={String(row["id"])} className="text-sm">
                   <p className="font-medium">
                     {`${String(row["first_name"] ?? "")} ${String(row["last_name"] ?? "")}`.trim()}
@@ -90,7 +90,7 @@ function CompanyDetailPage() {
             {detail.data.opportunities.length === 0 ? (
               <p className="text-sm text-muted-foreground">Aucune opportunité.</p>
             ) : (
-              detail.data.opportunities.map((row) => (
+              detail.data.opportunities.map((row: Record<string, any>) => (
                 <div key={String(row["id"])} className="flex items-center justify-between text-sm">
                   <span className="truncate">{String(row["title"] ?? "—")}</span>
                   <span className="font-medium">{formatMoney(row["amount"], row["currency"])}</span>
@@ -108,7 +108,7 @@ function CompanyDetailPage() {
             {detail.data.quotes.length === 0 ? (
               <p className="text-sm text-muted-foreground">Aucun devis.</p>
             ) : (
-              detail.data.quotes.map((row) => (
+              detail.data.quotes.map((row: Record<string, any>) => (
                 <Link
                   key={String(row["id"])}
                   to="/admin/sales/quotes/$id"
@@ -134,7 +134,7 @@ function CompanyDetailPage() {
             {detail.data.invoices.length === 0 ? (
               <p className="text-sm text-muted-foreground">Aucune facture.</p>
             ) : (
-              detail.data.invoices.map((row) => (
+              detail.data.invoices.map((row: Record<string, any>) => (
                 <Link
                   key={String(row["id"])}
                   to="/admin/finance/invoices/$id"
