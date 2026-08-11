@@ -160,3 +160,43 @@ export const pipelineStagesFn = createServerFn({ method: "GET" })
     const { pipelineStages } = await import("@/services/admin/admin-reads.server");
     return pipelineStages({ supabase: context.supabase, userId: context.userId });
   });
+export const contentDetailFn = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        entity: z.enum(["pages", "services", "projects", "blog_posts", "faqs"]),
+        id: z.string().uuid(),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    const { contentDetail } = await import("@/services/cms/cms.server");
+    return contentDetail({ supabase: context.supabase, userId: context.userId }, data.entity, data.id);
+  });
+
+export const cmsRefsFn = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { cmsRefs } = await import("@/services/cms/cms.server");
+    return cmsRefs({ supabase: context.supabase, userId: context.userId });
+  });
+
+/** Notifications de l'utilisateur courant (RLS : lignes personnelles uniquement). */
+export const myNotificationsFn = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z.object({ onlyUnread: z.boolean().default(false) }).parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    let query = context.supabase
+      .from("notifications")
+      .select("id, event, channel, title, body, link, entity_type, entity_id, read_at, created_at")
+      .order("created_at", { ascending: false })
+      .limit(100);
+    if (data.onlyUnread) query = query.is("read_at", null);
+    const { data: rows, error } = await query;
+    if (error) throw error;
+    const items = rows ?? [];
+    return { items, unread: items.filter((n) => !n.read_at).length };
+  });
