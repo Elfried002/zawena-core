@@ -16,17 +16,21 @@ export const ErrorCode = {
 
 export type ErrorCodeType = (typeof ErrorCode)[keyof typeof ErrorCode];
 
+/** Détails sérialisables joints à une erreur (transitent par RPC). */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ErrorDetails = Record<string, any>;
+
 export interface AppErrorPayload {
   code: ErrorCodeType;
   message: string;
-  details?: Record<string, unknown>;
+  details?: ErrorDetails;
 }
 
 export class AppError extends Error {
   readonly code: ErrorCodeType;
-  readonly details?: Record<string, unknown>;
+  readonly details?: ErrorDetails;
 
-  constructor(code: ErrorCodeType, message: string, details?: Record<string, unknown>) {
+  constructor(code: ErrorCodeType, message: string, details?: ErrorDetails) {
     super(message);
     this.name = "AppError";
     this.code = code;
@@ -45,11 +49,11 @@ export const unauthorized = (m = "Authentification requise") =>
 export const forbidden = (m = "Action non autorisée") => new AppError(ErrorCode.FORBIDDEN, m);
 export const notFound = (resource = "Ressource") =>
   new AppError(ErrorCode.NOT_FOUND, `${resource} introuvable`);
-export const validationError = (m: string, details?: Record<string, unknown>) =>
+export const validationError = (m: string, details?: ErrorDetails) =>
   new AppError(ErrorCode.VALIDATION_ERROR, m, details);
-export const duplicateResource = (m: string, details?: Record<string, unknown>) =>
+export const duplicateResource = (m: string, details?: ErrorDetails) =>
   new AppError(ErrorCode.DUPLICATE_RESOURCE, m, details);
-export const invalidState = (m: string, details?: Record<string, unknown>) =>
+export const invalidState = (m: string, details?: ErrorDetails) =>
   new AppError(ErrorCode.INVALID_STATE, m, details);
 export const conflict = (m = "La ressource a été modifiée entre-temps") =>
   new AppError(ErrorCode.CONFLICT, m);
