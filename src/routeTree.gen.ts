@@ -24,6 +24,11 @@ import { Route as PortfolioSlugRouteImport } from './routes/portfolio.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminCrmActivitiesRouteImport } from './routes/_authenticated/admin/crm.activities'
+import { Route as AuthenticatedAdminCrmContactsRouteImport } from './routes/_authenticated/admin/crm.contacts'
+import { Route as AuthenticatedAdminCrmTasksRouteImport } from './routes/_authenticated/admin/crm.tasks'
+import { Route as AuthenticatedAdminCrmCompaniesIndexRouteImport } from './routes/_authenticated/admin/crm.companies.index'
+import { Route as AuthenticatedAdminCrmLeadsIndexRouteImport } from './routes/_authenticated/admin/crm.leads.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -99,6 +104,36 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminCrmActivitiesRoute =
+  AuthenticatedAdminCrmActivitiesRouteImport.update({
+    id: '/crm/activities',
+    path: '/crm/activities',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmContactsRoute =
+  AuthenticatedAdminCrmContactsRouteImport.update({
+    id: '/crm/contacts',
+    path: '/crm/contacts',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmTasksRoute =
+  AuthenticatedAdminCrmTasksRouteImport.update({
+    id: '/crm/tasks',
+    path: '/crm/tasks',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmCompaniesIndexRoute =
+  AuthenticatedAdminCrmCompaniesIndexRouteImport.update({
+    id: '/crm/companies/',
+    path: '/crm/companies/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCrmLeadsIndexRoute =
+  AuthenticatedAdminCrmLeadsIndexRouteImport.update({
+    id: '/crm/leads/',
+    path: '/crm/leads/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -115,6 +150,11 @@ export interface FileRoutesByFullPath {
   '/portfolio/': typeof PortfolioIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
+  '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
+  '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
+  '/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -130,6 +170,11 @@ export interface FileRoutesByTo {
   '/portfolio': typeof PortfolioIndexRoute
   '/services': typeof ServicesIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
+  '/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
+  '/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/admin/crm/companies': typeof AuthenticatedAdminCrmCompaniesIndexRoute
+  '/admin/crm/leads': typeof AuthenticatedAdminCrmLeadsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -148,6 +193,11 @@ export interface FileRoutesById {
   '/portfolio/': typeof PortfolioIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/crm/activities': typeof AuthenticatedAdminCrmActivitiesRoute
+  '/_authenticated/admin/crm/contacts': typeof AuthenticatedAdminCrmContactsRoute
+  '/_authenticated/admin/crm/tasks': typeof AuthenticatedAdminCrmTasksRoute
+  '/_authenticated/admin/crm/companies/': typeof AuthenticatedAdminCrmCompaniesIndexRoute
+  '/_authenticated/admin/crm/leads/': typeof AuthenticatedAdminCrmLeadsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -166,6 +216,11 @@ export interface FileRouteTypes {
     | '/portfolio/'
     | '/services/'
     | '/admin/'
+    | '/admin/crm/activities'
+    | '/admin/crm/contacts'
+    | '/admin/crm/tasks'
+    | '/admin/crm/companies/'
+    | '/admin/crm/leads/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -181,6 +236,11 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/services'
     | '/admin'
+    | '/admin/crm/activities'
+    | '/admin/crm/contacts'
+    | '/admin/crm/tasks'
+    | '/admin/crm/companies'
+    | '/admin/crm/leads'
   id:
     | '__root__'
     | '/'
@@ -198,6 +258,11 @@ export interface FileRouteTypes {
     | '/portfolio/'
     | '/services/'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/crm/activities'
+    | '/_authenticated/admin/crm/contacts'
+    | '/_authenticated/admin/crm/tasks'
+    | '/_authenticated/admin/crm/companies/'
+    | '/_authenticated/admin/crm/leads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -323,15 +388,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/crm/activities': {
+      id: '/_authenticated/admin/crm/activities'
+      path: '/crm/activities'
+      fullPath: '/admin/crm/activities'
+      preLoaderRoute: typeof AuthenticatedAdminCrmActivitiesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/contacts': {
+      id: '/_authenticated/admin/crm/contacts'
+      path: '/crm/contacts'
+      fullPath: '/admin/crm/contacts'
+      preLoaderRoute: typeof AuthenticatedAdminCrmContactsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/tasks': {
+      id: '/_authenticated/admin/crm/tasks'
+      path: '/crm/tasks'
+      fullPath: '/admin/crm/tasks'
+      preLoaderRoute: typeof AuthenticatedAdminCrmTasksRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/companies/': {
+      id: '/_authenticated/admin/crm/companies/'
+      path: '/crm/companies'
+      fullPath: '/admin/crm/companies/'
+      preLoaderRoute: typeof AuthenticatedAdminCrmCompaniesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/crm/leads/': {
+      id: '/_authenticated/admin/crm/leads/'
+      path: '/crm/leads'
+      fullPath: '/admin/crm/leads/'
+      preLoaderRoute: typeof AuthenticatedAdminCrmLeadsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminCrmActivitiesRoute: typeof AuthenticatedAdminCrmActivitiesRoute
+  AuthenticatedAdminCrmContactsRoute: typeof AuthenticatedAdminCrmContactsRoute
+  AuthenticatedAdminCrmTasksRoute: typeof AuthenticatedAdminCrmTasksRoute
+  AuthenticatedAdminCrmCompaniesIndexRoute: typeof AuthenticatedAdminCrmCompaniesIndexRoute
+  AuthenticatedAdminCrmLeadsIndexRoute: typeof AuthenticatedAdminCrmLeadsIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminCrmActivitiesRoute: AuthenticatedAdminCrmActivitiesRoute,
+  AuthenticatedAdminCrmContactsRoute: AuthenticatedAdminCrmContactsRoute,
+  AuthenticatedAdminCrmTasksRoute: AuthenticatedAdminCrmTasksRoute,
+  AuthenticatedAdminCrmCompaniesIndexRoute:
+    AuthenticatedAdminCrmCompaniesIndexRoute,
+  AuthenticatedAdminCrmLeadsIndexRoute: AuthenticatedAdminCrmLeadsIndexRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
