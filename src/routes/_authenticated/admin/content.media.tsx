@@ -68,7 +68,13 @@ function MediaPage() {
   const upload = useMutation({
     mutationFn: async (file: File) => {
       const signed = await mediaUploadUrlFn({
-        data: { bucketId: bucket, fileName: file.name, folder: folder || "/" },
+        data: {
+          bucketId: bucket,
+          fileName: file.name,
+          folder: folder || "/",
+          mimeType: file.type as never,
+          sizeBytes: file.size,
+        },
       });
       if (!signed.ok) throw new Error(signed.error.message);
 
