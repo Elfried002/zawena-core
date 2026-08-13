@@ -12,7 +12,7 @@ export const currencySchema = z.enum(["XOF", "EUR", "USD", "GBP"]);
 export const quoteRequestSchema = z.object({
   fullName: z.string().trim().min(2).max(120),
   email: emailSchema,
-  phone: phoneSchema.optional(),
+  phone: optionalPhoneSchema,
   companyName: z.string().trim().max(160).optional(),
   serviceId: z.string().uuid().optional(),
   budgetRange: z.string().trim().max(80).optional(),
