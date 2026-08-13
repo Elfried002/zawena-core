@@ -25,12 +25,15 @@ export const trackEventFn = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => trackSchema.parse(data))
   .handler(async ({ data }) => {
     const { track } = await import("@/services/analytics/analytics.server");
+    const { ipHashFromRequest } = await import("@/services/public/request.server");
+    const ipHash = ipHashFromRequest();
     await track({
       event: data.event,
       ...(data.path ? { path: data.path } : {}),
       ...(data.entityType ? { entityType: data.entityType } : {}),
       ...(data.entityId ? { entityId: data.entityId } : {}),
       ...(data.sessionId ? { sessionId: data.sessionId } : {}),
+      ...(ipHash ? { ipHash } : {}),
     });
     return { ok: true };
   });

@@ -4,7 +4,7 @@
  * session non réversible et facultatif.
  */
 import { adminDb } from "../core/context.server";
-import { hashIdentifier } from "../core/rate-limit.server";
+import { hashIdentifier, enforceRateLimit } from "../core/rate-limit.server";
 
 export const ANALYTICS_EVENTS = [
   "page_view",
@@ -27,10 +27,19 @@ export interface TrackInput {
   entityId?: string;
   sessionId?: string;
   props?: Record<string, unknown>;
+  /** Empreinte réseau facultative, utilisée uniquement pour l'anti-abus. */
+  ipHash?: string;
 }
 
 export async function track(input: TrackInput): Promise<void> {
   try {
+    // Anti-abus : un visiteur ne peut pas inonder la table d'événements.
+    await enforceRateLimit(
+      "analytics.track",
+      input.ipHash ?? input.sessionId ?? "anonymous",
+      120,
+      60,
+    );
     const db = await adminDb();
     await db.from("analytics_events").insert({
       event_name: input.event,
