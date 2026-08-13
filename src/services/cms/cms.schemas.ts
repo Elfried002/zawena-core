@@ -6,6 +6,28 @@ import { z } from "zod";
 export const CMS_ENTITIES = ["pages", "services", "projects", "blog_posts", "faqs"] as const;
 export type CmsEntity = (typeof CMS_ENTITIES)[number];
 
+/**
+ * Types de fichiers acceptés pour les médias. Aucun SVG ni HTML : ces formats
+ * peuvent embarquer du script exécutable servi depuis notre domaine.
+ */
+export const ALLOWED_MEDIA_MIME_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/avif",
+  "image/gif",
+  "application/pdf",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "text/csv",
+  "text/plain",
+  "video/mp4",
+  "audio/mpeg",
+] as const;
+
+/** Plafond de taille appliqué côté serveur (25 Mo). */
+export const MAX_MEDIA_SIZE_BYTES = 25 * 1024 * 1024;
+
 export const contentStatusSchema = z.enum([
   "draft",
   "review",
@@ -121,9 +143,14 @@ export const registerMediaSchema = z.object({
   bucketId: z.enum(["public-images", "blog", "portfolio", "documents", "avatars", "logos"]),
   storagePath: z.string().trim().min(3).max(500),
   fileName: z.string().trim().min(1).max(255),
-  mimeType: z.string().trim().max(120).optional(),
+  mimeType: z.enum(ALLOWED_MEDIA_MIME_TYPES).optional(),
   mediaType: z.enum(["image", "document", "video", "audio", "other"]).default("image"),
-  sizeBytes: z.number().int().nonnegative().max(200 * 1024 * 1024).optional(),
+  sizeBytes: z
+    .number()
+    .int()
+    .nonnegative()
+    .max(MAX_MEDIA_SIZE_BYTES, "Fichier trop volumineux (25 Mo maximum)")
+    .optional(),
   width: z.number().int().positive().max(20000).optional(),
   height: z.number().int().positive().max(20000).optional(),
   altText: z.string().trim().max(300).optional(),
