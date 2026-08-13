@@ -3,7 +3,7 @@
  */
 import { z } from "zod";
 
-import { emailSchema, phoneSchema } from "../crm/crm.schemas";
+import { emailSchema, optionalPhoneSchema } from "../crm/crm.schemas";
 import { quoteRequestSchema } from "../quotes/quotes.schemas";
 
 export const CONTACT_SUBJECTS = [

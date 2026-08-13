@@ -3,7 +3,7 @@
  */
 import { z } from "zod";
 
-import { emailSchema, phoneSchema } from "../crm/crm.schemas";
+import { emailSchema, optionalPhoneSchema } from "../crm/crm.schemas";
 
 export const currencySchema = z.enum(["XOF", "EUR", "USD", "GBP"]);
 
