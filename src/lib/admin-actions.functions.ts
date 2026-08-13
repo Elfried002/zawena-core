@@ -47,6 +47,8 @@ import {
   registerMediaSchema,
   serviceSchema,
   CMS_ENTITIES,
+  ALLOWED_MEDIA_MIME_TYPES,
+  MAX_MEDIA_SIZE_BYTES,
 } from "@/services/cms/cms.schemas";
 
 const idSchema = z.object({ id: z.string().uuid() });
