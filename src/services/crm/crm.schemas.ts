@@ -11,6 +11,15 @@ export const phoneSchema = z
   .max(30)
   .regex(/^[+0-9 ()./-]+$/, "Numéro de téléphone invalide");
 
+/**
+ * Téléphone facultatif : un champ laissé vide dans un formulaire équivaut à
+ * une absence de valeur, sans jamais assouplir la validation d'un vrai numéro.
+ */
+export const optionalPhoneSchema = z.preprocess(
+  (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
+  phoneSchema.optional(),
+);
+
 export const leadSourceSchema = z.enum([
   "website",
   "referral",
