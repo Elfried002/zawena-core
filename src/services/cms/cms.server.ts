@@ -584,7 +584,7 @@ export async function cmsRefs(ctx: ServiceContext) {
  */
 export async function createMediaUploadUrl(
   ctx: ServiceContext,
-  input: { bucketId: string; fileName: string; folder: string },
+  input: { bucketId: string; fileName: string; folder: string; mimeType?: string; sizeBytes?: number },
 ) {
   await requirePermission(ctx, "media.create");
   const safeName = input.fileName

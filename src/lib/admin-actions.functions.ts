@@ -47,6 +47,8 @@ import {
   registerMediaSchema,
   serviceSchema,
   CMS_ENTITIES,
+  ALLOWED_MEDIA_MIME_TYPES,
+  MAX_MEDIA_SIZE_BYTES,
 } from "@/services/cms/cms.schemas";
 
 const idSchema = z.object({ id: z.string().uuid() });
@@ -603,6 +605,14 @@ export const mediaUploadUrlFn = createServerFn({ method: "POST" })
         bucketId: z.enum(["public-images", "blog", "portfolio", "documents", "avatars", "logos"]),
         fileName: z.string().trim().min(1).max(255),
         folder: z.string().trim().max(120).default("/"),
+        // Le type et la taille sont validés AVANT de délivrer l'URL signée :
+        // aucun fichier interdit ne peut atteindre le bucket.
+        mimeType: z.enum(ALLOWED_MEDIA_MIME_TYPES),
+        sizeBytes: z
+          .number()
+          .int()
+          .positive()
+          .max(MAX_MEDIA_SIZE_BYTES, "Fichier trop volumineux (25 Mo maximum)"),
       })
       .parse(data),
   )

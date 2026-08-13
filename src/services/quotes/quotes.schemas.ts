@@ -3,7 +3,7 @@
  */
 import { z } from "zod";
 
-import { emailSchema, phoneSchema } from "../crm/crm.schemas";
+import { emailSchema, optionalPhoneSchema } from "../crm/crm.schemas";
 
 export const currencySchema = z.enum(["XOF", "EUR", "USD", "GBP"]);
 
@@ -12,7 +12,7 @@ export const currencySchema = z.enum(["XOF", "EUR", "USD", "GBP"]);
 export const quoteRequestSchema = z.object({
   fullName: z.string().trim().min(2).max(120),
   email: emailSchema,
-  phone: phoneSchema.optional(),
+  phone: optionalPhoneSchema,
   companyName: z.string().trim().max(160).optional(),
   serviceId: z.string().uuid().optional(),
   budgetRange: z.string().trim().max(80).optional(),

@@ -11,6 +11,15 @@ export const phoneSchema = z
   .max(30)
   .regex(/^[+0-9 ()./-]+$/, "Numéro de téléphone invalide");
 
+/**
+ * Téléphone facultatif : un champ laissé vide dans un formulaire équivaut à
+ * une absence de valeur, sans jamais assouplir la validation d'un vrai numéro.
+ */
+export const optionalPhoneSchema = z.preprocess(
+  (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
+  phoneSchema.optional(),
+);
+
 export const leadSourceSchema = z.enum([
   "website",
   "referral",
@@ -30,7 +39,7 @@ export const leadStatusSchema = z.enum([
 export const createLeadSchema = z.object({
   fullName: z.string().trim().min(2).max(120),
   email: emailSchema,
-  phone: phoneSchema.optional(),
+  phone: optionalPhoneSchema,
   companyName: z.string().trim().max(160).optional(),
   message: z.string().trim().max(4000).optional(),
   serviceId: z.string().uuid().optional(),
@@ -51,7 +60,7 @@ export const companySchema = z.object({
   website: z.string().trim().url().max(255).optional(),
   industry: z.string().trim().max(120).optional(),
   email: emailSchema.optional(),
-  phone: phoneSchema.optional(),
+  phone: optionalPhoneSchema,
   city: z.string().trim().max(120).optional(),
   country: z.string().trim().max(120).optional(),
   notes: z.string().trim().max(4000).optional(),
@@ -62,7 +71,7 @@ export const contactSchema = z.object({
   firstName: z.string().trim().min(1).max(80),
   lastName: z.string().trim().max(80).optional(),
   email: emailSchema.optional(),
-  phone: phoneSchema.optional(),
+  phone: optionalPhoneSchema,
   jobTitle: z.string().trim().max(120).optional(),
   companyId: z.string().uuid().optional(),
   isPrimary: z.boolean().default(false),

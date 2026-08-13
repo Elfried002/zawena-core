@@ -3,7 +3,7 @@
  */
 import { z } from "zod";
 
-import { emailSchema, phoneSchema } from "../crm/crm.schemas";
+import { emailSchema, optionalPhoneSchema } from "../crm/crm.schemas";
 import { quoteRequestSchema } from "../quotes/quotes.schemas";
 
 export const CONTACT_SUBJECTS = [
@@ -19,7 +19,7 @@ export const contactRequestSchema = z.object({
   fullName: z.string().trim().min(2, "Indiquez votre nom complet").max(120),
   companyName: z.string().trim().max(160).optional(),
   email: emailSchema,
-  phone: phoneSchema.optional(),
+  phone: optionalPhoneSchema,
   subject: z.enum(CONTACT_SUBJECTS),
   message: z.string().trim().min(20, "Décrivez votre besoin en quelques phrases").max(4000),
   serviceId: z.string().uuid().optional(),
