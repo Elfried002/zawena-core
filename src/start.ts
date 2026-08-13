@@ -2,17 +2,6 @@ import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/r
 
 import { attachSupabaseAuth } from "./integrations/supabase/auth-attacher";
 import { renderErrorPage } from "./lib/error-page";
-import { applySecurityHeaders } from "./lib/security-headers";
-
-// Durcissement HTTP : appliqué à chaque réponse rendue par le serveur.
-const securityHeadersMiddleware = createMiddleware().server(async ({ next }) => {
-  const result = await next();
-  const response = (result as { response?: Response }).response;
-  if (response instanceof Response) {
-    return { ...result, response: applySecurityHeaders(response) } as typeof result;
-  }
-  return result;
-});
 
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {
@@ -37,7 +26,7 @@ const csrfMiddleware = createCsrfMiddleware({
 });
 
 export const startInstance = createStart(() => ({
-  requestMiddleware: [securityHeadersMiddleware, errorMiddleware, csrfMiddleware],
+  requestMiddleware: [errorMiddleware, csrfMiddleware],
   // Attache le jeton porteur Supabase aux appels de server functions protégées.
   functionMiddleware: [attachSupabaseAuth],
 }));
