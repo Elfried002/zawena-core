@@ -11,6 +11,7 @@ import { runOnce } from "../core/idempotency.server";
 import { enforceRateLimit, looksLikeSpam } from "../core/rate-limit.server";
 import { assertTransition, ticketTransitions } from "../core/state-machines";
 import { invalidState, notFound, validationError } from "../core/errors";
+import { nextDocumentNumber } from "../core/numbering.server";
 import { listParamsSchema, likePattern, paginate, rangeFor, type ListParams } from "../core/query";
 import type { Db, ServiceContext } from "../core/context.server";
 import type { CreateTicketInput, ReplyTicketInput } from "./support.schemas";
@@ -63,10 +64,7 @@ export async function createTicket(
   await enforceRateLimit("ticket_create", identifier, 10, 3600);
 
   const run = async () => {
-    const { data: number, error: numberError } = await ctx.supabase.rpc("next_document_number", {
-      _key: "ticket",
-    });
-    if (numberError || !number) throw numberError ?? invalidState("Numérotation indisponible");
+    const number = await nextDocumentNumber("ticket");
 
     const { data: ticket, error } = await ctx.supabase
       .from("tickets")

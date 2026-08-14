@@ -14,6 +14,7 @@ import { notify } from "../notifications/notifications.server";
 import { runOnce } from "../core/idempotency.server";
 import { assertTransition, invoiceTransitions } from "../core/state-machines";
 import { invalidState, notFound, validationError } from "../core/errors";
+import { nextDocumentNumber } from "../core/numbering.server";
 import { listParamsSchema, likePattern, paginate, rangeFor, type ListParams } from "../core/query";
 import { fromMinorUnits, toMinorUnits, type Currency } from "../core/money";
 import type { Db, ServiceContext } from "../core/context.server";
@@ -97,10 +98,7 @@ export async function createInvoice(
       taxRate: input.taxRate,
     });
 
-    const { data: number, error: numberError } = await ctx.supabase.rpc("next_document_number", {
-      _key: "invoice",
-    });
-    if (numberError || !number) throw numberError ?? invalidState("Numérotation indisponible");
+    const number = await nextDocumentNumber("invoice");
 
     const { data: invoice, error } = await ctx.supabase
       .from("invoices")
