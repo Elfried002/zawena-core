@@ -23,6 +23,7 @@ import {
   type QuoteStatus,
 } from "../core/state-machines";
 import { invalidState, notFound, validationError } from "../core/errors";
+import { nextDocumentNumber } from "../core/numbering.server";
 import { listParamsSchema, likePattern, paginate, rangeFor, type ListParams } from "../core/query";
 import { lineTotal, round2, toMinorUnits, fromMinorUnits, type Currency } from "../core/money";
 import type { Db, ServiceContext } from "../core/context.server";
@@ -260,10 +261,7 @@ export async function createQuote(
       taxRate: input.taxRate,
     });
 
-    const { data: number, error: numberError } = await ctx.supabase.rpc("next_document_number", {
-      _key: "quote",
-    });
-    if (numberError || !number) throw numberError ?? invalidState("Numérotation indisponible");
+    const number = await nextDocumentNumber("quote");
 
     const { data: quote, error } = await ctx.supabase
       .from("quotes")
@@ -428,10 +426,7 @@ export async function reviseQuote(
     .order("sort_order", { ascending: true });
   if (itemsError) throw itemsError;
 
-  const { data: number, error: numberError } = await ctx.supabase.rpc("next_document_number", {
-    _key: "quote",
-  });
-  if (numberError || !number) throw numberError ?? invalidState("Numérotation indisponible");
+  const number = await nextDocumentNumber("quote");
 
   const { data: revision, error } = await ctx.supabase
     .from("quotes")
