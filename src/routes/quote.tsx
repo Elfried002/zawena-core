@@ -5,6 +5,8 @@ import { Container, Eyebrow, Section } from "@/components/common/layout-primitiv
 import { QuoteForm } from "@/components/forms/quote-form";
 import { PROCESS_STEPS } from "@/content/site";
 import { getPublishedServicesFn } from "@/lib/public-content.functions";
+import { getVisitorCurrencyFn } from "@/lib/currency.functions";
+import type { DisplayCurrency } from "@/services/public/currency";
 import type { PublicService } from "@/services/public/public.types";
 
 const TITLE = "Demander un devis — Zawena";
@@ -30,12 +32,15 @@ export const Route = createFileRoute("/quote")({
     ],
     links: [{ rel: "canonical", href: "https://zawena.com/quote" }],
   }),
-  loader: () => getPublishedServicesFn(),
+  loader: async (): Promise<{ services: PublicService[]; currency: DisplayCurrency }> => {
+    const [services, visitor] = await Promise.all([getPublishedServicesFn(), getVisitorCurrencyFn()]);
+    return { services, currency: visitor.currency };
+  },
   component: QuotePage,
 });
 
 function QuotePage() {
-  const services: PublicService[] = Route.useLoaderData();
+  const { services, currency } = Route.useLoaderData();
   const { service } = Route.useSearch();
 
   return (
@@ -57,7 +62,7 @@ function QuotePage() {
       <Section tone="default">
         <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           <div className="rounded-3xl border border-border bg-card p-7 sm:p-9">
-            <QuoteForm services={services} defaultServiceSlug={service ?? ""} />
+            <QuoteForm services={services} defaultServiceSlug={service ?? ""} suggestedCurrency={currency} />
           </div>
           <aside className="space-y-6">
             <h2 className="font-display text-lg font-semibold">Ce qui se passe ensuite</h2>
