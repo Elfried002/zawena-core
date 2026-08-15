@@ -116,10 +116,10 @@ export interface BudgetTier {
 
 /** Table de prix centralisée : aucune duplication dans les composants. */
 export const BUDGET_TIERS: readonly BudgetTier[] = [
-  { key: "under_3m", min: null, max: 3_000_000 },
-  { key: "3m_10m", min: 3_000_000, max: 10_000_000 },
-  { key: "10m_33m", min: 10_000_000, max: 33_000_000 },
-  { key: "over_33m", min: 33_000_000, max: null },
+  { key: "under_3m", min: null, max: 3_300_000 },
+  { key: "3m_10m", min: 3_300_000, max: 10_000_000 },
+  { key: "10m_33m", min: 10_000_000, max: 32_800_000 },
+  { key: "over_33m", min: 32_800_000, max: null },
   { key: "to_define", min: null, max: null },
 ] as const;
 
