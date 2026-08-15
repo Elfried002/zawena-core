@@ -6,7 +6,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-const BASE_URL = "https://zawena.lovable.app";
+const BASE_URL = "https://zawena.com";
 
 interface SitemapEntry {
   path: string;

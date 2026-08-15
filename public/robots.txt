@@ -12,5 +12,9 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /auth
+Disallow: /reset-password
 
-Sitemap: https://zawena.lovable.app/sitemap.xml
+Sitemap: https://zawena.com/sitemap.xml
