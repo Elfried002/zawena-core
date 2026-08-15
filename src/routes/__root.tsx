@@ -53,6 +53,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "Zawena",
+          url: "https://zawena.com",
           description:
             "Entreprise technologique B2B spécialisée en IA, automatisation, ingénierie logicielle et cybersécurité.",
           email: "contact@zawena.com",
@@ -65,6 +66,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             "Cybersecurity",
             "AI Consulting",
           ],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Zawena",
+          url: "https://zawena.com",
+          inLanguage: "fr",
         }),
       },
     ],
