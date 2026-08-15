@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -12,26 +12,68 @@ import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { submitQuoteRequestFn } from "@/lib/public-forms.functions";
-import { BUDGET_RANGES, TIMELINES, publicQuoteFormSchema } from "@/services/public/public.schemas";
+import { TIMELINES, publicQuoteFormSchema } from "@/services/public/public.schemas";
 import type { PublicQuoteFormInput } from "@/services/public/public.schemas";
+import {
+  BUDGET_TIERS,
+  CURRENCY_META,
+  DISPLAY_CURRENCIES,
+  FALLBACK_CURRENCY,
+  RATES_UPDATED_AT,
+  currencyFromLocale,
+  formatBudgetTier,
+  isDisplayCurrency,
+} from "@/services/public/currency";
+import type { DisplayCurrency } from "@/services/public/currency";
 import type { PublicService } from "@/services/public/public.types";
 
 const STEPS = [
   { title: "Votre besoin", fields: ["serviceSlug", "description"] },
-  { title: "Cadre du projet", fields: ["budgetRange", "timeline"] },
+  { title: "Cadre du projet", fields: ["budgetTier", "timeline"] },
   { title: "Vos coordonnées", fields: ["fullName", "email", "phone", "companyName"] },
 ] as const;
+
+const CURRENCY_STORAGE_KEY = "zawena.display-currency";
+
+/**
+ * Devise d'affichage : suggestion serveur (pays), puis préférence explicite du
+ * visiteur (persistée), puis langue du navigateur, puis fallback Zawena.
+ */
+function useDisplayCurrency(suggested?: DisplayCurrency | undefined) {
+  const [currency, setCurrency] = useState<DisplayCurrency>(suggested ?? FALLBACK_CURRENCY);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(CURRENCY_STORAGE_KEY);
+    if (stored && isDisplayCurrency(stored)) {
+      setCurrency(stored);
+      return;
+    }
+    if (suggested) return;
+    const fromLocale = currencyFromLocale(window.navigator.language);
+    if (fromLocale) setCurrency(fromLocale);
+  }, [suggested]);
+
+  function choose(next: DisplayCurrency) {
+    setCurrency(next);
+    window.localStorage.setItem(CURRENCY_STORAGE_KEY, next);
+  }
+
+  return { currency, choose };
+}
 
 export function QuoteForm({
   services,
   defaultServiceSlug,
+  suggestedCurrency,
 }: {
   services: PublicService[];
   defaultServiceSlug?: string | undefined;
+  suggestedCurrency?: DisplayCurrency | undefined;
 }) {
   const submit = useServerFn(submitQuoteRequestFn);
   const [step, setStep] = useState(0);
   const [sent, setSent] = useState(false);
+  const { currency, choose } = useDisplayCurrency(suggestedCurrency);
 
   const form = useForm<PublicQuoteFormInput>({
     resolver: zodResolver(publicQuoteFormSchema) as never,
@@ -42,7 +84,7 @@ export function QuoteForm({
       phone: "",
       companyName: "",
       serviceSlug: defaultServiceSlug ?? "",
-      budgetRange: BUDGET_RANGES[4],
+      budgetTier: "to_define",
       timeline: TIMELINES[1],
       description: "",
       honeypot: "",
@@ -56,7 +98,8 @@ export function QuoteForm({
   }
 
   async function onSubmit(values: PublicQuoteFormInput) {
-    const payload = values.serviceSlug ? values : { ...values, serviceSlug: undefined };
+    const base = { ...values, displayCurrency: currency };
+    const payload = values.serviceSlug ? base : { ...base, serviceSlug: undefined };
     const result = await submit({ data: payload });
     if (result.ok) {
       setSent(true);
@@ -140,10 +183,11 @@ export function QuoteForm({
         ) : null}
 
         {step === 1 ? (
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="space-y-5">
+            <div className="grid gap-5 sm:grid-cols-2">
             <FormField
               control={form.control}
-              name="budgetRange"
+              name="budgetTier"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Budget envisagé</FormLabel>
@@ -154,9 +198,9 @@ export function QuoteForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {BUDGET_RANGES.map((range) => (
-                        <SelectItem key={range} value={range}>
-                          {range}
+                      {BUDGET_TIERS.map((tier) => (
+                        <SelectItem key={tier.key} value={tier.key}>
+                          {formatBudgetTier(tier.key, currency)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -189,6 +233,33 @@ export function QuoteForm({
                 </FormItem>
               )}
             />
+            </div>
+            <div className="rounded-2xl border border-border bg-surface p-5">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <label htmlFor="quote-currency" className="text-sm font-medium">
+                  Afficher les montants en
+                </label>
+                <select
+                  id="quote-currency"
+                  value={currency}
+                  onChange={(event) => {
+                    const next = event.target.value;
+                    if (isDisplayCurrency(next)) choose(next);
+                  }}
+                  className="h-9 rounded-full border border-input bg-background px-4 text-sm"
+                >
+                  {DISPLAY_CURRENCIES.map((code) => (
+                    <option key={code} value={code}>
+                      {CURRENCY_META[code].label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                Montants convertis à titre indicatif depuis notre devise de référence (FCFA), taux de référence du{" "}
+                {RATES_UPDATED_AT}. Le devis final est établi après cadrage et peut être libellé dans une autre devise.
+              </p>
+            </div>
           </div>
         ) : null}
 
