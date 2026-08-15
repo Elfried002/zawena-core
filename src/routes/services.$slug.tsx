@@ -29,7 +29,7 @@ export const Route = createFileRoute("/services/$slug")({
     }
     const title = loaderData.seoTitle ?? `${loaderData.title} — Zawena`;
     const description = loaderData.seoDescription ?? loaderData.summary;
-    const url = `https://zawena.lovable.app/services/${params.slug}`;
+    const url = `https://zawena.com/services/${params.slug}`;
     return {
       meta: [
         { title },
@@ -37,8 +37,8 @@ export const Route = createFileRoute("/services/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
-        { property: "og:image", content: "https://zawena.lovable.app/og-image.jpg" },
-        { name: "twitter:image", content: "https://zawena.lovable.app/og-image.jpg" },
+        { property: "og:image", content: "https://zawena.com/og-image.jpg" },
+        { name: "twitter:image", content: "https://zawena.com/og-image.jpg" },
         { property: "og:url", content: url },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },

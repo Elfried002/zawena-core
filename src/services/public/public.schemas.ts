@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { emailSchema, optionalPhoneSchema } from "../crm/crm.schemas";
 import { quoteRequestSchema } from "../quotes/quotes.schemas";
+import { BUDGET_TIER_KEYS, DISPLAY_CURRENCIES } from "./currency";
 
 export const CONTACT_SUBJECTS = [
   "Demande d'information",
@@ -28,14 +29,6 @@ export const contactRequestSchema = z.object({
 });
 export type ContactRequestInput = z.infer<typeof contactRequestSchema>;
 
-export const BUDGET_RANGES = [
-  "< 5 000 €",
-  "5 000 – 15 000 €",
-  "15 000 – 50 000 €",
-  "> 50 000 €",
-  "À définir ensemble",
-] as const;
-
 export const TIMELINES = [
   "Dès que possible",
   "Sous 1 à 3 mois",
@@ -46,8 +39,15 @@ export const TIMELINES = [
 /**
  * Formulaire de devis public : le navigateur ne connaît que le slug du service,
  * jamais son identifiant interne. La résolution slug → id se fait côté serveur.
+ * Le budget est transmis sous forme de **clé de tranche** : aucun montant, ni
+ * aucun libellé monétaire, n'est accepté depuis le navigateur. Le serveur
+ * retraduit la clé en libellé canonique exprimé en devise de référence.
  */
 export const publicQuoteFormSchema = quoteRequestSchema
-  .omit({ serviceId: true })
-  .extend({ serviceSlug: z.string().trim().max(160).optional() });
+  .omit({ serviceId: true, budgetRange: true })
+  .extend({
+    serviceSlug: z.string().trim().max(160).optional(),
+    budgetTier: z.enum(BUDGET_TIER_KEYS).optional(),
+    displayCurrency: z.enum(DISPLAY_CURRENCIES).optional(),
+  });
 export type PublicQuoteFormInput = z.infer<typeof publicQuoteFormSchema>;
