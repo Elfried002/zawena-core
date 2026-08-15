@@ -36,12 +36,22 @@ export const submitQuoteRequestFn = createServerFn({ method: "POST" })
       const { adminDb } = await import("@/services/core/context.server");
       const { submitQuoteRequest } = await import("@/services/quotes/quotes.server");
       const { resolveServiceId } = await import("@/services/public/public.server");
+      const { canonicalBudgetLabel } = await import("@/services/public/currency");
       const db = await adminDb();
-      const { serviceSlug, ...rest } = data;
+      const { serviceSlug, budgetTier, displayCurrency, ...rest } = data;
       const serviceId = serviceSlug ? await resolveServiceId(serviceSlug) : undefined;
-      await submitQuoteRequest(db, serviceId ? { ...rest, serviceId } : rest, {
-        ipHash: ipHashFromRequest(),
-      });
+      // Le budget est reconstruit côté serveur depuis la clé de tranche :
+      // aucun montant ni libellé monétaire venant du navigateur n'est stocké.
+      const budgetRange = budgetTier ? canonicalBudgetLabel(budgetTier, displayCurrency) : undefined;
+      await submitQuoteRequest(
+        db,
+        {
+          ...rest,
+          ...(serviceId ? { serviceId } : {}),
+          ...(budgetRange ? { budgetRange } : {}),
+        },
+        { ipHash: ipHashFromRequest() },
+      );
       return { ok: true };
     } catch (error) {
       const payload = toPublicError(error);
