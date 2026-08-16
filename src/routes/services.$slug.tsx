@@ -1,10 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Package } from "lucide-react";
 
 import { Container, Eyebrow, Section, SectionHeading } from "@/components/common/layout-primitives";
 import { Reveal } from "@/components/common/reveal";
+import { Breadcrumbs } from "@/components/common/breadcrumbs";
 import { FeatureCard } from "@/components/marketing/cards";
 import { FaqAccordion, FinalCta, ProcessTimeline } from "@/components/marketing/sections";
+import { PricingCards, StartingPrice } from "@/components/marketing/pricing";
 import { AgentConsole, DashboardMockup, IntegrationMap, SecurityFlow, WorkflowDiagram } from "@/components/visuals/tech-visuals";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -30,6 +32,10 @@ export const Route = createFileRoute("/services/$slug")({
     const title = loaderData.seoTitle ?? `${loaderData.title} — Zawena`;
     const description = loaderData.seoDescription ?? loaderData.summary;
     const url = `https://zawena.com/services/${params.slug}`;
+    const image = loaderData.content.image
+      ? `https://zawena.com${loaderData.content.image}`
+      : "https://zawena.com/og-image.jpg";
+    const offers = loaderData.content.pricing;
     return {
       meta: [
         { title },
@@ -37,8 +43,9 @@ export const Route = createFileRoute("/services/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
-        { property: "og:image", content: "https://zawena.com/og-image.jpg" },
-        { name: "twitter:image", content: "https://zawena.com/og-image.jpg" },
+        { property: "og:image", content: image },
+        { property: "og:image:alt", content: loaderData.content.imageAlt || loaderData.title },
+        { name: "twitter:image", content: image },
         { property: "og:url", content: url },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
@@ -52,9 +59,51 @@ export const Route = createFileRoute("/services/$slug")({
             "@type": "Service",
             name: loaderData.title,
             description,
+            url,
             provider: { "@type": "Organization", name: "Zawena" },
+            areaServed: ["CI", "Africa", "Worldwide"],
+            ...(offers.length > 0
+              ? {
+                  offers: offers.map((offer) => ({
+                    "@type": "Offer",
+                    name: offer.name,
+                    price: offer.priceXof,
+                    priceCurrency: "XOF",
+                    description: "Prix de mise en place, à partir de.",
+                    url,
+                  })),
+                }
+              : {}),
           }),
         },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Accueil", item: "https://zawena.com/" },
+              { "@type": "ListItem", position: 2, name: "Services", item: "https://zawena.com/services" },
+              { "@type": "ListItem", position: 3, name: loaderData.title, item: url },
+            ],
+          }),
+        },
+        ...(loaderData.content.faq.length > 0
+          ? [
+              {
+                type: "application/ld+json",
+                children: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  mainEntity: loaderData.content.faq.map((item) => ({
+                    "@type": "Question",
+                    name: item.question,
+                    acceptedAnswer: { "@type": "Answer", text: item.answer },
+                  })),
+                }),
+              },
+            ]
+          : []),
       ],
     };
   },
@@ -97,9 +146,13 @@ function ServiceDetailPage() {
       <section className="relative overflow-hidden border-b border-border py-14 sm:py-20 lg:py-24">
         <div className="pointer-events-none absolute inset-0 opacity-[0.25] surface-grid" aria-hidden="true" />
         <Container className="relative">
-          <Link to="/services" className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground">
-            ← Tous les services
-          </Link>
+          <Breadcrumbs
+            items={[
+              { label: "Accueil", to: "/" },
+              { label: "Services", to: "/services" },
+              { label: service.title },
+            ]}
+          />
           <div className="mt-8 grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
             <div>
               <Eyebrow>
@@ -113,6 +166,7 @@ function ServiceDetailPage() {
               {content.benefit ? (
                 <p className="mt-6 max-w-xl border-l-2 border-primary pl-4 font-medium">{content.benefit}</p>
               ) : null}
+              <StartingPrice offers={content.pricing} className="mt-6 text-base" />
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg" className="group h-12 rounded-full px-7">
                   <Link to="/quote" search={{ service: service.slug }}>
@@ -125,9 +179,23 @@ function ServiceDetailPage() {
                 </Button>
               </div>
             </div>
-            <Reveal>
-              <ServiceVisual service={service} />
-            </Reveal>
+            {content.image ? (
+              <figure className="overflow-hidden rounded-3xl border border-border bg-surface">
+                <img
+                  src={content.image}
+                  alt={content.imageAlt || `Illustration du service ${service.title} par Zawena`}
+                  width={1440}
+                  height={810}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="h-auto w-full object-cover"
+                />
+              </figure>
+            ) : (
+              <Reveal>
+                <ServiceVisual service={service} />
+              </Reveal>
+            )}
           </div>
         </Container>
       </section>
@@ -151,6 +219,28 @@ function ServiceDetailPage() {
       {content.solution ? (
         <Section tone="surface">
           <SectionHeading eyebrow="Notre approche" title="Comment nous traitons le sujet" description={content.solution} />
+          <div className="mt-12 grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+            <Reveal>
+              <ServiceVisual service={service} />
+            </Reveal>
+            {content.benefits.length > 0 ? (
+              <div>
+                <h3 className="font-display text-lg font-semibold">Bénéfices recherchés</h3>
+                <ul className="mt-5 space-y-3">
+                  {content.benefits.map((item) => (
+                    <li key={item} className="flex gap-3 text-sm">
+                      <Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+                      <span className="leading-relaxed text-foreground/85">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-6 text-xs text-muted-foreground">
+                  Les bénéfices dépendent de votre contexte : nous ne promettons aucun résultat chiffré sans mesure
+                  préalable.
+                </p>
+              </div>
+            ) : null}
+          </div>
         </Section>
       ) : null}
 
@@ -172,7 +262,11 @@ function ServiceDetailPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             {content.useCases.length > 0 ? (
               <div>
-                <SectionHeading eyebrow="Cas d'usage" title="Exemples de mise en œuvre" />
+                <SectionHeading
+                  eyebrow="Cas d'usage"
+                  title="Exemples de mise en œuvre"
+                  description="Scénarios présentés à titre d'exemple, et non comme des réalisations déjà livrées."
+                />
                 <ul className="mt-8 space-y-4">
                   {content.useCases.map((useCase) => (
                     <li key={useCase} className="flex gap-3 rounded-2xl border border-border bg-card p-5 text-sm">
@@ -206,8 +300,35 @@ function ServiceDetailPage() {
 
       <Section tone="default">
         <SectionHeading eyebrow="Processus" title="Du cadrage à l'amélioration continue" />
-        <ProcessTimeline />
+        <ProcessTimeline steps={content.process} />
       </Section>
+
+      {content.deliverables.length > 0 ? (
+        <Section tone="surface">
+          <SectionHeading eyebrow="Livrables" title="Ce que vous recevez concrètement" />
+          <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {content.deliverables.map((item, index) => (
+              <Reveal as="li" key={item} delay={index * 50}>
+                <div className="flex h-full gap-3 rounded-3xl border border-border bg-card p-6">
+                  <Package className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+                  <span className="text-sm leading-relaxed text-foreground/85">{item}</span>
+                </div>
+              </Reveal>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
+
+      {content.pricing.length > 0 ? (
+        <Section tone="default">
+          <SectionHeading
+            eyebrow="Prix"
+            title="Tarifs de mise en place"
+            description="Les montants ci-dessous correspondent à la mise en place, exprimés en francs CFA."
+          />
+          <PricingCards offers={content.pricing} note={content.pricingNote} serviceSlug={service.slug} />
+        </Section>
+      ) : null}
 
       {content.faq.length > 0 ? (
         <Section tone="surface">
