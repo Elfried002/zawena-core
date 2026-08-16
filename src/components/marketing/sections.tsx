@@ -33,11 +33,20 @@ export function TrustStrip() {
   );
 }
 
-export function ProcessTimeline() {
+export function ProcessTimeline({
+  steps,
+}: {
+  steps?: readonly { title: string; description: string }[];
+}) {
+  const items = (steps && steps.length > 0 ? steps : PROCESS_STEPS).map((item, index) => ({
+    step: String(index + 1).padStart(2, "0"),
+    title: item.title,
+    description: item.description,
+  }));
   return (
     <div className="mt-14">
       <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {PROCESS_STEPS.map((item, index) => (
+        {items.map((item, index) => (
           <Reveal as="li" key={item.step} delay={index * 60}>
             <div className="relative h-full rounded-2xl border border-border bg-card p-6">
               <span className="font-mono text-xs font-semibold text-primary">{item.step}</span>
