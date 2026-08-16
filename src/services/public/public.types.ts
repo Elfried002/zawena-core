@@ -14,6 +14,20 @@ export type Capability = z.infer<typeof capabilitySchema>;
 export const qaSchema = z.object({ question: z.string(), answer: z.string() });
 export type QaItem = z.infer<typeof qaSchema>;
 
+/** Offre publique : uniquement des montants de **mise en place** en XOF. */
+export const pricingOfferSchema = z.object({
+  name: z.string(),
+  priceXof: z.number(),
+  unit: z.string().default("à partir de"),
+  description: z.string().default(""),
+  features: z.array(z.string()).default([]),
+  highlighted: z.boolean().default(false),
+});
+export type PricingOffer = z.infer<typeof pricingOfferSchema>;
+
+export const processStepSchema = z.object({ title: z.string(), description: z.string().default("") });
+export type ProcessStep = z.infer<typeof processStepSchema>;
+
 /** Contenu éditorial d'un service, tolérant aux champs absents. */
 export const serviceContentSchema = z
   .object({
@@ -25,6 +39,13 @@ export const serviceContentSchema = z
     useCases: z.array(z.string()).default([]),
     technologies: z.array(z.string()).default([]),
     faq: z.array(qaSchema).default([]),
+    benefits: z.array(z.string()).default([]),
+    deliverables: z.array(z.string()).default([]),
+    process: z.array(processStepSchema).default([]),
+    pricing: z.array(pricingOfferSchema).default([]),
+    pricingNote: z.string().default(""),
+    image: z.string().default(""),
+    imageAlt: z.string().default(""),
   })
   .partial()
   .transform((value) => ({
@@ -36,6 +57,13 @@ export const serviceContentSchema = z
     useCases: value.useCases ?? [],
     technologies: value.technologies ?? [],
     faq: value.faq ?? [],
+    benefits: value.benefits ?? [],
+    deliverables: value.deliverables ?? [],
+    process: value.process ?? [],
+    pricing: value.pricing ?? [],
+    pricingNote: value.pricingNote ?? "",
+    image: value.image ?? "",
+    imageAlt: value.imageAlt ?? "",
   }));
 export type ServiceContent = z.infer<typeof serviceContentSchema>;
 
