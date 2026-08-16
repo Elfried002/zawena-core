@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { type ReactNode } from "react";
 
 import { Badge } from "@/components/ui/badge";
+import { StartingPrice } from "@/components/marketing/pricing";
 import { serviceIcon } from "@/content/site";
 import { cn } from "@/lib/utils";
 import type { PublicProject, PublicService } from "@/services/public/public.types";
@@ -36,7 +37,8 @@ export function ServiceCard({ service }: { service: PublicService }) {
           ))}
         </ul>
       ) : null}
-      <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+      <StartingPrice offers={service.content.pricing} className="mt-6" />
+      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
         Découvrir
         <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
       </span>
