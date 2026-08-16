@@ -76,8 +76,9 @@ export function PricingCards({
 
 /** Prix d'entrée affiché sur les cartes de service. */
 export function StartingPrice({ offers, className }: { offers: PricingOffer[]; className?: string }) {
-  if (offers.length === 0) return null;
-  const lowest = offers.reduce((min, offer) => (offer.priceXof < min.priceXof ? offer : min), offers[0]);
+  const first = offers[0];
+  if (!first) return null;
+  const lowest = offers.reduce((min, offer) => (offer.priceXof < min.priceXof ? offer : min), first);
   return (
     <p className={cn("text-sm text-muted-foreground", className)}>
       À partir de <span className="font-semibold text-foreground">{formatAmount(lowest.priceXof, "XOF")}</span>
