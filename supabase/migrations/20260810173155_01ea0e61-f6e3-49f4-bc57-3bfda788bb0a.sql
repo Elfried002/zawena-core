@@ -13,7 +13,7 @@ GRANT ALL ON public.role_permissions TO service_role;
 ALTER TABLE public.role_permissions ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "role_permissions_read" ON public.role_permissions;
 CREATE POLICY "role_permissions_read" ON public.role_permissions
-  FOR SELECT TO authenticated USING (true);
+  FOR SELECT TO authenticated USING (public.is_admin());
 DROP POLICY IF EXISTS "role_permissions_admin_write" ON public.role_permissions;
 CREATE POLICY "role_permissions_admin_write" ON public.role_permissions
   FOR ALL TO authenticated USING (public.is_admin()) WITH CHECK (public.is_admin());
@@ -263,68 +263,5 @@ SELECT r.role, p.permission FROM (VALUES
     ('navigation.read'),('navigation.update'),
     ('media.read'),('media.create'),('media.update'),
     ('settings.read'),('analytics.read')
-  ) p(permission)
-ON CONFLICT (role, permission) DO NOTHING;
-
-INSERT INTO public.role_permissions (role, permission)
-SELECT r.role, p.permission FROM (VALUES
-  ('sales'::public.app_role)) r(role),
-  (VALUES
-    ('leads.read'),('leads.create'),('leads.update'),
-    ('contacts.read'),('contacts.create'),('contacts.update'),
-    ('companies.read'),('companies.create'),('companies.update'),
-    ('opportunities.read'),('opportunities.create'),('opportunities.update'),
-    ('activities.read'),('activities.create'),
-    ('tasks.read'),('tasks.create'),('tasks.update'),
-    ('quote_requests.read'),('quote_requests.update'),
-    ('quotes.read'),('quotes.create'),('quotes.update'),('quotes.send'),
-    ('invoices.read'),
-    ('pages.read'),('services.read'),('projects.read'),('media.read'),
-    ('analytics.read')
-  ) p(permission)
-ON CONFLICT (role, permission) DO NOTHING;
-
-INSERT INTO public.role_permissions (role, permission)
-SELECT r.role, p.permission FROM (VALUES
-  ('support'::public.app_role)) r(role),
-  (VALUES
-    ('tickets.read'),('tickets.create'),('tickets.update'),('tickets.assign'),('tickets.close'),
-    ('ticket_replies.read'),('ticket_replies.create'),
-    ('ticket_categories.read'),
-    ('contacts.read'),('companies.read'),
-    ('activities.read'),('activities.create'),
-    ('tasks.read'),('tasks.create'),('tasks.update'),
-    ('faqs.read'),('analytics.read')
-  ) p(permission)
-ON CONFLICT (role, permission) DO NOTHING;
-
-INSERT INTO public.role_permissions (role, permission)
-SELECT r.role, p.permission FROM (VALUES
-  ('finance'::public.app_role)) r(role),
-  (VALUES
-    ('invoices.read'),('invoices.create'),('invoices.update'),('invoices.send'),
-    ('payments.read'),('payments.create'),
-    ('quotes.read'),
-    ('companies.read'),('contacts.read'),
-    ('analytics.read')
-  ) p(permission)
-ON CONFLICT (role, permission) DO NOTHING;
-
-INSERT INTO public.role_permissions (role, permission)
-SELECT r.role, p.permission FROM (VALUES
-  ('viewer'::public.app_role)) r(role),
-  (VALUES
-    ('pages.read'),('services.read'),('projects.read'),('blog.read'),('faqs.read'),
-    ('leads.read'),('contacts.read'),('companies.read'),('opportunities.read'),
-    ('quotes.read'),('invoices.read'),('tickets.read'),('analytics.read')
-  ) p(permission)
-ON CONFLICT (role, permission) DO NOTHING;
-
-INSERT INTO public.role_permissions (role, permission)
-SELECT r.role, p.permission FROM (VALUES
-  ('client'::public.app_role)) r(role),
-  (VALUES
-    ('quotes.read'),('invoices.read'),('tickets.read'),('tickets.create'),
-    ('ticket_replies.read'),('ticket_replies.create')
   ) p(permission)
 ON CONFLICT (role, permission) DO NOTHING;
